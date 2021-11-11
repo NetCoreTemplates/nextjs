@@ -1,5 +1,0 @@
-{
-    "scripts": {
-        "dtos": "x ts && tsc -m umd dtos.ts && x -e \"mv('dtos.js','wwwroot/dtos.js')\""
-    }
-}
