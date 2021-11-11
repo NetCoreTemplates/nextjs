@@ -23,7 +23,7 @@ public class AppHost : AppHostBase, IHostingStartup
             "https://localhost:5001",
             "http://localhost:5000",
             "http://localhost:3000",
-            "https://nextjs-gh.web-templates.io"
+            "https://my-app.example.com"
         }, allowCredentials:true));
     }
 
