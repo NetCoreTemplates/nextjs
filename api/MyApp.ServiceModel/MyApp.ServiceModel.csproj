@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <RootNamespace>MyApp.ServiceModel</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="ServiceStack.Interfaces" Version="5.*" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Types\" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,36 @@
+{
+  "private": true,
+  "scripts": {
+    "dev": "next",
+    "build": "next build",
+    "dtos": "cd lib && x ts",
+    "publish": "next build && next export -o ../api/MyApp/wwwroot",
+    "publish:dev": "cross-env NODE_ENV=development next build && next export -o ../api/MyApp/wwwroot",
+    "start": "next start",
+    "typecheck": "tsc"
+  },
+  "dependencies": {
+    "@heroicons/react": "^1.0.5",
+    "@servicestack/client": "^1.0.57",
+    "classnames": "2.3.1",
+    "date-fns": "2.21.3",
+    "gray-matter": "4.0.3",
+    "next": "^11.1.2",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "remark": "13.0.0",
+    "remark-html": "13.0.1",
+    "swr": "^1.0.1",
+    "typescript": "^4.2.4"
+  },
+  "devDependencies": {
+    "@types/jest": "^26.0.23",
+    "@types/node": "^15.6.0",
+    "@types/react": "^17.0.6",
+    "@types/react-dom": "^17.0.5",
+    "autoprefixer": "^10.2.5",
+    "cross-env": "^7.0.3",
+    "postcss": "^8.3.0",
+    "tailwindcss": "^2.1.2"
+  }
+}
