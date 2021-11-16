@@ -89,11 +89,9 @@ export const Form: FC<FormProps> = (props) => {
 
                 let response = await onSubmit(e)
                 if (onSuccess) {
-                    console.log('onSuccess', router.query, Router.query)
                     onSuccess({ response, router })
                 }
             } catch (e:any) {
-                console.log('ERROR', e)
                 setResponseStatus(e.responseStatus ?? e)
             } finally {
                 setLoading(false)
