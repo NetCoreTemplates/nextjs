@@ -1,10 +1,10 @@
-import Page from '../components/layout-page'
-import { ShieldCheckIcon } from '@heroicons/react/outline'
-import React from 'react'
-import { Button, ValidateAuth } from '../components/form'
+import Page from "../components/layout-page"
+import { ShieldCheckIcon } from "@heroicons/react/outline"
+import React from "react"
+import { Button, ValidateAuth } from "../components/form"
 
 export default () => {
-    return (<ValidateAuth requiredRole="Admin" render={({ auth, signout }) => 
+    return (<ValidateAuth role="Admin" render={({ auth, signout }) => 
         <Page title="Admin Page">
 
             <div className="flex flex-col items-center justify-center">

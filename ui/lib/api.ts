@@ -1,6 +1,8 @@
-import fs from 'fs'
-import { join } from 'path'
-import matter from 'gray-matter'
+// SSG build-time APIs
+
+import fs from "fs"
+import { join } from "path"
+import matter from "gray-matter"
 
 const postsDirectory = join(process.cwd(), '_posts')
 

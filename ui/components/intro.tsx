@@ -1,8 +1,8 @@
-import { FunctionComponent, ChangeEvent, useState } from 'react';
-import { CMS_NAME } from '../lib/constants'
-import { client } from '../lib/gateway'
-import { Hello } from '../lib/dtos'
-import useSWR from 'swr';
+import { FunctionComponent, ChangeEvent, useState } from "react"
+import { CMS_NAME } from "../lib/constants"
+import { client } from "../lib/gateway"
+import { Hello } from "../lib/dtos"
+import useSWR from "swr"
 
 const HelloApi = ({ name }:any) => {
   const { data, error } = useSWR(`Hello:${name}`, key => client.get(new Hello({ name })))

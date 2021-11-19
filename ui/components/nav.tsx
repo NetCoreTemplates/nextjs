@@ -1,7 +1,7 @@
-import Link from 'next/link'
-import { useRouter } from 'next/router'
-import useAuth from '../lib/useAuth'
-import { PrimaryButton, Button } from './form'
+import Link from "next/link"
+import { useRouter } from "next/router"
+import useAuth from "../lib/useAuth"
+import { PrimaryButton, Button } from "./form"
 
 type NavItem = { 
     href?:string, 

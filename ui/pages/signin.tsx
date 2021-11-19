@@ -1,11 +1,11 @@
-import Page from '../components/layout-page'
-import { Form, FormLoading, ErrorSummary, Input, Checkbox, Button, PrimaryButton, getRedirect, Redirecting } from '../components/form'
-import { client } from '../lib/gateway'
-import { Authenticate } from '../lib/dtos'
-import { useEffect, useState } from 'react'
-import { serializeToObject } from '@servicestack/client'
-import useAuth from '../lib/useAuth'
-import Router from 'next/router'
+import Page from "../components/layout-page"
+import { Form, FormLoading, ErrorSummary, Input, Checkbox, Button, PrimaryButton, getRedirect, Redirecting } from "../components/form"
+import { client } from "../lib/gateway"
+import { Authenticate } from "../lib/dtos"
+import { SyntheticEvent, useEffect, useState } from "react"
+import { serializeToObject } from "@servicestack/client"
+import useAuth from "../lib/useAuth"
+import Router from "next/router"
 
 export default () => {
 
@@ -23,12 +23,14 @@ export default () => {
     }, [signedIn]);
     if (signedIn) return <Redirecting />
 
+    const onSubmit = (e:SyntheticEvent<HTMLFormElement>) => { 
+        const { userName, password, rememberMe } = serializeToObject(e.currentTarget); 
+        return client.post(new Authenticate({ provider:'credentials', userName, password, rememberMe }))
+    }
+
     return (<Page title="Sign In">
         <Form className="max-w-prose" 
-                onSubmit={e => { 
-                    const { userName, password, rememberMe } = serializeToObject(e.currentTarget); 
-                    return client.post(new Authenticate({ provider:'credentials', userName, password, rememberMe }))
-                }}
+                onSubmit={onSubmit}
                 onSuccess={ctx => revalidate()}>
             <div className="shadow overflow-hidden sm:rounded-md">
                 <ErrorSummary except="userName,password" />

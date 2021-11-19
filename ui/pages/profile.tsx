@@ -1,7 +1,7 @@
-import Page from '../components/layout-page'
-import { UserIcon } from '@heroicons/react/outline'
-import React from 'react'
-import { Button, ValidateAuth } from '../components/form'
+import Page from "../components/layout-page"
+import { UserIcon } from "@heroicons/react/outline"
+import React from "react"
+import { Button, ValidateAuth } from "../components/form"
 
 export default () => {
     return (<ValidateAuth render={({ auth, signout }) => 

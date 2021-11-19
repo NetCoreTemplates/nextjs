@@ -1,24 +1,24 @@
-import Router from "next/router";
-import useSWR, { KeyedMutator, useSWRConfig } from "swr";
-import { client } from "./gateway";
-import { Authenticate, AuthenticateResponse } from "./dtos";
+import Router from "next/router"
+import useSWR, { KeyedMutator, useSWRConfig } from "swr"
+import { client } from "./gateway"
+import { Authenticate, AuthenticateResponse } from "./dtos"
 
 const KEY = "/api/Authenticate"
 
 export type AuthContext = {
-  signedIn: boolean, 
-  attrs: string[], 
-  loading: boolean, 
-  signout: (redirectTo?:string) => void, 
-  revalidate:KeyedMutator<AuthenticateResponse>, 
-  hasRole:(role:string) => boolean, 
-  hasPermission:(permission:string) => boolean,
+  signedIn: boolean
+  attrs: string[]
+  loading: boolean
+  signout: (redirectTo?:string) => void
+  revalidate:KeyedMutator<AuthenticateResponse>
+  hasRole:(role:string) => boolean
+  hasPermission:(permission:string) => boolean
 }
 export type OptionalAuthContext = AuthContext & {
-  auth: AuthenticateResponse|undefined,
+  auth: AuthenticateResponse|undefined
 }
 export type AuthenticatedContext = AuthContext & {
-  auth: AuthenticateResponse,
+  auth: AuthenticateResponse
 }
 
 type Props = {}
@@ -28,11 +28,11 @@ export default function useAuth({}: Props = {}) : OptionalAuthContext {
   const loading = error === undefined && auth === undefined
   const signedIn = error === undefined && auth !== undefined
   
-  let attrs:string[] = []
-  if (!loading && auth) {
-    (auth.roles || []).forEach(role => attrs.push(`role:${role}`));
-    (auth.permissions || []).forEach(perm => attrs.push(`perm:${perm}`));
-  }
+  let attrs:string[] = !loading && auth ? [
+      'auth',
+      ...(auth?.roles || []).map(role => `role:${role}`),
+      ...(auth?.permissions || []).map(perm => `perm:${perm}`),
+    ] : []
 
   async function signout(redirectTo?:string) {
     await client.post(new Authenticate({ provider: 'logout' }));
