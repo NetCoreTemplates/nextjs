@@ -18,7 +18,7 @@ public class AppHost : AppHostBase, IHostingStartup
             AllowFileExtensions = { "json" }
         });
 
-        Plugins.Add(new SharpPagesFeature());
+        Plugins.Add(new SpaFeature());
         Plugins.Add(new CorsFeature(allowOriginWhitelist:new[]{ 
             "https://localhost:5001",
             "http://localhost:5000",
@@ -31,7 +31,7 @@ public class AppHost : AppHostBase, IHostingStartup
         .ConfigureServices((context, services) => 
             services.ConfigureNonBreakingSameSiteCookies(context.HostingEnvironment))
         .Configure(app => {
-            if (HasInit) return;
-            app.UseServiceStack(new AppHost());
+            if (!HasInit)
+                app.UseServiceStack(new AppHost());
         });
 }

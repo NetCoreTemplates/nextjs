@@ -1,13 +1,13 @@
-import Link from 'next/link'
-import { ErrorResponse, errorResponse, errorResponseExcept } from '@servicestack/client'
-import { createContext, FC, SyntheticEvent, useContext, useEffect, useState } from 'react'
-import { ExclamationCircleIcon } from '@heroicons/react/solid'
-import { XCircleIcon } from '@heroicons/react/solid'
-import Router, { NextRouter, useRouter } from 'next/router'
-import { ParsedUrlQuery } from 'querystring'
+import Link from "next/link"
+import { ErrorResponse, errorResponse, errorResponseExcept } from "@servicestack/client"
+import { createContext, FC, SyntheticEvent, useContext, useEffect, useState } from "react"
+import { ExclamationCircleIcon } from "@heroicons/react/solid"
+import { XCircleIcon } from "@heroicons/react/solid"
+import Router, { NextRouter, useRouter } from "next/router"
+import { ParsedUrlQuery } from "querystring"
 
-import useAuth, { AuthenticatedContext } from '../lib/useAuth';
-import { Routes } from '../lib/gateway';
+import useAuth, { AuthenticatedContext } from "../lib/useAuth"
+import { Routes } from "../lib/gateway"
 
 export function getRedirect(query?:ParsedUrlQuery) {    
     let { redirect } = (query ?? Router.query)
@@ -21,21 +21,21 @@ export const Redirecting : FC<any> = (props) => {
 }
 
 type ValidateAuthProps = {
-    requiredRole?: string,
-    requiredPermission?: string,
-    redirectTo?: string,
-    render: (ctx:AuthenticatedContext) => React.ReactElement,
+    role?: string
+    permission?: string
+    redirectTo?: string
+    render: (ctx:AuthenticatedContext) => React.ReactElement
 }
-export const ValidateAuth: FC<ValidateAuthProps> = ({ requiredRole, requiredPermission, redirectTo, render }) => {
+export const ValidateAuth: FC<ValidateAuthProps> = ({ role, permission, redirectTo, render }) => {
     const ctx = useAuth();
     const { auth, signedIn, hasRole } = ctx;
     redirectTo ??= useRouter().pathname
 
     const shouldRedirect = () => !signedIn
         ? Routes.signin(redirectTo)
-        : requiredRole && !hasRole(requiredRole)
+        : role && !hasRole(role)
             ? Routes.forbidden()
-            : requiredPermission && !hasRole(requiredPermission)
+            : permission && !hasRole(permission)
                 ? Routes.forbidden()
                 : null;
 
@@ -54,9 +54,9 @@ export const ValidateAuth: FC<ValidateAuthProps> = ({ requiredRole, requiredPerm
 }
 
 type FormState = {
-    responseStatus?:ErrorResponse,
-    didSubmit:boolean,
-    loading:boolean,
+    responseStatus?: ErrorResponse
+    didSubmit: boolean
+    loading: boolean
 }
 export const FormContext = createContext<FormState>({ loading: false, didSubmit:false })
 export type SuccessContext<T> = { response?:T, router:NextRouter }
@@ -65,11 +65,11 @@ export type SuccessEventHandler<T> = (ctx:SuccessContext<T>) => Promise<any> | v
 FormContext.Consumer
 
 type FormProps = {
-    className?: string,
-    method?: string,
-    onSubmit: (e:SyntheticEvent<HTMLFormElement>) => Promise<any>|void,
-    onSuccess?: SuccessEventHandler<any>,
-    children: React.ReactNode,
+    className?: string
+    method?: string
+    onSubmit: (e:SyntheticEvent<HTMLFormElement>) => Promise<any>|void
+    onSuccess?: SuccessEventHandler<any>
+    children: React.ReactNode
 }
 export const Form: FC<FormProps> = (props) => {
     const { className, method, onSubmit, onSuccess, children, ...remaining } = props
@@ -89,11 +89,9 @@ export const Form: FC<FormProps> = (props) => {
 
                 let response = await onSubmit(e)
                 if (onSuccess) {
-                    console.log('onSuccess', router.query, Router.query)
                     onSuccess({ response, router })
                 }
             } catch (e:any) {
-                console.log('ERROR', e)
                 setResponseStatus(e.responseStatus ?? e)
             } finally {
                 setLoading(false)
@@ -103,32 +101,6 @@ export const Form: FC<FormProps> = (props) => {
     return (<FormContext.Provider value={{ loading, responseStatus, didSubmit }}>
         <form method={method ?? 'POST'} className={className} onSubmit={handleSubmit} {...remaining}>{children}</form>
     </FormContext.Provider>)
-}
-
-export const IfAuthenticated : FC<{ redirectTo: string }> = ({ redirectTo }) => {
-    const { auth } = useAuth()
-    const router = useRouter()
-    const ctx = useContext(FormContext);
-
-    useEffect(() => {
-        if (ctx && ctx.didSubmit) return;
-        if (auth) router.push(redirectTo);
-    }, [auth])
-
-    return null
-}
-
-export const IfNotAuthenticated : FC<{ redirectTo: string }> = ({ redirectTo }) => {
-    const { auth } = useAuth()
-    const router = useRouter()
-    const ctx = useContext(FormContext);
-
-    useEffect(() => {
-        if (ctx && ctx.didSubmit) return;
-        if (!auth) router.push(redirectTo);
-    }, [auth])
-
-    return null
 }
 
 type ErrorSummaryProps = {
@@ -153,12 +125,12 @@ export const ErrorSummary: FC<ErrorSummaryProps> = ({ except }) => {
 };
 
 type InputProps = {
-    id: string,
-    name: string,
-    className?: string,
-    type?: string,
-    description?: string,
-    placeholder?: string,
+    id: string
+    name: string
+    className?: string
+    type?: string
+    description?: string
+    placeholder?: string
 } | any
 export const Input: FC<InputProps> = ({ type, id, name, className, description, placeholder, ...remaining }) => {
     placeholder ??= name;
@@ -169,7 +141,7 @@ export const Input: FC<InputProps> = ({ type, id, name, className, description, 
 
     let cls = ['block w-full sm:text-sm rounded-md', errorField 
         ? 'pr-10 border-red-300 text-red-900 placeholder-red-300 focus:outline-none focus:ring-red-500 focus:border-red-500' 
-        : 'shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border-gray-300', className];            
+        : 'shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border-gray-300', className];
     let extraUI:any[] = [];
     if (errorField) {
         extraUI.push((<div key="error-icon" className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
@@ -201,9 +173,9 @@ export const Input: FC<InputProps> = ({ type, id, name, className, description, 
 }
 
 type CheckboxProps = {
-    id: string,
-    name: string,
-    description?: string,
+    id: string
+    name: string
+    description?: string
 } | any
 export const Checkbox: FC<CheckboxProps> = ({ id, name, description, ...remaining }) => {
 
@@ -243,10 +215,10 @@ export const Checkbox: FC<CheckboxProps> = ({ id, name, description, ...remainin
 }
 
 type ButtonProps = {
-    type?: string,
-    className?: string,
-    href?: string,
-    children: React.ReactNode,
+    type?: string
+    className?: string
+    href?: string
+    children: React.ReactNode
 } | any;
 export const PrimaryButton: FC<ButtonProps> = (props) => {
     const { type, className, href, children, ...remaining } = props;
@@ -264,9 +236,9 @@ export const Button: FC<ButtonProps> = (props) => {
 }
 
 type LoadingProps = {
-    className?: string,
-    icon?: boolean,
-    text?: string,
+    className?: string
+    icon?: boolean
+    text?: string
 }
 export const FormLoading: FC<LoadingProps> = (props) => {
     const ctx = useContext(FormContext)

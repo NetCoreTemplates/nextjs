@@ -1,13 +1,13 @@
-import { FC, useEffect } from 'react'
-import Head from 'next/head'
-import Nav from './nav'
-import Footer from './footer'
-import Meta from './meta'
-import Breadcrumbs from './breadcrumbs'
-import { useRouter } from 'next/router'
-import { SuccessEventHandler } from './form'
-import { Authenticate, AuthenticateResponse } from '../lib/dtos'
-import { client } from '../lib/gateway'
+import { FC, useEffect } from "react"
+import Head from "next/head"
+import Nav from "./nav"
+import Footer from "./footer"
+import Meta from "./meta"
+import Breadcrumbs from "./breadcrumbs"
+import { useRouter } from "next/router"
+import { SuccessEventHandler } from "./form"
+import { Authenticate, AuthenticateResponse } from "../lib/dtos"
+import { client } from "../lib/gateway"
 
 type Props = {
   title: string,

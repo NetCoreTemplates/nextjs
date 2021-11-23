@@ -1,10 +1,10 @@
-import { ChevronRightIcon, HomeIcon } from '@heroicons/react/solid'
-import Link from 'next/link'
+import { ChevronRightIcon, HomeIcon } from "@heroicons/react/solid"
+import Link from "next/link"
 
 type Props = {
-    className?: string,
-    name: string,
-    href?: string,
+    className?: string
+    name: string
+    href?: string
     current?: boolean
 }
 

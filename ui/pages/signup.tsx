@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from 'react'
-import Router, { useRouter } from 'next/router'
-import { serializeToObject, leftPart, rightPart, toPascalCase, createError } from '@servicestack/client'
+import React, { useEffect, useState } from "react"
+import Router, { useRouter } from "next/router"
+import { serializeToObject, leftPart, rightPart, toPascalCase, createError } from "@servicestack/client"
 
-import Page from '../components/layout-page'
-import { Form, FormLoading, ErrorSummary, Input, Checkbox, PrimaryButton, getRedirect, Redirecting } from '../components/form'
-import { client } from '../lib/gateway'
-import { Register } from '../lib/dtos'
-import useAuth from '../lib/useAuth'
+import Page from "../components/layout-page"
+import { Form, FormLoading, ErrorSummary, Input, Checkbox, PrimaryButton, getRedirect, Redirecting } from "../components/form"
+import { client } from "../lib/gateway"
+import { Register } from "../lib/dtos"
+import useAuth from "../lib/useAuth"
 
 export default () => {
 

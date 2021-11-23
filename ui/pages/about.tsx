@@ -1,4 +1,4 @@
-import Page from '../components/layout-page'
+import Page from "../components/layout-page"
 
 export default () => {
     return (
