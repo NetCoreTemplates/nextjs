@@ -1,5 +1,5 @@
-const PROD_API = 'https://nextjs.web-templates.io'
-const PROD_CDN = 'https://nextjs-gh.web-templates.io'
+const PROD_API = 'https://$PROD_API' // e.g. 'https://nextjs.web-templates.io'
+const PROD_CDN = 'https://$PROD_CDN' // e.g. 'https://nextjs-gh.web-templates.io'
 
 const isProd = process.env.NODE_ENV === 'production'
 

@@ -20,6 +20,7 @@ on:
 jobs:
   push_to_registry:
     runs-on: ubuntu-20.04
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     steps:
       # Checkout latest or specific tag
       - name: checkout
@@ -30,10 +31,23 @@ jobs:
         uses: actions/checkout@v2
         with:
           ref: refs/tags/${{ github.event.inputs.version }}
+
+      - name: Create Prod API and CDN URLs
+        run: |
+          echo "deploy_api=${{ secrets.DEPLOY_API }}" >> $GITHUB_ENV
+          echo "deploy_cdn=${{ secrets.DEPLOY_CDN }}" >> $GITHUB_ENV
+
+      - name: Replace Prod API and CDN URLs
+        run: |
+          sed -i 's/$PROD_API/${{ env.deploy_api }}/g' ./ui/next.config.ts
+          sed -i 's/$PROD_CDN/${{ env.deploy_cdn }}/g' ./ui/next.config.ts
+          sed -i 's/$PROD_CDN/${{ env.deploy_cdn }}/g' ./api/MyApp/Configure.AppHost.cs
+          sed -i 's/$PROD_CDN/${{ env.deploy_cdn }}/g' ./ui/public/CNAME
+
       - name: Setup node
         uses: actions/setup-node@v1
         with:
-          node-version: 14
+          node-version: 16
       # Build UI which is copied to local server wwwroot directory to match content
       - name: Install and build npm
         run: |
@@ -88,10 +102,11 @@ jobs:
           branch: gh-pages
           force: true
           directory: ./api/MyApp/wwwroot
-  
+
   deploy_via_ssh:
     needs: push_to_registry
     runs-on: ubuntu-20.04
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     steps:
       # Checkout latest or specific tag
       - name: checkout
@@ -107,7 +122,7 @@ jobs:
       - name: repository name fix and env
         run: |
           echo "image_repository_name=$(echo ${{ github.repository }} | tr '[:upper:]' '[:lower:]')" >> $GITHUB_ENV
-          echo "domain=${{ secrets.DEPLOY_HOST }}" >> $GITHUB_ENV
+          echo "domain=${{ secrets.DEPLOY_API }}" >> $GITHUB_ENV
           echo "letsencrypt_email=${{ secrets.LETSENCRYPT_EMAIL }}" >> $GITHUB_ENV
           echo "TAG_NAME=latest" >> $GITHUB_ENV
           if [ "${{ github.event.release.tag_name }}" != "" ]; then
@@ -119,7 +134,7 @@ jobs:
 
       # Populate docker-compose.yml with variables from build process, including TAG_NAME.
       - name: docker-compose file prep
-        uses: danielr1996/envsubst-action@1.0.0
+        uses: danielr1996/envsubst-action@1.1.0
         env:
           RELEASE_VERSION: ${{ env.TAG_NAME }}
           IMAGE_REPO: ${{ env.image_repository_name }}
@@ -127,17 +142,17 @@ jobs:
           LETSENCRYPT_EMAIL: ${{ env.letsencrypt_email }}
         with:
           input: .deploy/docker-compose-template.yml
-          output: .deploy/MyApp-docker-compose.yml
+          output: .deploy/${{ github.event.repository.name }}-docker-compose.yml
 
       # Copy only the docker-compose.yml to remote server home folder
       - name: copy compose file via scp
         uses: appleboy/scp-action@v0.1.1
         with:
-          host: ${{ secrets.DEPLOY_HOST }}
+          host: ${{ secrets.DEPLOY_API }}
           username: ${{ secrets.DEPLOY_USERNAME }}
           port: ${{ secrets.DEPLOY_PORT }}
           key: ${{ secrets.DEPLOY_KEY }}
-          source: ".deploy/MyApp-docker-compose.yml"
+          source: ".deploy/${{ github.event.repository.name }}-docker-compose.yml"
           target: "~/"
 
       - name: Set the value
@@ -152,11 +167,12 @@ jobs:
           APPTOKEN: ${{ env.GH_TOKEN }}
           USERNAME: ${{ env.USERNAME }}
         with:
-          host: ${{ secrets.DEPLOY_HOST }}
+          host: ${{ secrets.DEPLOY_API }}
           username: ${{ secrets.DEPLOY_USERNAME }}
           key: ${{ secrets.DEPLOY_KEY }}
           port: ${{ secrets.DEPLOY_PORT }}
           envs: APPTOKEN,USERNAME
           script: |
             echo $APPTOKEN | docker login ghcr.io -u $USERNAME --password-stdin
-            docker-compose -f ~/.deploy/MyApp-docker-compose.yml up -d
+            docker-compose -f ~/.deploy/${{ github.event.repository.name }}-docker-compose.yml pull
+            docker-compose -f ~/.deploy/${{ github.event.repository.name }}-docker-compose.yml up -d
