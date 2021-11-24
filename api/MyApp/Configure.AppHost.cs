@@ -15,7 +15,7 @@ public class AppHost : AppHostBase, IHostingStartup
         RawHttpHandlers.Add(ApiHandlers.Json("/api/{Request}"));
         
         SetConfig(new HostConfig {
-            AllowFileExtensions = { "json" }
+            AllowFileExtensions = { "json" } // next.js client metadata
         });
 
         Plugins.Add(new SpaFeature());
