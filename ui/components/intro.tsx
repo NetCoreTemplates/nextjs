@@ -1,11 +1,10 @@
-import { FunctionComponent, ChangeEvent, useState } from "react"
+import { ChangeEvent, useState } from "react"
 import { CMS_NAME } from "../lib/constants"
-import { client } from "../lib/gateway"
+import { client, swrClient } from "../lib/gateway"
 import { Hello } from "../lib/dtos"
-import useSWR from "swr"
 
 const HelloApi = ({ name }:any) => {
-  const { data, error } = useSWR(`Hello:${name}`, key => client.get(new Hello({ name })))
+  const { data, error } = swrClient.get(() => new Hello({ name }))
   if (error) return <div className="ml-2 text-red-500">{error.message}</div>
   return <div className="ml-3 mt-2 text-2xl">{data ? data.result : 'loading...'}</div>
 }
