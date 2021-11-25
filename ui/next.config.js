@@ -22,8 +22,5 @@ module.exports = {
 
     env: {
         apiBaseUrl: API_URL
-    },
-
-    // Use the CDN in production and localhost for development.
-    assetPrefix: isProd ? DEPLOY_CDN : '',
+    }
 }
