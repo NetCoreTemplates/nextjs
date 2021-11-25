@@ -40,7 +40,6 @@ jobs:
       - name: Replace Prod API and CDN URLs
         run: |
           sed -i 's/$DEPLOY_API/${{ env.deploy_api }}/g' ./ui/next.config.js
-          sed -i 's/$DEPLOY_CDN/${{ env.deploy_cdn }}/g' ./ui/next.config.js
           sed -i 's/$DEPLOY_CDN/${{ env.deploy_cdn }}/g' ./api/MyApp/Configure.AppHost.cs
           sed -i 's/$DEPLOY_CDN/${{ env.deploy_cdn }}/g' ./ui/public/CNAME
 
