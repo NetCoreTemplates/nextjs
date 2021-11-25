@@ -1,7 +1,6 @@
 
 // TODO: replace with your production URLs
 const DEPLOY_API = 'https://$DEPLOY_API' // e.g. 'https://nextjs.web-templates.io'
-const DEPLOY_CDN = 'https://$DEPLOY_CDN' // e.g. 'https://nextjs-gh.web-templates.io'
 const USE_DEV_PROXY = true // Use CORS-free URL: http://localhost:3000/api
 
 const isProd = process.env.NODE_ENV === 'production'
