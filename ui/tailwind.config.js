@@ -1,3 +1,5 @@
+const defaultTheme = require('tailwindcss/defaultTheme')
+
 module.exports = {
   purge: ['./components/**/*.tsx', './pages/**/*.tsx'],
   theme: {
@@ -28,6 +30,26 @@ module.exports = {
         small: '0 5px 10px rgba(0, 0, 0, 0.12)',
         medium: '0 8px 30px rgba(0, 0, 0, 0.12)',
       },
+      typography: { // https://github.com/tailwindlabs/tailwindcss-typography
+        DEFAULT: {
+          css: {
+            code: {
+              color: defaultTheme.colors.blue[500],
+              backgroundColor: defaultTheme.colors.blue[50],
+              fontWeight: 'normal',
+              borderRadius: '.25rem',
+              padding: '.25em .5rem',
+            },
+            'code::before': {
+              content: '""'
+            },
+            'code::after': {
+              content: '""'
+            }
+          }
+        }
+      },
     },
   },
+  plugins: [require("@tailwindcss/typography")],
 }

@@ -1,5 +1,5 @@
 
-// TODO: replace with your production URLs
+// TODO: replace with production URL of .NET App
 const DEPLOY_API = 'https://$DEPLOY_API' // e.g. 'https://nextjs.web-templates.io'
 const USE_DEV_PROXY = true // Use CORS-free URL: http://localhost:3000/api
 
