@@ -90,6 +90,7 @@ jobs:
 
       # Deploy NextJS UI to GitHub Pages
       - name: Deploy to GitHub Pages
+        if: ${{ env.deploy_cdn != '' }}
         run: |
           cd ./api/MyApp/wwwroot
           git init
