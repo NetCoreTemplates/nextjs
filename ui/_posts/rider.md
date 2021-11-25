@@ -45,8 +45,8 @@ After this one-time setup you're ready to begin!
 
 ### Start both npm & C# projects
 
-To take advantage of [Vite](https://vitejs.dev) excellent Hot Module reload support, we're now recommending
-UI development through its dev server which you can do in rider by opening `package.json` and running the
+To take advantage of Next.js's [Fast Refresh](https://nextjs.org/docs/basic-features/fast-refresh) support, we're now 
+recommending UI development through its dev server which you can do in rider by opening `package.json` and running the
 **dev** script:
 
 ![](https://github.com/ServiceStack/docs/raw/master/docs/images/spa/nextjs-scripts.png)
@@ -55,7 +55,7 @@ UI development through its dev server which you can do in rider by opening `pack
 <img src="https://github.com/ServiceStack/docs/raw/master/docs/images/spa/vue-vite-run-myapp.png"
 class="float-right w-72" style="margin: 1rem 0 0 1rem">
 
-This launch vite in HMR mode where any changes to `/ui` assets will have immediate effect.
+This launch Next.js in watch mode where any changes to `/ui` assets will have immediate effect.
 
 Then to start the back-end C# project, right-click on the Host Project and click **Run** on the projects context menu.
 
