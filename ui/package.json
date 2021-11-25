@@ -5,7 +5,7 @@
     "build": "next build",
     "dtos": "cd lib && x ts",
     "publish": "next build && next export -o ../api/MyApp/wwwroot",
-    "publish:dev": "cross-env NODE_ENV=development next build && next export -o ../api/MyApp/wwwroot",
+    "build:local": "cross-env NODE_ENV=development next build && next export -o ../api/MyApp/wwwroot",
     "start": "next start",
     "typecheck": "tsc"
   },

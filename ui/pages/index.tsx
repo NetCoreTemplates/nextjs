@@ -7,6 +7,7 @@ import { getAllPosts } from "../lib/api"
 import Head from "next/head"
 import { CMS_NAME } from "../lib/constants"
 import Post from "../types/post"
+import GettingStarted from "../components/getting-started";
 
 type Props = {
   allPosts: Post[]
@@ -15,6 +16,7 @@ type Props = {
 const Index = ({ allPosts }: Props) => {
   const heroPost = allPosts[0]
   const morePosts = allPosts.slice(1)
+
   return (
     <>
       <Layout>
@@ -35,6 +37,7 @@ const Index = ({ allPosts }: Props) => {
           )}
           {morePosts.length > 0 && <MoreStories posts={morePosts} />}
         </Container>
+        <GettingStarted/>
       </Layout>
     </>
   )
