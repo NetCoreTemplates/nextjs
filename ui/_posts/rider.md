@@ -16,9 +16,9 @@ ogImage:
 
 [JetBrains Rider](https://www.jetbrains.com/rider/) is our recommended IDE for any C# + npm SPA development as it
 offers a great development UX for both C# and npm projects, including excellent support
-for TypeScript and popular JavaScript Framework SPA assets like [Vue SFC's](https://v3.vuejs.org/guide/single-file-component.html).
+for TypeScript and popular JavaScript Framework SPA assets like [React JSX](https://www.typescriptlang.org/docs/handbook/jsx.html).
 
-<img src="https://raw.githubusercontent.com/ServiceStack/docs/master/docs/images/spa/vue-vite-rider-sln.png"
+<img src="https://raw.githubusercontent.com/ServiceStack/docs/master/docs/images/spa/nextjs-rider-sln.png"
 class="float-right w-60 ml-8" style="margin-top:1rem">
 
 #### Setup Rider IDE
@@ -49,11 +49,11 @@ To take advantage of [Vite](https://vitejs.dev) excellent Hot Module reload supp
 UI development through its dev server which you can do in rider by opening `package.json` and running the
 **dev** script:
 
-![](https://github.com/ServiceStack/docs/raw/master/docs/images/spa/vue-vite-scripts.png)
+![](https://github.com/ServiceStack/docs/raw/master/docs/images/spa/nextjs-scripts.png)
 
 
 <img src="https://github.com/ServiceStack/docs/raw/master/docs/images/spa/vue-vite-run-myapp.png"
-class="float-right w-72" style="margin:0 0 0 1rem">
+class="float-right w-72" style="margin: 1rem 0 0 1rem">
 
 This launch vite in HMR mode where any changes to `/ui` assets will have immediate effect.
 
@@ -68,7 +68,7 @@ When you're ready to preview a development build of the Client UI in your .NET A
 $ npm run build:local
 ```
 
-Which will publish your Vue 3's App static assets to the .NET App's `/wwwroot` where it can be previewed from
+Which will publish your React's App static assets to the .NET App's `/wwwroot` where it can be previewed from
 `https://localhost:5001`.
 
 ### Rider's new Task Runner
@@ -100,10 +100,10 @@ Our recommendation for the best possible responsive UX is to deploy your App's `
 order for the initial load of your App to be downloaded from nearby CDN edge caches.
 
 To do this configure the production url the UI should use for all its `/api` Ajax requests by modifying
-`DEPLOY_API` in your `vite.config.ts`:
+`DEPLOY_API` in your `next.config.ts`:
 
 ```csharp
-const DEPLOY_API = 'https://vue-vite.web-templates.io'
+const DEPLOY_API = 'https://$DEPLOY_API'
 ```
 
 This template also includes the necessary GitHub Actions to deploy this Apps production static assets to GitHub Pages CDN,
@@ -111,9 +111,9 @@ for more info, checkout [GitHub Actions Deployments](/posts/deploy).
 
 ### Get Started
 
-Driven by the static typing benefits of TypeScript, Vue 3 was itself written in TypeScript, a benefit that sees it
-extend to elevate TypeScript with first-class citizen support that development IDEs like Rider take full advantage of
-that's used to power its type-safe & productive intelli-sense dev UX.
+Driven by the static typing benefits of TypeScript, React bundles full 
+[Type Definitions with their libraries](https://reactjs.org/docs/static-type-checking.html#type-definitions)
+that development IDEs like Rider take full advantage of that's used to power its type-safe & productive intelli-sense dev UX.
 
-If you're new to Vue 3 a good place to start is
-[Vue 3 composition APIs in SFC](https://v3.vuejs.org/api/sfc-script-setup.html)
+If you're new to React a good place to start is
+[React Getting Started](https://reactjs.org/docs/getting-started.html).

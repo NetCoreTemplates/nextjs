@@ -31,7 +31,7 @@ const Post = ({ post, morePosts, preview }: Props) => {
           <PostTitle>Loading…</PostTitle>
         ) : (
           <>
-            <article className="prose max-w-none mb-32">
+            <article className="prose lg:prose-xl max-w-none mb-32">
               <Head>
                 <title>
                   {post.title} | Next.js Example with {CMS_NAME}

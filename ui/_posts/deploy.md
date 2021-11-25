@@ -12,7 +12,7 @@ ogImage:
 
 # ServiceStack GitHub Action Deployments
 
-The [release.yml](https://github.com/NetCoreTemplates/vue-vite/blob/main/.github/workflows/release.yml)
+The [release.yml](https://github.com/NetCoreTemplates/nextjs/blob/main/.github/workflows/release.yml)
 in this template enables GitHub Actions CI deployment to a dedicated server with SSH access.
 
 ## Overview
@@ -85,18 +85,18 @@ gh secret set DEPLOY_CDN -b"<DEPLOY_CDN>"
 These secrets are used to populate variables within GitHub Actions and other configuration files.
 
 ## UI Deployment
-The Vue 3 `ui` application is built and deployed to GitHub Pages during the `release.yml` workflow process by committing the result of `vite build` to `gh-pages` branch in the repository.
+The Next.js `ui` application is built and deployed to GitHub Pages during the `release.yml` workflow process by committing the result of `vite build` to `gh-pages` branch in the repository.
 
-Variable replacement of `$PROD_API` and `$PROD_CDN` is performed on the following files as a way to coordinate configuration between the `ui` and `api` project.
+Variable replacement of `$DEPLOY_API` and `$DEPLOY_CDN` is performed on the following files as a way to coordinate configuration between the `ui` and `api` project.
 
-- `ui/vite.config.ts` - Config for `JsonServiceClient`
+- `ui/next.config.ts` - Config for `JsonServiceClient`
 - `ui/public/CNAME` - Config for GitHub Pages
 - `api/MyApp/Configure.AppHost.cs` - Config for CORS support
 
 ## Pushing updates and rollbacks
 
 By default, deployments of both the `ui` and `api` occur on commit to your main branch. A new Docker image for your ServiceStack API is produced, pushed to GHCR.io and hosted on your Linux server with Docker Compose.
-Your Vue UI is built and pushed to the repository GitHub Pages.
+Your React UI is built and pushed to the repository GitHub Pages.
 
 The template also will run the release process on the creation of a GitHub Release making it easier to switch to manual production releases.
 

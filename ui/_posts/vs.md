@@ -24,8 +24,8 @@ be developed from within the same solution.
      class="w-24 h-24" style="margin-top:1rem"></a>
 
 If you prefer the dev UX of a lightweight text editor or your C# project isn't large, than VS Code on its own
-can provide a great development UX which is also what [Vue recommends themselves](https://v3.vuejs.org/api/sfc-tooling.html#ide-support),
-to be used together with the [Volar extension](https://marketplace.visualstudio.com/items?itemName=johnsoncodehk.volar).
+can provide a great development UX that 
+[supports React out-of-the-box](https://code.visualstudio.com/docs/nodejs/reactjs-tutorial).
 
 VSCode's [Integrated Terminal](https://code.visualstudio.com/docs/editor/integrated-terminal) has great multi-terminal
 support you can toggle between the editor and terminal with `Ctrl+` or open a new Terminal Window with
@@ -50,7 +50,7 @@ When you're ready to preview a development build of the Client UI in your .NET A
 $ npm run build:local
 ```
 
-Which will publish your Vue 3's App static assets to the .NET App's `/wwwroot` where it can be previewed from
+Which will publish your Next.js's App static assets to the .NET App's `/wwwroot` where it can be previewed from
 `https://localhost:5001`.
 
 ### Using Visual Studio
@@ -80,10 +80,10 @@ Our recommendation for the best possible responsive UX is to deploy your App's `
 order for the initial load of your App to be downloaded from nearby CDN edge caches.
 
 To do this configure the production url the UI should use for all its `/api` Ajax requests by modifying
-`DEPLOY_API` in your `vite.config.ts`:
+`DEPLOY_API` in your `next.config.ts`:
 
 ```csharp
-const DEPLOY_API = 'https://vue-vite.web-templates.io'
+const DEPLOY_API = 'https://$DEPLOY_API'
 ```
 
 This template also includes the necessary GitHub Actions to deploy this Apps production static assets to GitHub Pages CDN,
@@ -91,9 +91,9 @@ for more info, checkout [GitHub Actions Deployments](/posts/deploy).
 
 ### Get Started
 
-Driven by the static typing benefits of TypeScript, Vue 3 was itself written in TypeScript, a benefit that sees it
-extend to elevate TypeScript with first-class citizen support that development IDEs like Rider take full advantage of
-that's used to power its type-safe & productive intelli-sense dev UX.
+Driven by the static typing benefits of TypeScript, React bundles full
+[Type Definitions with their libraries](https://reactjs.org/docs/static-type-checking.html#type-definitions)
+that development IDEs like Rider take full advantage of that's used to power its type-safe & productive intelli-sense dev UX.
 
-If you're new to Vue 3 a good place to start is
-[Vue 3 composition APIs in SFC](https://v3.vuejs.org/api/sfc-script-setup.html)
+If you're new to React a good place to start is
+[React Getting Started](https://reactjs.org/docs/getting-started.html).
