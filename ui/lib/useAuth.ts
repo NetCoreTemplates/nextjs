@@ -37,9 +37,9 @@ export default function useAuth({}: Props = {}) : OptionalAuthContext {
   async function signout(redirectTo?:string) {
     await client.post(new Authenticate({ provider: 'logout' }));
     (cache as any).delete(KEY);
-    revalidate()
+    await revalidate()
     if (redirectTo) {
-      Router.push(redirectTo)
+      await Router.push(redirectTo)
     }
   }
 

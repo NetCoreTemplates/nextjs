@@ -23,33 +23,37 @@ type ValidateAuthProps = {
     role?: string
     permission?: string
     redirectTo?: string
-    render: (ctx:AuthenticatedContext) => React.ReactElement
 }
-export const ValidateAuth: FC<ValidateAuthProps> = ({ role, permission, redirectTo, render }) => {
-    const ctx = useAuth();
-    const { auth, signedIn, hasRole } = ctx;
-    redirectTo ??= useRouter().pathname
+export function ValidateAuth<TOriginalProps extends {}>(Component:React.FC<TOriginalProps>, validateProps? :ValidateAuthProps) {
+    let { role, permission, redirectTo } = validateProps ?? {}
+    const compWithProps: React.FC<TOriginalProps & AuthenticatedContext> = (props) => {
+        const authProps = useAuth()
+        const { auth, signedIn, hasRole } = authProps
+        redirectTo ??= useRouter().pathname
 
-    const shouldRedirect = () => !signedIn
-        ? Routes.signin(redirectTo)
-        : role && !hasRole(role)
-            ? Routes.forbidden()
-            : permission && !hasRole(permission)
+        const shouldRedirect = () => !signedIn
+            ? Routes.signin(redirectTo)
+            : role && !hasRole(role)
                 ? Routes.forbidden()
-                : null;
+                : permission && !hasRole(permission)
+                    ? Routes.forbidden()
+                    : null;
 
-    useEffect(() => {
-        const goTo = shouldRedirect()
-        if (goTo) {
-            Router.replace(goTo)
+        useEffect(() => {
+            const goTo = shouldRedirect()
+            if (goTo) {
+                Router.replace(goTo)
+            }
+        }, [auth])
+
+        if (shouldRedirect()) {
+            return <Redirecting />
         }
-    }, [auth]);
-
-    if (shouldRedirect()) {
-        return <Redirecting />
+        
+        return <Component {...authProps} {...props} />
     }
     
-    return render({ ...ctx, auth:ctx.auth! })
+    return compWithProps
 }
 
 type FormState = {
