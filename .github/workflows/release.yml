@@ -20,7 +20,7 @@ on:
 jobs:
   push_to_registry:
     runs-on: ubuntu-20.04
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    if: ${{ github.event.workflow_run.conclusion != 'failure' }}
     steps:
       # Checkout latest or specific tag
       - name: checkout
@@ -39,21 +39,23 @@ jobs:
 
       - name: Replace Prod API and CDN URLs
         run: |
-          sed -i 's/$PROD_API/${{ env.deploy_api }}/g' ./ui/next.config.js
-          sed -i 's/$PROD_CDN/${{ env.deploy_cdn }}/g' ./ui/next.config.js
-          sed -i 's/$PROD_CDN/${{ env.deploy_cdn }}/g' ./api/MyApp/Configure.AppHost.cs
-          sed -i 's/$PROD_CDN/${{ env.deploy_cdn }}/g' ./ui/public/CNAME
+          sed -i 's/$DEPLOY_API/${{ env.deploy_api }}/g' ./ui/next.config.js
+          sed -i 's/$DEPLOY_CDN/${{ env.deploy_cdn }}/g' ./ui/next.config.js
+          sed -i 's/$DEPLOY_CDN/${{ env.deploy_cdn }}/g' ./api/MyApp/Configure.AppHost.cs
+          sed -i 's/$DEPLOY_CDN/${{ env.deploy_cdn }}/g' ./ui/public/CNAME
 
       - name: Setup node
         uses: actions/setup-node@v1
         with:
           node-version: 16
+
       # Build UI which is copied to local server wwwroot directory to match content
       - name: Install and build npm
         run: |
           npm install
-          npm run publish
+          npm run build
         working-directory: ./ui
+
       # Assign environment variables used in subsequent steps
       - name: repository name fix
         run: echo "image_repository_name=$(echo ${{ github.repository }} | tr '[:upper:]' '[:lower:]')" >> $GITHUB_ENV
@@ -106,7 +108,7 @@ jobs:
   deploy_via_ssh:
     needs: push_to_registry
     runs-on: ubuntu-20.04
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    if: ${{ github.event.workflow_run.conclusion != 'failure' }}
     steps:
       # Checkout latest or specific tag
       - name: checkout

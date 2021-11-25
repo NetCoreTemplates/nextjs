@@ -1,11 +1,11 @@
 
 // TODO: replace with your production URLs
-const PROD_API = 'https://$PROD_API' // e.g. 'https://nextjs.web-templates.io'
-const PROD_CDN = 'https://$PROD_CDN' // e.g. 'https://nextjs-gh.web-templates.io'
+const DEPLOY_API = 'https://$DEPLOY_API' // e.g. 'https://nextjs.web-templates.io'
+const DEPLOY_CDN = 'https://$DEPLOY_CDN' // e.g. 'https://nextjs-gh.web-templates.io'
 const USE_DEV_PROXY = true // Use CORS-free URL: http://localhost:3000/api
 
 const isProd = process.env.NODE_ENV === 'production'
-const API_URL = isProd ? PROD_API : (USE_DEV_PROXY ? '/' : 'http://localhost:5000')
+const API_URL = isProd ? DEPLOY_API : (USE_DEV_PROXY ? '/' : 'http://localhost:5000')
 
 module.exports = {
     async rewrites() {
@@ -25,5 +25,5 @@ module.exports = {
     },
 
     // Use the CDN in production and localhost for development.
-    assetPrefix: isProd ? PROD_CDN : '',
+    assetPrefix: isProd ? DEPLOY_CDN : '',
 }
