@@ -1,8 +1,7 @@
 import Link from "next/link"
+import { Icon } from "@iconify/react"
 import { ErrorResponse, errorResponse, errorResponseExcept } from "@servicestack/client"
 import { createContext, FC, SyntheticEvent, useContext, useEffect, useState } from "react"
-import { ExclamationCircleIcon } from "@heroicons/react/solid"
-import { XCircleIcon } from "@heroicons/react/solid"
 import Router, { NextRouter, useRouter } from "next/router"
 import { ParsedUrlQuery } from "querystring"
 
@@ -115,7 +114,7 @@ export const ErrorSummary: FC<ErrorSummaryProps> = ({ except }) => {
     return (<div className="bg-red-50 border-l-4 border-red-400 p-4">
         <div className="flex">
             <div className="flex-shrink-0">
-                <XCircleIcon className="h-5 w-5 text-red-400" aria-hidden="true" />
+                <Icon icon="mdi:close-circle" className="h-5 w-5 text-red-500" aria-hidden="true" />
             </div>
             <div className="ml-3">
                 <p className="text-sm text-red-700">{errorSummary}</p>
@@ -145,7 +144,7 @@ export const Input: FC<InputProps> = ({ type, id, name, className, description, 
     let extraUI:any[] = [];
     if (errorField) {
         extraUI.push((<div key="error-icon" className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
-            <ExclamationCircleIcon className="h-5 w-5 text-red-500" aria-hidden="true" />
+            <Icon icon="mdi:alert-circle-outline" className="h-5 w-5 text-red-500" aria-hidden="true" />
         </div>));
         description = errorField;
     } 
@@ -185,7 +184,7 @@ export const Checkbox: FC<CheckboxProps> = ({ id, name, description, ...remainin
     let extraUI:any[] = [];
     if (errorField) {
         extraUI.push((<div key="error-icon" className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
-            <ExclamationCircleIcon className="h-5 w-5 text-red-500" aria-hidden="true" />
+            <Icon icon="mdi:alert-circle-outline" className="h-5 w-5 text-red-500" aria-hidden="true" />
         </div>));
         description = errorField;
     } 

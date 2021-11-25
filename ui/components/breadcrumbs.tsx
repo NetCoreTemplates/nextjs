@@ -1,5 +1,5 @@
-import { ChevronRightIcon, HomeIcon } from "@heroicons/react/solid"
 import Link from "next/link"
+import { Icon } from "@iconify/react"
 
 type Props = {
     className?: string
@@ -28,7 +28,7 @@ export default function Breadcrumbs({ className, name, href, current } : Props) 
           <div>
             <Link href="/">
               <a className="text-gray-600 hover:text-gray-700">
-                <HomeIcon className="flex-shrink-0 h-8 w-8" aria-hidden="true" />
+                  <Icon icon="mdi:home" className="flex-shrink-0 h-8 w-8" aria-hidden="true" />
                 <span className="sr-only">Home</span>
               </a>
             </Link>
@@ -36,8 +36,8 @@ export default function Breadcrumbs({ className, name, href, current } : Props) 
         </li>
         <li>
             <div className="flex items-center">
-              <ChevronRightIcon className="flex-shrink-0 h-8 w-8 text-gray-400" aria-hidden="true" />
-              {crumb}
+                <Icon icon="mdi:chevron-right" className="flex-shrink-0 h-8 w-8 text-gray-400" aria-hidden="true" />
+                {crumb}
             </div>
           </li>
       </ol>

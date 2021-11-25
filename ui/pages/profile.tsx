@@ -1,6 +1,6 @@
-import Page from "../components/layout-page"
-import { UserIcon } from "@heroicons/react/outline"
 import React from "react"
+import { Icon } from "@iconify/react"
+import Page from "../components/layout-page"
 import { Button, ValidateAuth } from "../components/form"
 
 export default () => {
@@ -8,7 +8,7 @@ export default () => {
         <Page title={auth.displayName + ' Profile'}>
     
             <div className="flex flex-col items-center justify-center">
-                <UserIcon className="w-36 h-36 text-gray-700" />
+                <Icon icon="mdi:account-circle" className="w-36 h-36 text-gray-700" />
                 <div>{auth.displayName}</div>
                 <div>{auth.userName}</div>
                 <div className="mt-2">
