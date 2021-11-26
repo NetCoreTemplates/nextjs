@@ -1,4 +1,3 @@
-
 // TODO: replace with production URL of .NET App
 const DEPLOY_API = 'https://$DEPLOY_API' // e.g. 'https://nextjs.web-templates.io'
 const USE_DEV_PROXY = true // Use CORS-free URL: http://localhost:3000/api
@@ -6,6 +5,9 @@ const USE_DEV_PROXY = true // Use CORS-free URL: http://localhost:3000/api
 const isProd = process.env.NODE_ENV === 'production'
 const API_URL = isProd ? DEPLOY_API : (USE_DEV_PROXY ? '/' : 'http://localhost:5000')
 
+/**
+ * @type {import('next').NextConfig}
+ **/
 module.exports = {
     async rewrites() {
         let rules = [];
@@ -21,5 +23,5 @@ module.exports = {
 
     env: {
         apiBaseUrl: API_URL
-    }
+    },
 }

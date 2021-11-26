@@ -85,13 +85,53 @@ gh secret set DEPLOY_CDN -b"<DEPLOY_CDN>"
 These secrets are used to populate variables within GitHub Actions and other configuration files.
 
 ## UI Deployment
+
 The Next.js `ui` application is built and deployed to GitHub Pages during the `release.yml` workflow process by committing the result of `vite build` to `gh-pages` branch in the repository.
 
 Variable replacement of `$DEPLOY_API` and `$DEPLOY_CDN` is performed on the following files as a way to coordinate configuration between the `ui` and `api` project.
 
-- `ui/next.config.ts` - Config for `JsonServiceClient`
+- `ui/next.config.js` - Config for `JsonServiceClient`
 - `ui/public/CNAME` - Config for GitHub Pages
 - `api/MyApp/Configure.AppHost.cs` - Config for CORS support
+- `ui/post.build.js` - Post build script run from npm scripts after publish
+
+### post.build.js
+
+The `post.build.js` script helps when also publishing `/ui` assets to CDN by first copying the generated 
+`index.html` home page into `404.html` in order to enable full page reloads to use SPA client routing:
+
+```js
+const fs = require("fs")
+const path = require("path")
+
+// Replaced in release.yml with GitHub Actions secrets
+const DEPLOY_API = 'https://$DEPLOY_API'
+const DEPLOY_CDN = 'https://$DEPLOY_CDN'
+
+const DIST = '../api/MyApp/wwwroot'
+
+// 404.html SPA fallback (for GitHub Pages, Cloudflare & Netlify)
+fs.copyFileSync(
+    path.resolve(`${DIST}/index.html`),
+    path.resolve(`${DIST}/404.html`))
+
+// define /api proxy routes (supported by Cloudflare & Netlify)
+fs.writeFileSync(`${DIST}/_redirects`,
+    fs.readFileSync(`${DIST}/_redirects`, 'utf-8')
+        .replace(/{DEPLOY_API}/g, DEPLOY_API))
+```
+
+Whilst the `_redirects` file is a convention supported by many [popular Jamstack CDNs](https://jamstack.wtf/#deployment)
+that sets up a new rule that proxies `/api*` requests to where the production .NET App is deployed to in order 
+for API requests to not need CORS:
+
+```
+/api/*  {DEPLOY_API}/api/:splat  200
+```
+
+By default this template doesn't use the `/api` proxy route & makes CORS API requests so it can be freely hosted 
+on GitHub pages CDN.
+
 
 ## Pushing updates and rollbacks
 
