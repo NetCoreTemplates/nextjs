@@ -2,10 +2,10 @@
   "private": true,
   "scripts": {
     "dev": "next",
-    "build": "next build",
+    "build": "next build && next export -o ../api/MyApp/wwwroot && node post.build.js",
     "dtos": "cd lib && x ts",
-    "publish": "next build && next export -o ../api/MyApp/wwwroot && node post.build.js",
     "build:local": "cross-env NODE_ENV=development next build && next export -o ../api/MyApp/wwwroot",
+    "publish": "npm run build && dotnet publish ../api/MyApp/MyApp.csproj -c Release && node post.build.js",
     "start": "next start",
     "typecheck": "tsc"
   },

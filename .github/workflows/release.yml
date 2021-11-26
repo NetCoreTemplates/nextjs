@@ -53,7 +53,7 @@ jobs:
       - name: Install and build npm
         run: |
           npm install
-          npm run publish
+          npm run build
         working-directory: ./ui
 
       # Assign environment variables used in subsequent steps
