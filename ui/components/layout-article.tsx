@@ -22,7 +22,7 @@ const Page: FC<Props> = ({ title, children }) => {
             <main className="flex justify-center">
                 <div className="mx-auto px-5">
                     <Breadcrumbs className="my-8" name={title} />
-                    <article className="prose lg:prose-xl mb-8">
+                    <article className="prose lg:prose-xl mb-32">
                         {children}
                     </article>
                 </div>

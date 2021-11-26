@@ -1,6 +1,6 @@
 import { ChangeEvent, useState } from "react"
 import { CMS_NAME } from "../lib/constants"
-import { client, swrClient } from "../lib/gateway"
+import { swrClient } from "../lib/gateway"
 import { Hello } from "../lib/dtos"
 
 const HelloApi = ({ name }:any) => {

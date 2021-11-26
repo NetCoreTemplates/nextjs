@@ -11,7 +11,6 @@ productivity and performance.
 
 |||
 |-|-|
-| [Vite](https://vitejs.dev )   | Modern typed design, Lighting fast reloads, optimal builds, growing ecosystem  |
 | [Next.js](https://nextjs.org) | The premier React Jamstack framework, commercially backed by [Vercel](https://vercel.com) |
 | [Tailwindcss](https://tailwindcss.com) | Productive responsive-first utility-based css framework with growing [rich component ecosystem](https://tailwindcomponents.com) |
 | [TypeScript](https://www.typescriptlang.org) | Advanced type-safety, static analysis and richer IDE tooling |
@@ -32,7 +31,10 @@ library for making typed API Requests with ServiceStack's typed
 [JsonServiceClient](https://docs.servicestack.net/typescript-add-servicestack-reference).
 
 ```tsx
-const HelloApi = ({ name }:any) => {
+import { swrClient } from "../lib/gateway"
+import { Hello } from "../lib/dtos"
+
+const HelloApi = ({ name }) => {
   const {data, error} = swrClient.get(() => new Hello({ name }))
   if (error) return <div>{error.message}</div>
   return <div>{data ? data.result : 'loading...'}</div>
