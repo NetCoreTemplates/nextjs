@@ -20,9 +20,9 @@ public class AppHost : AppHostBase, IHostingStartup
 
         Plugins.Add(new SpaFeature());
         Plugins.Add(new CorsFeature(allowOriginWhitelist:new[]{ 
-            "https://localhost:5001",
             "http://localhost:5000",
             "http://localhost:3000",
+            "https://localhost:5001",
             "https://$DEPLOY_CDN"
         }, allowCredentials:true));
     }
