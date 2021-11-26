@@ -1,7 +1,8 @@
 const defaultTheme = require('tailwindcss/defaultTheme')
 
 module.exports = {
-  purge: ['./components/**/*.tsx', './pages/**/*.tsx', './_posts/**/*.md'],
+  mode: 'jit', // in preview: https://tailwindcss.com/docs/just-in-time-mode
+  purge: ['./components/**/*.tsx', './pages/**/*.{tsx,mdx,md}', './_posts/**/*.md'],
   theme: {
     extend: {
       colors: {

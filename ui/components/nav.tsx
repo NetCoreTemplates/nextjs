@@ -15,7 +15,8 @@ type NavItem = {
 export default function () {
 
     const items:NavItem[] = [
-        { href: '/about', name: 'About'},
+        { href: '/posts', name: 'Markdown Posts'},
+        { href: '/features', name: 'Features'},
     ]
 
     const { auth, attrs, signout } = useAuth()
@@ -51,8 +52,8 @@ export default function () {
                         : x.type == 'PrimaryButton'
                             ? <PrimaryButton className="mx-2" href={x.href} onClick={x.onClick}>{x.name}</PrimaryButton>
                             : (<Link href={x.href!}>
-                                <a className={`flex items-center justify-start mw-full p-4 hover:text-success${router.asPath === x.href ? ' text-success': ''}`}>{x.name}</a>
-                                </Link>)}
+                                 <a className={`flex items-center justify-start mw-full p-4 hover:text-success${router.asPath === x.href ? ' text-success': ''}`}>{x.name}</a>
+                               </Link>)}
                         </li>)}
                     </ul>
                 </nav>

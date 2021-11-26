@@ -18,15 +18,17 @@ const Page: FC<Props> = ({ title, children }) => {
         <title>{title}</title>
       </Head>
       <Nav />
-      <div className="min-h-screen">
-        <main>
-          <div className="container mx-auto px-5">
-            <Breadcrumbs className="my-8" name={title} />
-            {children}
-          </div>
-        </main>
-      </div>
-      <Footer />
+        <div className="min-h-screen">
+            <main className="flex justify-center">
+                <div className="mx-auto px-5">
+                    <Breadcrumbs className="my-8" name={title} />
+                    <article className="prose lg:prose-xl mb-8">
+                        {children}
+                    </article>
+                </div>
+            </main>
+        </div>
+        <Footer />
     </>
   )
 }
