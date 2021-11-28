@@ -41,7 +41,7 @@ export default function () {
         <div className="flex flex-wrap items-center">
             <div className="flex-shrink flex-grow-0">
                 <Link href="/">
-                    <div className="p-4 cursor-pointer"><img src="/favicon/favicon-32x32.png" alt="MyApp logo" /></div>
+                    <div className="p-4 cursor-pointer"><img className="w-8 h-8" src="/assets/img/logo.svg" alt="MyApp logo" /></div>
                 </Link>
             </div>
             <div className="flex flex-grow flex-shrink flex-nowrap justify-end items-center">
