@@ -4,7 +4,7 @@ import ShellCommand from "./shell-command"
 export const GettingStarted = () => {
     let [project, setProject] = useState('ProjectName')
     let [apiPath, setApiPath] = useState(`api/${project}`)
-    const handleChange = (e:ChangeEvent<HTMLInputElement>) => setProject(e.target.value);
+    const handleChange = (e:ChangeEvent<HTMLInputElement>) => setProject(e.target.value.replace(/[\W]+/g,''));
 
     useEffect(() => {
         const resolvePath = (path:string) => navigator.userAgent.indexOf("Win") >= 0 ? path.replace(/\//g,'\\') : path
