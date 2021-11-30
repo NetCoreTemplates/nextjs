@@ -31,7 +31,7 @@ const Intro = () => {
           {' ' + CMS_NAME} &amp; {' '}
           <a href="https://servicestack.net" className="underline hover:text-success duration-200 transition-colors">ServiceStack</a>.
         </h4>
-        <div className="flex items-center">
+        <div className="flex items-center flex-wrap sm:flex-nowrap">
           <input type="text" className="mt-2 sm:text-lg rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border-gray-300" 
                  value={inputValue} onChange={onChange} />
           <HelloApi name={inputValue} />

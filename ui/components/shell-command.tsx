@@ -27,7 +27,7 @@ const ShellCommand: FC<any> = ({ className, children }) => {
     }
     
     return (
-        <div className={`${className} lang relative bg-gray-700 text-gray-300 pl-5 py-3 rounded flex`}>
+        <div className={`${className} lang relative bg-gray-700 text-gray-300 pl-5 py-3 sm:rounded flex`}>
             <div className="flex ml-2 w-full justify-between cursor-pointer" onClick={copy}>
                 <span>$ <label className="">{children}</label></span>
                 <small className="text-xs text-gray-400 px-3 -mt-1">sh</small>

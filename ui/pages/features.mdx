@@ -35,9 +35,10 @@ import { swrClient } from "../lib/gateway"
 import { Hello } from "../lib/dtos"
 
 const HelloApi = ({ name }) => {
-  const {data, error} = swrClient.get(() => new Hello({ name }))
+  const {data, error} = swrClient.get(() => 
+    new Hello({ name }))
   if (error) return <div>{error.message}</div>
-  return <div>{data ? data.result : 'loading...'}</div>
+  return <div>{data?data.result:'loading...'}</div>
 }
 ```
 

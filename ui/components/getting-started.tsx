@@ -35,7 +35,7 @@ export const GettingStarted = () => {
                     <ShellCommand className="mb-2">cd {apiPath}</ShellCommand>
                     <ShellCommand className="mb-2">dotnet watch</ShellCommand>
 
-                    <div className="mt-8">
+                    <div className="mt-8 text-center">
 
                         <div className="flex justify-center">
                             <a className="bg-purple-500 text-purple-50 rounded px-2 py-0.5 mx-1"
@@ -46,12 +46,12 @@ export const GettingStarted = () => {
                             </a>
                         </div>
 
-                        <h3 className="mt-4 text-2xl">Use npm dev server for UI Development</h3>
-                        <div className="text-center text-lg hover:text-green-600"><a
+                        <h3 className="mt-4 sm:text-2xl">Use npm dev server for UI Development</h3>
+                        <div className="text-lg hover:text-green-600"><a
                             href="http://localhost:3000">http://localhost:3000</a></div>
 
-                        <h3 className="mt-4 text-2xl">`npm run build:local` to view in .NET App</h3>
-                        <div className="text-center text-lg hover:text-green-600"><a
+                        <h3 className="mt-4 sm:text-2xl">`npm run build:local` to view in .NET App</h3>
+                        <div className="text-lg hover:text-green-600"><a
                             href="https://localhost:5001">https://localhost:5001</a></div>
 
                     </div>

@@ -16,7 +16,7 @@ export default function () {
 
     const items:NavItem[] = [
         { type:'Button', href:"/hosting", name:"$ .44c /mo" },
-        { href: '/posts', name: 'Markdown Posts'},
+        { href: '/posts', name: 'Blog'},
         { href: '/features', name: 'Features'},
     ]
 
@@ -49,9 +49,9 @@ export default function () {
                 <nav className="relative flex flex-grow">
                     <ul className="flex flex-wrap items-center justify-end w-full m-0">
                     {showItems.map(x => <li key={x.name} className="relative flex flex-wrap just-fu-start m-0">{x.type === 'Button'
-                        ? <Button className="mx-2" href={x.href} onClick={x.onClick}>{x.name}</Button>
+                        ? <Button className="m-2" href={x.href} onClick={x.onClick}>{x.name}</Button>
                         : x.type == 'PrimaryButton'
-                            ? <PrimaryButton className="mx-2" href={x.href} onClick={x.onClick}>{x.name}</PrimaryButton>
+                            ? <PrimaryButton className="m-2" href={x.href} onClick={x.onClick}>{x.name}</PrimaryButton>
                             : (<Link href={x.href!}>
                                  <a className={`flex items-center justify-start mw-full p-4 hover:text-success${router.asPath === x.href ? ' text-success': ''}`}>{x.name}</a>
                                </Link>)}
