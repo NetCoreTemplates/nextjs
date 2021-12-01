@@ -17,7 +17,7 @@ const Posts = ({ allPosts }: Props) => {
                     className="bg-blue-50 text-blue-500 py-1 px-2 rounded">/pages</span>
                 </h3>
                 {allPosts.map((post) => (
-                    <div className="mb-8">
+                    <div className="mb-8" key={post.slug}>
                         <a className="text-2xl hover:text-green-600" href={`/posts/${post.slug}`}>{post.title}</a>
                         {!post.excerpt ? null : <p className="text-gray-500">
                             {post.excerpt}

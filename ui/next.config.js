@@ -18,7 +18,7 @@ module.exports = withMDX({
     async rewrites() {
         let rules = [];
         if (!isProd) {
-            process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0"; // when it works https://github.com/vercel/next.js/issues/21537
+            //process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0"; // when https works https://github.com/vercel/next.js/issues/21537
             rules.push({
                 source: '/api/:path*',
                 destination: 'http://localhost:5000/api/:path*',
