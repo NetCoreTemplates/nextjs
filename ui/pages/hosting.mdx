@@ -21,7 +21,7 @@ pre-built static assets from CDN edge caches.
     <Icon icon="emojione:money-with-wings" className="w-14 h-14 float-left mt-2 mr-4" />
 </a>
 
-As a consequence of designing your UI decoupled from your back-end server is that it also becomes considerably 
+A consequence of designing your UI decoupled from your back-end server is that it also becomes considerably 
 cheaper to host as its static files can be hosted by any web server and is a task highly optimized by CDNs
 who are able to provide generous free & low cost hosting options.
 
@@ -43,18 +43,18 @@ directly from CDN edge caches.
 
 ## [/api](https://github.com/NetCoreTemplates/nextjs/tree/main/api)
 
-The .NET 6 `/api` backend server is required for this dynamic functions including the Hello Service on the home page
-and the [built-in Authentication](https://docs.servicestack.net/auth). 
+The .NET 6 `/api` backend server is required for this App's dynamic functions including the Hello API on the home page
+and its [built-in Authentication](https://docs.servicestack.net/auth). 
 
-It still contains a complete version of this App that can be hosted independently where it can either host the 
-entire App when served directly from its server:
+The C# project still contains the complete App and can be hosted independently with the entire App served 
+directly from its deployed ASP.NET Core server at:
 
 ### Digital Ocean
 
 ### [nextjs.web-templates.io](https://nextjs.web-templates.io)
 
-Or when served from the CDN at [nextjs-gh.web-templates.io](https://nextjs-gh.web-templates.io), only its back-end 
-JSON APIs are used to power its dynamic features.
+But when accessed from the CDN [nextjs-gh.web-templates.io](https://nextjs-gh.web-templates.io) that contains a 
+copy of its static `/wwwroot` UI assets, only its back-end JSON APIs are used to power its dynamic features.
 
 ## Total Cost
 
@@ -62,7 +62,7 @@ JSON APIs are used to power its dynamic features.
     <Icon icon="logos:digital-ocean" className="w-24 h-24 float-left mt-0 mr-8" />
 </a>
 
-Since hosting on GitHub Pages CDN is free, the only cost is for hosting this Apps .NET Server which is being hosted 
+Since hosting on GitHub Pages CDN is free, the only cost is for hosting this App's .NET Server which is being hosted 
 from a basic [$10 /mo](https://www.digitalocean.com/pricing) droplet which is currently hosting **23** Docker 
 apps and demos of [starting project templates](https://servicestack.net/start) which works out to be just under **.44c /mo**!
 
@@ -79,5 +79,5 @@ Jamstack is quickly becoming the preferred architecture for the development of m
 
 Best of all the Jamstack approach fits perfectly with ServiceStack's recommended 
 [API First Development](https://docs.servicestack.net/api-first-development) model which encourages development of
-reusable message-based APIs where the same System APIs can be used from Web, Mobile & Desktop Apps 
+reusable message-based APIs where the same System APIs can be reused from all Web, Mobile & Desktop Apps 
 from multiple HTTP, MQ or gRPC endpoints.
