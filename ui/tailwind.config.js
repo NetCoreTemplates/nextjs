@@ -1,4 +1,5 @@
 const defaultTheme = require('tailwindcss/defaultTheme')
+const { colors } = defaultTheme
 
 module.exports = {
   mode: 'jit', // in preview: https://tailwindcss.com/docs/just-in-time-mode
@@ -34,9 +35,13 @@ module.exports = {
       typography: { // https://github.com/tailwindlabs/tailwindcss-typography
         DEFAULT: {
           css: {
+            'pre': {
+              overflowX: 'auto',
+              maxWidth: 'calc(100vw - 1rem)'
+            },
             code: {
-              color: defaultTheme.colors.blue[500],
-              backgroundColor: defaultTheme.colors.blue[50],
+              color: colors.blue[500],
+              backgroundColor: colors.blue[50],
               fontWeight: 'normal',
               borderRadius: '.25rem',
               padding: '.25em .5rem',
@@ -46,7 +51,26 @@ module.exports = {
             },
             'code::after': {
               content: '""'
-            }
+            },
+
+            maxWidth: '65ch',
+            color: 'inherit',
+            a: {
+              'color': 'inherit',
+              'fontWeight': '500',
+              'textDecoration': 'underline',
+              '&:hover': {
+                opacity: .8,
+                color: colors.gray[600],
+              },
+            },
+            b: { color: 'inherit' },
+            strong: { color: 'inherit' },
+            em: { color: 'inherit' },
+            h1: { color: 'inherit' },
+            h2: { color: 'inherit' },
+            h3: { color: 'inherit' },
+            h4: { color: 'inherit' },
           }
         }
       },
