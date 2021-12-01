@@ -14,16 +14,16 @@ export default function Breadcrumbs({ className, name, href, current } : Props) 
     }
     let crumb = href 
         ? (<Link href={href}>
-            <a className="ml-4 text-2xl text-gray-500 hover:text-gray-700" aria-current={current ? 'page' : undefined}>
+            <a className="ml-1 sm:ml-4 text-2xl text-gray-500 hover:text-gray-700" aria-current={current ? 'page' : undefined}>
                 {name}
             </a>
         </Link>)
-        : (<span className="ml-4 text-3xl text-gray-700" aria-current={current ? 'page' : undefined}>
+        : (<span className="ml-1 sm:ml-4 text-3xl text-gray-700" aria-current={current ? 'page' : undefined}>
             {name}</span>);
 
   return (
     <nav className={["flex", className].join(' ')} aria-label="Breadcrumb">
-      <ol role="list" className="flex items-center space-x-4">
+      <ol role="list" className="flex items-center sm:space-x-4">
         <li>
           <div>
             <Link href="/">

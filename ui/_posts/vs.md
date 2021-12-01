@@ -19,7 +19,7 @@ be developed from within the same solution.
 
 ### Developing with just VS Code
 
-<a href="https://visualstudio.microsoft.com/" title="VS Code" class="float-left mr-8">
+<a href="https://visualstudio.microsoft.com/" title="VS Code" class="sm:float-left mr-8">
 <img src="https://raw.githubusercontent.com/ServiceStack/docs/master/docs/images/svg/vs-code.svg" 
      class="w-24 h-24" style="margin-top:1rem"></a>
 
@@ -55,7 +55,7 @@ Which will publish your Next.js's App static assets to the .NET App's `/wwwroot`
 
 ### Using Visual Studio
 
-<a href="https://code.visualstudio.com/" title="Visual Studio" class="float-left mr-8">
+<a href="https://code.visualstudio.com/" title="Visual Studio" class="sm:float-left mr-8">
 <img src="https://raw.githubusercontent.com/ServiceStack/docs/master/docs/images/svg/vs-2019.svg"
      class="w-24 h-24" style="margin-top:.5rem; margin-bottom:1rem"></a>
 
