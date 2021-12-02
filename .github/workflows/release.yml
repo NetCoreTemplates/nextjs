@@ -88,7 +88,7 @@ jobs:
           push: true
           tags: ghcr.io/${{ env.image_repository_name }}:${{ env.TAG_NAME }}
 
-      # Deploy NextJS UI to GitHub Pages
+      # Deploy UI to GitHub Pages
       - name: Deploy to GitHub Pages
         if: ${{ env.deploy_cdn != '' }}
         run: |
