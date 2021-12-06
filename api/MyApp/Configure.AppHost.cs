@@ -12,8 +12,6 @@ public class AppHost : AppHostBase, IHostingStartup
 
     public override void Configure(Container container)
     {
-        RawHttpHandlers.Add(ApiHandlers.Json("/api/{Request}"));
-        
         SetConfig(new HostConfig {
             AllowFileExtensions = { "json" } // next.js client metadata
         });
