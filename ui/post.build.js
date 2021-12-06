@@ -12,7 +12,10 @@ fs.copyFileSync(
     path.resolve(`${DIST}/index.html`),
     path.resolve(`${DIST}/404.html`))
 
-// define /api proxy routes (supported by Cloudflare or Netlify CDNs)  
+// Define Virtual Host for GitHub Pages CDN
+fs.writeFileSync(`${DIST}/CNAME`, DEPLOY_CDN)
+
+// Define /api proxy routes (supported by Cloudflare or Netlify CDNs)  
 fs.writeFileSync(`${DIST}/_redirects`,
     fs.readFileSync(`${DIST}/_redirects`, 'utf-8')
         .replace(/{DEPLOY_API}/g, DEPLOY_API))

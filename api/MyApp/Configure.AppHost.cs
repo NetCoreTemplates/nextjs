@@ -23,7 +23,7 @@ public class AppHost : AppHostBase, IHostingStartup
             "http://localhost:5000",
             "http://localhost:3000",
             "https://localhost:5001",
-            "https://$DEPLOY_CDN"
+            "https://" + Environment.GetEnvironmentVariable("DEPLOY_CDN")
         }, allowCredentials:true));
     }
 

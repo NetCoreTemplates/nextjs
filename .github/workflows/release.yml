@@ -40,8 +40,6 @@ jobs:
       - name: Replace Prod API and CDN URLs
         run: |
           sed -i 's/$DEPLOY_API/${{ env.deploy_api }}/g' ./ui/next.config.js
-          sed -i 's/$DEPLOY_CDN/${{ env.deploy_cdn }}/g' ./api/MyApp/Configure.AppHost.cs
-          [[ -f ./ui/public/CNAME  ]] && sed -i 's/$DEPLOY_CDN/${{ env.deploy_cdn }}/g' ./ui/public/CNAME
           [[ -f ./ui/post.build.js ]] && sed -i 's/$DEPLOY_API/${{ env.deploy_api }}/g;s/$DEPLOY_CDN/${{ env.deploy_cdn }}/g' ./ui/post.build.js
 
       - name: Setup node
@@ -54,6 +52,7 @@ jobs:
         run: |
           npm install
           npm run build
+          [[ -f ./post.build.js ]] && node ./post.build.js
         working-directory: ./ui
 
       # Assign environment variables used in subsequent steps
@@ -144,6 +143,8 @@ jobs:
           APP_NAME: ${{ github.event.repository.name }}
           HOST_DOMAIN: ${{ env.domain }}
           LETSENCRYPT_EMAIL: ${{ env.letsencrypt_email }}
+          DEPLOY_API: ${{ env.deploy_api }}
+          DEPLOY_CDN: ${{ env.deploy_cdn }}
         with:
           input: .deploy/docker-compose-template.yml
           output: .deploy/${{ github.event.repository.name }}-docker-compose.yml

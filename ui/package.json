@@ -3,9 +3,9 @@
   "scripts": {
     "dev": "next",
     "dtos": "cd lib && x ts",
-    "build": "next build && next export -o ../api/MyApp/wwwroot && node post.build.js",
+    "build": "next build && next export -o ../api/MyApp/wwwroot",
     "build:local": "cross-env NODE_ENV=development next build && next export -o ../api/MyApp/wwwroot",
-    "publish": "npm run build && dotnet publish ../api/MyApp/MyApp.csproj -c Release && node post.build.js",
+    "publish": "npm run build && dotnet publish ../api/MyApp/MyApp.csproj -c Release",
     "start": "next start",
     "typecheck": "tsc"
   },
