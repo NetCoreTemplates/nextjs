@@ -4,8 +4,8 @@ excerpt: 'Setting up & exploring development workflow in Rider.'
 coverImage: '/assets/blog/preview/cover.jpg'
 date: '2021-11-11T05:35:07.322Z'
 author:
-  name: Joe Haddad
-  picture: '/assets/blog/authors/joe.jpeg'
+  name: ServiceStack
+  picture: '/assets/blog/authors/servicestack.png'
 ogImage:
   url: '/assets/blog/preview/cover.jpg'
 ---
