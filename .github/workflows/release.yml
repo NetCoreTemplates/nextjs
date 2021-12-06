@@ -124,8 +124,6 @@ jobs:
       - name: repository name fix and env
         run: |
           echo "image_repository_name=$(echo ${{ github.repository }} | tr '[:upper:]' '[:lower:]')" >> $GITHUB_ENV
-          echo "domain=${{ secrets.DEPLOY_API }}" >> $GITHUB_ENV
-          echo "letsencrypt_email=${{ secrets.LETSENCRYPT_EMAIL }}" >> $GITHUB_ENV
           echo "TAG_NAME=latest" >> $GITHUB_ENV
           if [ "${{ github.event.release.tag_name }}" != "" ]; then
             echo "TAG_NAME=${{ github.event.release.tag_name }}" >> $GITHUB_ENV
@@ -141,8 +139,8 @@ jobs:
           RELEASE_VERSION: ${{ env.TAG_NAME }}
           IMAGE_REPO: ${{ env.image_repository_name }}
           APP_NAME: ${{ github.event.repository.name }}
-          HOST_DOMAIN: ${{ env.domain }}
-          LETSENCRYPT_EMAIL: ${{ env.letsencrypt_email }}
+          HOST_DOMAIN: ${{ secrets.DEPLOY_API }}
+          LETSENCRYPT_EMAIL: ${{ secrets.LETSENCRYPT_EMAIL }}
           DEPLOY_API: ${{ secrets.DEPLOY_API }}
           DEPLOY_CDN: ${{ secrets.DEPLOY_CDN }}
         with:
@@ -160,17 +158,12 @@ jobs:
           source: ".deploy/${{ github.event.repository.name }}-docker-compose.yml"
           target: "~/"
 
-      - name: Set the value
-        run: |
-          echo "GH_TOKEN=${{ secrets.CR_PAT }}" >> $GITHUB_ENV
-          echo "USERNAME=${{ secrets.DEPLOY_USERNAME }}" >> $GITHUB_ENV
-
       # Deploy Docker image with ServiceStack application using `docker compose up` remotely
       - name: remote docker-compose up via ssh
         uses: appleboy/ssh-action@v0.1.4
         env:
-          APPTOKEN: ${{ env.GH_TOKEN }}
-          USERNAME: ${{ env.USERNAME }}
+          APPTOKEN: ${{ secrets.CR_PAT }}
+          USERNAME: ${{ secrets.DEPLOY_USERNAME }}
         with:
           host: ${{ secrets.DEPLOY_API }}
           username: ${{ secrets.DEPLOY_USERNAME }}
