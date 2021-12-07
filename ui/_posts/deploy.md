@@ -4,8 +4,8 @@ excerpt: 'Configuring your GitHub repo for SSH and CDN deployments'
 coverImage: '/assets/blog/dynamic-routing/cover.jpg'
 date: '2021-11-09T05:35:07.322Z'
 author:
-  name: JJ Kasper
-  picture: '/assets/blog/authors/jj.jpeg'
+  name: ServiceStack
+  picture: '/assets/blog/authors/servicestack.png'
 ogImage:
   url: '/assets/blog/dynamic-routing/cover.jpg'
 ---
