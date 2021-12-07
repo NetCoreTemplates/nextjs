@@ -15,7 +15,7 @@ type NavItem = {
 export default function () {
 
     const items:NavItem[] = [
-        { type:'Button', href:"/hosting", name:"$ .44c /mo" },
+        { type:'Button', href:"/hosting", name:"$ .40c /mo" },
         { href: '/posts', name: 'Blog'},
         { href: '/features', name: 'Features'},
     ]
