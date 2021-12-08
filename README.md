@@ -3,7 +3,7 @@
 [![](https://raw.githubusercontent.com/ServiceStack/Assets/master/csharp-templates/nextjs.png)](https://nextjs.jamstacks.net)
 [![](https://raw.githubusercontent.com/ServiceStack/Assets/master/csharp-templates/start/nextjs.png)](https://nextjs.jamstacks.net)
 
-> Browse [source code](https://github.com/NetCoreTemplates/nextjs), view live demo [nextjs.web-templates.io](https://nextjs.jamstacks.net) and install with [x new](https://docs.servicestack.net/dotnet-new):
+> Browse [source code](https://github.com/NetCoreTemplates/nextjs), view live demo [nextjs-api.jamstacks.net](https://nextjs.jamstacks.net) and install with [x new](https://docs.servicestack.net/dotnet-new):
 
 This template should help get you started developing with Vue 3 and Typescript in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
 
