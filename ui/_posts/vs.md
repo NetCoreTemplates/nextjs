@@ -4,8 +4,8 @@ excerpt: 'Exploring development workflow in VS Code and Visual Studio .NET'
 coverImage: '/assets/blog/hello-world/cover.jpg'
 date: '2021-11-10T05:35:07.322Z'
 author:
-  name: ServiceStack
-  picture: '/assets/blog/authors/servicestack.png'
+  name: Author
+  picture: '/assets/blog/authors/author3.svg'
 ogImage:
   url: '/assets/blog/hello-world/cover.jpg'
 ---
