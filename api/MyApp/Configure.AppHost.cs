@@ -13,10 +13,11 @@ public class AppHost : AppHostBase, IHostingStartup
     public override void Configure(Container container)
     {
         SetConfig(new HostConfig {
-            AllowFileExtensions = { "json" } // next.js client metadata
         });
 
-        Plugins.Add(new SpaFeature());
+        Plugins.Add(new SpaFeature {
+            EnableSpaFallback = true
+        });
         Plugins.Add(new CorsFeature(allowOriginWhitelist:new[]{ 
             "http://localhost:5000",
             "http://localhost:3000",
@@ -29,7 +30,7 @@ public class AppHost : AppHostBase, IHostingStartup
         .ConfigureServices((context, services) => 
             services.ConfigureNonBreakingSameSiteCookies(context.HostingEnvironment))
         .Configure(app => {
-            if (!HasInit)
+            if (!HasInit) 
                 app.UseServiceStack(new AppHost());
         });
 }
