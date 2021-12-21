@@ -17,6 +17,7 @@ export default function () {
     const items:NavItem[] = [
         { type:'Button', href:"/hosting", name:"$0.40 /mo" },
         { href: '/posts', name: 'Blog'},
+        { href: '/todomvc', name: 'Todos'},
         { href: '/features', name: 'Features'},
     ]
 

@@ -4,13 +4,15 @@ import Nav from "./nav"
 import Footer from "./footer"
 import Meta from "./meta"
 import Breadcrumbs from "./breadcrumbs"
+import classNames from "classnames";
 
 type Props = {
   title: string,
-  children: React.ReactNode
+  className?: string,
+  children: React.ReactNode,
 }
 
-const Page: FC<Props> = ({ title, children }) => {
+const Page: FC<Props> = ({ title, className, children }) => {
   return (
     <>
       <Meta />
@@ -20,7 +22,7 @@ const Page: FC<Props> = ({ title, children }) => {
       <Nav />
       <div className="min-h-screen">
         <main>
-          <div className="container mx-auto px-5">
+          <div className={classNames("container mx-auto px-5",className)}>
             <Breadcrumbs className="my-8" name={title} />
             {children}
           </div>

@@ -1,12 +1,14 @@
 import Link from "next/link"
 import { Icon } from "@iconify/react"
-import { ErrorResponse, errorResponse, errorResponseExcept } from "@servicestack/client"
-import { createContext, FC, SyntheticEvent, useContext, useEffect, useState } from "react"
+import { ErrorResponse, errorResponse, errorResponseExcept, ResponseStatus, humanize, toPascalCase } from "@servicestack/client"
+import React, { createContext, FC, SyntheticEvent, useContext, useEffect, useState } from "react"
 import Router, { NextRouter, useRouter } from "next/router"
 import { ParsedUrlQuery } from "querystring"
 
 import useAuth, { AuthenticatedContext } from "../lib/useAuth"
 import { Routes } from "../lib/gateway"
+import classNames from "classnames";
+import { ST } from "next/dist/shared/lib/utils";
 
 export function getRedirect(query?:ParsedUrlQuery) {    
     let { redirect } = (query ?? Router.query)
@@ -14,6 +16,8 @@ export function getRedirect(query?:ParsedUrlQuery) {
         ? redirect[0]
         : redirect
 }
+
+const humanLabel = (s:string) => humanize(toPascalCase(s))
 
 export const Redirecting : FC<any> = (props) => {
     return <Loading className="py-2 pl-4" text="redirecting ..." />
@@ -128,75 +132,69 @@ export const ErrorSummary: FC<ErrorSummaryProps> = ({ except }) => {
 };
 
 type InputProps = {
+    status?: ResponseStatus
     id: string
-    name: string
-    className?: string
     type?: string
-    description?: string
+    className?: string
     placeholder?: string
+    help?: string
+    label?: string
 } | any
-export const Input: FC<InputProps> = ({ type, id, name, className, description, placeholder, ...remaining }) => {
-    placeholder ??= name;
+export const Input: FC<InputProps> = ({ status, id, type, className, placeholder, help, label, ...remaining }) => {
+    
+    const useType = type ?? 'text'
+    const useLabel = label ?? humanLabel(id)
+    const usePlaceholder = placeholder ?? useLabel
+    const useHelp = help ?? ''
+    
+    const ctx = new ErrorResponse({ 
+        responseStatus: status ?? useContext(FormContext)?.responseStatus 
+    })
+    const errorField = id && ctx.responseStatus && errorResponse.call(ctx,id)
+    const hasErrorField = errorField != null
+    
+    const cssClass = (validCls?:string, invalidCls?:string) => [!hasErrorField ? validCls : invalidCls, className]
 
-    const ctx = useContext(FormContext);
-    const status = ctx?.responseStatus;
-    const errorField = id && status && errorResponse.call(ctx,id);
-
-    let cls = ['block w-full sm:text-sm rounded-md', errorField 
-        ? 'pr-10 border-red-300 text-red-900 placeholder-red-300 focus:outline-none focus:ring-red-500 focus:border-red-500' 
-        : 'shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border-gray-300', className];
-    let extraUI:any[] = [];
-    if (errorField) {
-        extraUI.push((<div key="error-icon" className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
-            <Icon icon="mdi:alert-circle-outline" className="h-5 w-5 text-red-500" aria-hidden="true" />
-        </div>));
-        description = errorField;
-    } 
-    if (description) {
-        let descriptionId = id + '-description';
-        remaining['aria-describedby'] = descriptionId;        
-        extraUI.push(<p key="description" className={`mt-2 text-sm ${errorField ? 'text-red-500' : 'text-gray-500'}`} id={descriptionId}>{description}</p>)
+    if (!errorField && useHelp) {
+        remaining['aria-describedby'] = `${id}-description`
     }
-
-    return (<div className="relative">
-        <label htmlFor={id} className="block text-sm font-medium text-gray-700">
-          {name}
-        </label>
-        <div className="mt-1">
-          <input
-            type={type ?? 'text'}
-            name={id}
-            id={id}
-            className={cls.join(' ')}
-            placeholder={placeholder}
-            {...remaining} />
+    
+    return (<div>
+        {!useLabel ? null : <label htmlFor={id} className="block text-sm font-medium text-gray-700">{useLabel}</label>}
+        <div className="mt-1 relative rounded-md shadow-sm">
+          <input type={useType} className={classNames(['block w-full sm:text-sm rounded-md', ...cssClass(
+            'shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border-gray-300',
+          'pr-10 border-red-300 text-red-900 placeholder-red-300 focus:outline-none focus:ring-red-500 focus:border-red-500')])}
+            id={id} name={id} placeholder={usePlaceholder} {...remaining} />
+        {!hasErrorField ? null : <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+            {/*Heroicon name: solid/exclamation-circle*/}
+            <svg className="h-5 w-5 text-red-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+            </svg>
+          </div>}
         </div>
-        {[...extraUI]}
-      </div>);
+        {hasErrorField 
+            ? <p className="mt-2 text-sm text-red-500" id={`${id}-error`}>{errorField}</p>
+            : useHelp
+                ? <p id={`${id}-description`} className="text-gray-500">{useHelp}</p> : null}
+      </div>)
 }
 
 type CheckboxProps = {
+    status?: ResponseStatus
     id: string
-    name: string
-    description?: string
+    label: string
+    help?: string
 } | any
-export const Checkbox: FC<CheckboxProps> = ({ id, name, description, ...remaining }) => {
+export const Checkbox: FC<CheckboxProps> = ({ status, id, label, help, ...remaining }) => {
 
-    const ctx = useContext(FormContext);
-    const status = ctx?.responseStatus;
-    const errorField = id && status && errorResponse.call(ctx,id);
-    let extraUI:any[] = [];
-    if (errorField) {
-        extraUI.push((<div key="error-icon" className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
-            <Icon icon="mdi:alert-circle-outline" className="h-5 w-5 text-red-500" aria-hidden="true" />
-        </div>));
-        description = errorField;
-    } 
-    if (description) {
-        let descriptionId = id + '-description';
-        remaining['aria-describedby'] = descriptionId;        
-        extraUI.push(<p key="description" className={`mt-2 text-sm ${errorField ? 'text-red-500' : 'text-gray-500'}`} id={descriptionId}>{description}</p>)
-    }
+    const useLabel = label ?? humanLabel(id)
+
+    const ctx = new ErrorResponse({
+        responseStatus: status ?? useContext(FormContext)?.responseStatus
+    })
+    const errorField = id && ctx.responseStatus && errorResponse.call(ctx,id)
+    const hasErrorField = errorField != null
 
     return (<div className="relative flex items-start">
         <div className="flex items-center h-5">
@@ -209,10 +207,12 @@ export const Checkbox: FC<CheckboxProps> = ({ id, name, description, ...remainin
                 {...remaining} />
         </div>
         <div className="ml-3 text-sm">
-            <label htmlFor={id} className="font-medium text-gray-700 select-none">
-                {name}
-            </label>
-            {[...extraUI]}
+            <label htmlFor={id} className="font-medium text-gray-700 select-none">{useLabel}</label>
+            {hasErrorField 
+                ? <p className="mt-2 text-sm text-red-500" id="`${id}-error`">{errorField}</p>
+                : help 
+                    ? <p className="mt-2 text-sm text-gray-500" id="`${id}-description`">{help}</p>
+                    : null}
         </div>
     </div>)
 }
