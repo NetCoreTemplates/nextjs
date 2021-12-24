@@ -1,7 +1,7 @@
 import Link from "next/link"
 import { useRouter } from "next/router"
 import useAuth from "../lib/useAuth"
-import { PrimaryButton, Button } from "./form"
+import { PrimaryButton, SecondaryButton } from "./form"
 
 type NavItem = { 
     href?:string, 
@@ -18,6 +18,7 @@ export default function () {
         { type:'Button', href:"/hosting", name:"$0.40 /mo" },
         { href: '/posts', name: 'Blog'},
         { href: '/todomvc', name: 'Todos'},
+        { href: '/bookings-crud', name: 'Bookings'},
         { href: '/features', name: 'Features'},
     ]
 
@@ -50,7 +51,7 @@ export default function () {
                 <nav className="relative flex flex-grow">
                     <ul className="flex flex-wrap items-center justify-end w-full m-0">
                     {showItems.map(x => <li key={x.name} className="relative flex flex-wrap just-fu-start m-0">{x.type === 'Button'
-                        ? <Button className="m-2" href={x.href} onClick={x.onClick}>{x.name}</Button>
+                        ? <SecondaryButton className="m-2" href={x.href} onClick={x.onClick}>{x.name}</SecondaryButton>
                         : x.type == 'PrimaryButton'
                             ? <PrimaryButton className="m-2" href={x.href} onClick={x.onClick}>{x.name}</PrimaryButton>
                             : (<Link href={x.href!}>

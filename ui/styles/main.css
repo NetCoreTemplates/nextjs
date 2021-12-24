@@ -1,0 +1,10 @@
+.youtube {
+    width: 448px;
+    height: 252px;
+}
+@media (min-width: 640px) {
+    .youtube {
+        width: 761px;
+        height: 428px;
+    }
+}

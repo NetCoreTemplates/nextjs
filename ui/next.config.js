@@ -1,9 +1,14 @@
 // TODO: replace with production URL of .NET App
 const DEPLOY_API = 'https://$DEPLOY_API' // e.g. 'https://nextjs-api.jamstacks.net'
-const USE_DEV_PROXY = true // Use CORS-free URL: http://localhost:3000/api
+const USE_DEV_PROXY = false // Use CORS-free URL: http://localhost:3000/api
+const DEV_API = 'http://localhost:5000'
 
 const isProd = process.env.NODE_ENV === 'production'
-const API_URL = isProd ? DEPLOY_API : (USE_DEV_PROXY ? '/' : 'http://localhost:5000')
+
+const buildLocal = process.env.MODE === 'local'
+const API_URL = isProd ? DEPLOY_API : (USE_DEV_PROXY || buildLocal ? '' : DEV_API)
+
+console.log('next.config.js', process.env.NODE_ENV, buildLocal, API_URL)
 
 const withMDX = require('@next/mdx')({
     extension: /\.mdx?$/,

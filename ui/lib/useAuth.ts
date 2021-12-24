@@ -43,8 +43,9 @@ export default function useAuth({}: Props = {}) : OptionalAuthContext {
     }
   }
 
-  const hasRole = (role:string) => (auth?.roles || []).indexOf(role) >= 0
-  const hasPermission = (permission:string) => (auth?.permissions || []).indexOf(permission) >= 0
+  const isAdmin = () => (auth?.roles || []).indexOf('Admin') >= 0
+  const hasRole = (role:string) => (auth?.roles || []).indexOf(role) >= 0 || isAdmin()
+  const hasPermission = (permission:string) => (auth?.permissions || []).indexOf(permission) >= 0 || isAdmin()
   
   return { auth, signedIn, attrs, loading, signout, revalidate, hasRole, hasPermission }
 }

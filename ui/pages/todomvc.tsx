@@ -2,7 +2,7 @@ import { Icon } from "@iconify/react"
 import React, { useState, ReactNode, ChangeEvent, KeyboardEvent, MouseEvent, useEffect } from "react"
 import classNames from "classnames"
 import Page from "../components/layout-page"
-import { Input } from "../components/form"
+import { TextInput } from "../components/form"
 import { client } from "../lib/gateway"
 import { CreateTodo, DeleteTodo, DeleteTodos, QueryTodos, Todo, UpdateTodo } from "../lib/dtos"
 import { ResponseStatus } from "@servicestack/client"
@@ -65,9 +65,9 @@ const TodosMvc = () => {
     return (<Page title="Todos Application" className="max-w-xl">
         <div>
             <div className="mb-3">
-                <Input status={error} id="Text" placeholder="What needs to be done?" label=""
-                       value={newTodo} onChange={(e:ChangeEvent<HTMLInputElement>) => setNewTodo(e.target.value)}
-                       onKeyUp={async (e:KeyboardEvent<HTMLInputElement>) => { e.stopPropagation(); if (e.key == "Enter") await addTodo() }} />
+                <TextInput status={error} id="Text" placeholder="What needs to be done?" label=""
+                           value={newTodo} onChange={(e:ChangeEvent<HTMLInputElement>) => setNewTodo(e.target.value)}
+                           onKeyUp={async (e:KeyboardEvent<HTMLInputElement>) => { e.stopPropagation(); if (e.key == "Enter") await addTodo() }} />
             </div>
             <div className="bg-white shadow overflow-hidden rounded-md">
                 <ul role="list" className="divide-y divide-gray-200">

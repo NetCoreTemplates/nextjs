@@ -1,14 +1,21 @@
 import Link from "next/link"
 import { Icon } from "@iconify/react"
 import { ErrorResponse, errorResponse, errorResponseExcept, ResponseStatus, humanize, toPascalCase } from "@servicestack/client"
-import React, { createContext, FC, SyntheticEvent, useContext, useEffect, useState } from "react"
+import React, {
+    ChangeEventHandler,
+    FC,
+    MouseEventHandler,
+    SyntheticEvent,
+    useContext,
+    useEffect,
+    useState
+} from "react"
 import Router, { NextRouter, useRouter } from "next/router"
 import { ParsedUrlQuery } from "querystring"
+import classNames from "classnames"
 
 import useAuth, { AuthenticatedContext } from "../lib/useAuth"
-import { Routes } from "../lib/gateway"
-import classNames from "classnames";
-import { ST } from "next/dist/shared/lib/utils";
+import { ApiContext, Routes } from "../lib/gateway"
 
 export function getRedirect(query?:ParsedUrlQuery) {    
     let { redirect } = (query ?? Router.query)
@@ -33,6 +40,13 @@ export function ValidateAuth<TOriginalProps extends {}>(Component:React.FC<TOrig
     const compWithProps: React.FC<TOriginalProps & AuthenticatedContext> = (props) => {
         const authProps = useAuth()
         const { auth, signedIn, hasRole } = authProps
+        useEffect(() => {
+            const goTo = shouldRedirect()
+            if (goTo) {
+                Router.replace(goTo)
+            }
+        }, [auth])
+
         redirectTo ??= useRouter().pathname
 
         const shouldRedirect = () => !signedIn
@@ -42,13 +56,6 @@ export function ValidateAuth<TOriginalProps extends {}>(Component:React.FC<TOrig
                 : permission && !hasRole(permission)
                     ? Routes.forbidden()
                     : null;
-
-        useEffect(() => {
-            const goTo = shouldRedirect()
-            if (goTo) {
-                Router.replace(goTo)
-            }
-        }, [auth])
 
         if (shouldRedirect()) {
             return <Redirecting />
@@ -60,16 +67,8 @@ export function ValidateAuth<TOriginalProps extends {}>(Component:React.FC<TOrig
     return compWithProps
 }
 
-type FormState = {
-    responseStatus?: ErrorResponse
-    didSubmit: boolean
-    loading: boolean
-}
-export const FormContext = createContext<FormState>({ loading: false, didSubmit:false })
 export type SuccessContext<T> = { response?:T, router:NextRouter }
 export type SuccessEventHandler<T> = (ctx:SuccessContext<T>) => Promise<any> | void;
-
-FormContext.Consumer
 
 type FormProps = {
     className?: string
@@ -80,46 +79,47 @@ type FormProps = {
 }
 export const Form: FC<FormProps> = (props) => {
     const { className, method, onSubmit, onSuccess, children, ...remaining } = props
-    const [responseStatus, setResponseStatus] = useState<ErrorResponse|undefined>()
+    const [error, setError] = useState<ResponseStatus|undefined>()
     const [loading, setLoading] = useState(false)
-    const [didSubmit, setDidSubmit] = useState(false)
     const router = useRouter()
 
     const handleSubmit = async (e:SyntheticEvent<HTMLFormElement>) => {
         e.preventDefault()
-        setDidSubmit(true)
 
         if (onSubmit) {
             setLoading(true)
             try {
-                setResponseStatus(undefined)
+                setError(undefined)
 
                 let response = await onSubmit(e)
                 if (onSuccess) {
                     onSuccess({ response, router })
                 }
             } catch (e:any) {
-                setResponseStatus(e.responseStatus ?? e)
+                setError(e.responseStatus ?? e)
             } finally {
                 setLoading(false)
             }
         }
     }
-    return (<FormContext.Provider value={{ loading, responseStatus, didSubmit }}>
+    return (<ApiContext.Provider value={{ loading, error }}>
         <form method={method ?? 'POST'} className={className} onSubmit={handleSubmit} {...remaining}>{children}</form>
-    </FormContext.Provider>)
+    </ApiContext.Provider>)
 }
 
 type ErrorSummaryProps = {
+    status?: ResponseStatus
+    className?: string
     except: string | string[]
 }
-export const ErrorSummary: FC<ErrorSummaryProps> = ({ except }) => {
-    const ctx = useContext(FormContext);
-    const status = ctx?.responseStatus;
-    const errorSummary = status ? errorResponseExcept.call(ctx,except) : null;
+export const ErrorSummary: FC<ErrorSummaryProps> = ({ status, className, except }) => {
+    const ctx = new ErrorResponse({
+        responseStatus: status ?? useContext(ApiContext)?.error
+    })
+    const errorSummary = ctx.responseStatus ? errorResponseExcept.call(ctx,except) : null;
     if (!errorSummary) return null;
 
-    return (<div className="bg-red-50 border-l-4 border-red-400 p-4">
+    return (<div className={classNames("bg-red-50 border-l-4 border-red-400 p-4",className)}>
         <div className="flex">
             <div className="flex-shrink-0">
                 <Icon icon="mdi:close-circle" className="h-5 w-5 text-red-500" aria-hidden="true" />
@@ -131,7 +131,7 @@ export const ErrorSummary: FC<ErrorSummaryProps> = ({ except }) => {
     </div>)
 };
 
-type InputProps = {
+type TextInputProps = {
     status?: ResponseStatus
     id: string
     type?: string
@@ -140,7 +140,7 @@ type InputProps = {
     help?: string
     label?: string
 } | any
-export const Input: FC<InputProps> = ({ status, id, type, className, placeholder, help, label, ...remaining }) => {
+export const TextInput: FC<TextInputProps> = ({ status, id, type, className, placeholder, help, label, ...remaining }) => {
     
     const useType = type ?? 'text'
     const useLabel = label ?? humanLabel(id)
@@ -148,7 +148,7 @@ export const Input: FC<InputProps> = ({ status, id, type, className, placeholder
     const useHelp = help ?? ''
     
     const ctx = new ErrorResponse({ 
-        responseStatus: status ?? useContext(FormContext)?.responseStatus 
+        responseStatus: status ?? useContext(ApiContext)?.error 
     })
     const errorField = id && ctx.responseStatus && errorResponse.call(ctx,id)
     const hasErrorField = errorField != null
@@ -180,6 +180,89 @@ export const Input: FC<InputProps> = ({ status, id, type, className, placeholder
       </div>)
 }
 
+type TextAreaInputProps = {
+    status?: ResponseStatus
+    id: string
+    type?: string
+    className?: string
+    placeholder?: string
+    help?: string
+    label?: string
+} | any
+export const TextAreaInput: FC<TextAreaInputProps> = ({ status, id, className, placeholder, help, label, ...remaining }) => {
+
+    const useLabel = label ?? humanLabel(id)
+    const usePlaceholder = placeholder ?? useLabel
+    const useHelp = help ?? ''
+
+    const ctx = new ErrorResponse({
+        responseStatus: status ?? useContext(ApiContext)?.error
+    })
+    const errorField = id && ctx.responseStatus && errorResponse.call(ctx,id)
+    const hasErrorField = errorField != null
+
+    const cssClass = (validCls?:string, invalidCls?:string) => [!hasErrorField ? validCls : invalidCls, className]
+
+    if (!errorField && useHelp) {
+        remaining['aria-describedby'] = `${id}-description`
+    }
+
+    return (<div>
+        {!useLabel ? null : <label htmlFor={id} className="block text-sm font-medium text-gray-700">{useLabel}</label>}
+        <div className="mt-1 relative rounded-md shadow-sm">
+            <textarea className={classNames(['shadow-sm block w-full sm:text-sm rounded-md', ...cssClass(
+                'text-gray-900 focus:ring-indigo-500 focus:border-indigo-500 border-gray-300',
+                'text-red-900 focus:ring-red-500 focus:border-red-500 border-red-300')])}
+                   id={id} name={id} placeholder={usePlaceholder} {...remaining}/>
+        </div>
+        {hasErrorField
+            ? <p className="mt-2 text-sm text-red-500" id={`${id}-error`}>{errorField}</p>
+            : useHelp
+                ? <p id={`${id}-description`} className="text-gray-500">{useHelp}</p> : null}
+    </div>)
+}
+
+type SelectInputProps = {
+    status?: ResponseStatus
+    id: string
+    className?: string
+    placeholder?: string
+    label?: string
+    options?: any
+    values?: string[]
+} | any
+export const SelectInput: FC<SelectInputProps> = ({ status, id, className, placeholder, help, label, options, values, ...remaining }) => {
+
+    const useLabel = label ?? humanLabel(id)
+    const usePlaceholder = placeholder ?? useLabel
+
+    const ctx = new ErrorResponse({
+        responseStatus: status ?? useContext(ApiContext)?.error
+    })
+    const errorField = id && ctx.responseStatus && errorResponse.call(ctx,id)
+    const hasErrorField = errorField != null
+
+    const cssClass = (validCls?:string, invalidCls?:string) => [!hasErrorField ? validCls : invalidCls, className]
+    
+    const kvpValues = () => values
+        ? values.map((x:string) => ({ key:x, value:x }))
+        : options
+            ? Object.keys(options).map(key => ({ key, value:options[key] }))
+            : []
+
+    return (<>
+        {!useLabel ? null : <label htmlFor={id} className="block text-sm font-medium text-gray-700">{useLabel}</label>}
+        <select className={classNames(['mt-1 block w-full pl-3 pr-10 py-2 text-base focus:outline-none border-gray-300 sm:text-sm rounded-md', ...cssClass(
+            'text-gray-900 focus:ring-indigo-500 focus:border-indigo-500',
+            'text-red-900 focus:ring-red-500 focus:border-red-500')])}
+                id={id} name={id} placeholder={usePlaceholder} {...remaining}>
+            {kvpValues().map(({key,value}:{key:string,value:string}) => <option key={key} value={key}>{value}</option>)}
+        </select>
+        {!hasErrorField ? null : <p className="mt-2 text-sm text-red-500" id={`${id}-error`}>{errorField}</p>}
+    </>)
+}
+
+
 type CheckboxProps = {
     status?: ResponseStatus
     id: string
@@ -191,7 +274,7 @@ export const Checkbox: FC<CheckboxProps> = ({ status, id, label, help, ...remain
     const useLabel = label ?? humanLabel(id)
 
     const ctx = new ErrorResponse({
-        responseStatus: status ?? useContext(FormContext)?.responseStatus
+        responseStatus: status ?? useContext(ApiContext)?.error
     })
     const errorField = id && ctx.responseStatus && errorResponse.call(ctx,id)
     const hasErrorField = errorField != null
@@ -230,22 +313,74 @@ export const PrimaryButton: FC<ButtonProps> = (props) => {
         ? <Link href={href}><a className={cls} {...remaining}>{children}</a></Link>
         : <button type={type ?? "submit"} className={cls} {...remaining}>{children}</button>
 }
-export const Button: FC<ButtonProps> = (props) => {
+export const SecondaryButton: FC<ButtonProps> = (props) => {
     const { type, className, href, children, ...remaining } = props;
     let cls = ["bg-white py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500",className].join(' ');
+    return href
+        ? <Link href={href}><a className={cls} {...remaining}>{children}</a></Link>
+        : <button type={type ?? "button"} className={cls} {...remaining}>{children}</button>
+}
+export const OutlineButton: FC<ButtonProps> = (props) => {
+    const { type, className, href, children, ...remaining } = props;
+    let cls = ["inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-base font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500",className].join(' ');
     return href
         ? <Link href={href}><a className={cls} {...remaining}>{children}</a></Link>
         : <button type={type ?? "submit"} className={cls} {...remaining}>{children}</button>
 }
 
+type CloseButtonProps = {
+    onClose: () => void
+}
+export const CloseButton: FC<CloseButtonProps> = ({ onClose }) => {
+    return (<div className="hidden sm:block absolute top-0 right-0 pt-4 pr-4">
+        <button type="button" onClick={e => onClose()}
+            className="bg-white rounded-md text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+        <span className="sr-only">Close</span>
+        <svg className="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+             aria-hidden="true">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"/>
+        </svg>
+    </button>
+</div>)
+}
+
+type ConfirmDeleteProps = {
+    onDelete: () => void
+    children: React.ReactNode
+}
+export const ConfirmDelete: FC<ConfirmDeleteProps> = ({ onDelete, children, ...remaining }) => {
+    
+    const [deleteConfirmed, setDeleteConfirmed] = useState<boolean>(false)
+    
+    const onChange:ChangeEventHandler<HTMLInputElement> = (e) => setDeleteConfirmed(e.target.checked)
+
+    const onClick:MouseEventHandler<HTMLSpanElement> = (e) => {
+        e.preventDefault()
+        if (deleteConfirmed) onDelete()
+    }
+
+    const cls = ["select-none inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white",
+        deleteConfirmed ? "cursor-pointer bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500" : "bg-red-400"].join(' ')
+
+    return (<>
+        <input id="confirmDelete" type="checkbox" className="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded"
+               checked={deleteConfirmed} onChange={onChange} />
+        <label htmlFor="confirmDelete" className="mx-2 select-none">confirm</label>
+        <span onClick={onClick} className={cls} {...remaining}>
+            {children}
+        </span>
+    </>)
+}
+
 type LoadingProps = {
     className?: string
+    loading?: boolean
     icon?: boolean
     text?: string
 }
 export const FormLoading: FC<LoadingProps> = (props) => {
-    const ctx = useContext(FormContext)
-    if (!ctx.loading) return null
+    const loading = props.loading ?? useContext(ApiContext)?.loading
+    if (!loading) return null
     return Loading(props)
 }
 
