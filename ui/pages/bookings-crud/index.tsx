@@ -128,7 +128,7 @@ function Index () {
             <SrcLink href="https://github.com/NetCoreTemplates/nextjs/blob/main/api/MyApp.ServiceModel/Bookings.cs">
                 <Icon icon="mdi:code-tags" className="w-5 h-5 inline" />
             </SrcLink>
-            <SrcLink href="https://github.com/NetCoreTemplates/nextjs/blob/main/ui/src/pages/bookings-crud/index.tsx">
+            <SrcLink href="https://github.com/NetCoreTemplates/nextjs/blob/main/ui/pages/bookings-crud/index.tsx">
                 <Icon icon="logos:vue" className="w-5 h-5 inline" />
             </SrcLink>
         </div>

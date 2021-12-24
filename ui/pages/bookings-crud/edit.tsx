@@ -112,7 +112,7 @@ function Edit ({ className, id, onDone }:CreateProps) {
                     <div>
                         <ConfirmDelete onDelete={onDelete}>Delete</ConfirmDelete>
                     </div>
-                    <SrcLink href="https://github.com/NetCoreTemplates/nextjs/blob/main/ui/src/pages/bookings-crud/edit.tsx">
+                    <SrcLink href="https://github.com/NetCoreTemplates/nextjs/blob/main/ui/pages/bookings-crud/edit.tsx">
                         <Icon icon="logos:vue" className="w-5 h-5 inline" />
                     </SrcLink>
                     <div><PrimaryButton>Update Booking</PrimaryButton></div>

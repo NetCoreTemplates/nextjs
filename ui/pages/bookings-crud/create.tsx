@@ -99,7 +99,7 @@ function Create ({ className, onDone }:CreateProps) {
 
     <div className="mt-4 px-4 py-3 bg-gray-50 text-right sm:px-6">
         <div className="flex justify-between items-center">
-            <SrcLink href="https://github.com/NetCoreTemplates/nextjs/blob/main/ui/src/pages/bookings-crud/edit.tsx">
+            <SrcLink href="https://github.com/NetCoreTemplates/nextjs/blob/main/ui/pages/bookings-crud/create.tsx">
                 <Icon icon="logos:vue" className="w-5 h-5 inline" />
             </SrcLink>
             <div><PrimaryButton>Create Booking</PrimaryButton></div>
