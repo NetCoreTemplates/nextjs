@@ -4,6 +4,7 @@
 using System;
 using ServiceStack;
 using ServiceStack.DataAnnotations;
+using ServiceStack.Html;
 
 namespace MyApp.ServiceModel;
 
@@ -31,10 +32,11 @@ public enum RoomType
 }
 
 [Tag("bookings"), Description("Find Bookings")]
+[Notes("See how to quickly create a <a class='svg-external' target='_blank' href='https://youtu.be/nhc4MZufkcM'>C# Bookings App from Scratch</a>")]
 [Route("/bookings", "GET")]
 [Route("/bookings/{Id}", "GET")]
 [AutoApply(Behavior.AuditQuery)]
-public class QueryBookings : QueryDb<Booking>
+public class QueryBookings : QueryDb<Booking> 
 {
     public int? Id { get; set; }
 }
@@ -60,7 +62,7 @@ public class CreateBooking : ICreateDb<Booking>, IReturn<IdResponse>
     public decimal Cost { get; set; }
     public DateTime BookingStartDate { get; set; }
     public DateTime? BookingEndDate { get; set; }
-    [Input(Type = "textarea")]
+    [Input(Type = Input.Types.Textarea)]
     public string Notes { get; set; }
 }
 
@@ -80,7 +82,7 @@ public class UpdateBooking : IPatchDb<Booking>, IReturn<IdResponse>
     public decimal? Cost { get; set; }
     public DateTime? BookingStartDate { get; set; }
     public DateTime? BookingEndDate { get; set; }
-    [Input(Type = "textarea")]
+    [Input(Type = Input.Types.Textarea)]
     public string Notes { get; set; }
     public bool? Cancelled { get; set; }
 }
