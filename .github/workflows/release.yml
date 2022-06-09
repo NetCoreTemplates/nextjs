@@ -32,15 +32,18 @@ jobs:
         with:
           ref: refs/tags/${{ github.event.inputs.version }}
 
-      - name: Create Prod API and CDN URLs
-        run: |
-          echo "deploy_api=${{ secrets.DEPLOY_API }}" >> $GITHUB_ENV
-          echo "deploy_cdn=${{ secrets.DEPLOY_CDN }}" >> $GITHUB_ENV
-
       - name: Replace Prod API and CDN URLs
+        env:
+          deploy_api: ${{ secrets.DEPLOY_API }}
+          deploy_cdn: ${{ secrets.DEPLOY_CDN }}
         run: |
-          sed -i 's/$DEPLOY_API/${{ env.deploy_api }}/g' ./ui/next.config.js
-          [[ -f ./ui/post.build.js ]] && sed -i 's/$DEPLOY_API/${{ env.deploy_api }}/g;s/$DEPLOY_CDN/${{ env.deploy_cdn }}/g' ./ui/post.build.js
+          if [ -e ./.deploy/ci.prebuild.sh ]
+          then
+            chmod +x ./.deploy/ci.prebuild.sh
+            ./.deploy/ci.prebuild.sh
+          else
+            echo "Skipping CI prebuild"
+          fi
 
       - name: Setup node
         uses: actions/setup-node@v1
