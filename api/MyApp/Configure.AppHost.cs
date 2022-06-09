@@ -8,6 +8,11 @@ namespace MyApp;
 
 public class AppHost : AppHostBase, IHostingStartup
 {
+    public void Configure(IWebHostBuilder builder) => builder
+        .ConfigureServices((context, services) => {
+            services.ConfigureNonBreakingSameSiteCookies(context.HostingEnvironment);
+        });
+
     public AppHost() : base("MyApp", typeof(MyServices).Assembly) {}
 
     public override void Configure(Container container)
@@ -30,12 +35,4 @@ public class AppHost : AppHostBase, IHostingStartup
             feature.Info.BrandIcon.Cls = "inline-block w-8 h-8 mr-2";
         });
     }
-
-    public void Configure(IWebHostBuilder builder) => builder
-        .ConfigureServices((context, services) => 
-            services.ConfigureNonBreakingSameSiteCookies(context.HostingEnvironment))
-        .Configure(app => {
-            if (!HasInit) 
-                app.UseServiceStack(new AppHost());
-        });
 }

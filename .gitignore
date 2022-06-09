@@ -4,6 +4,8 @@
 wwwroot/
 *.user
 #sqlite
+.vs/
+*.db
 *.db
 *.db-shm
 *.db-wal
