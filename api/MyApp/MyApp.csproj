@@ -14,6 +14,10 @@
     <Folder Include="App_Data\" />
     <Folder Include="wwwroot\" />
   </ItemGroup>
+
+  <Target Name="CreateAppDataFolder" AfterTargets="AfterPublish">
+    <MakeDir Directories="$(PublishDir)App_Data" Condition="!Exists('$(PublishDir)App_Data')" />
+  </Target>
   
   <ItemGroup>
     <PackageReference Include="ServiceStack" Version="6.*" />
