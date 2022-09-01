@@ -6,6 +6,7 @@ using ServiceStack.OrmLite;
 
 namespace MyApp;
 
+// Database can be created with "dotnet run --AppTasks=migrate"   
 public class ConfigureDb : IHostingStartup
 {
     public void Configure(IWebHostBuilder builder) => builder
@@ -13,7 +14,6 @@ public class ConfigureDb : IHostingStartup
             context.Configuration.GetConnectionString("DefaultConnection") ?? "App_Data/db.sqlite",
             SqliteDialect.Provider)))
         .ConfigureAppHost(appHost => {
-            // Create non-existing Table and add Seed Data Example
             using var db = appHost.Resolve<IDbConnectionFactory>().Open();                
         });
 }
