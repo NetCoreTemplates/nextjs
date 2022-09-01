@@ -7,6 +7,7 @@ using MyApp.Migrations;
 
 namespace MyApp;
 
+// Code-First DB Migrations: https://docs.servicestack.net/ormlite/db-migrations
 public class ConfigureDbMigrations : IHostingStartup
 {
     public void Configure(IWebHostBuilder builder) => builder

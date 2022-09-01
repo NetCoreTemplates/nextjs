@@ -1,4 +1,3 @@
-using ServiceStack;
 using ServiceStack.Data;
 using ServiceStack.OrmLite;
 
@@ -12,8 +11,5 @@ public class ConfigureDb : IHostingStartup
     public void Configure(IWebHostBuilder builder) => builder
         .ConfigureServices((context,services) => services.AddSingleton<IDbConnectionFactory>(new OrmLiteConnectionFactory(
             context.Configuration.GetConnectionString("DefaultConnection") ?? "App_Data/db.sqlite",
-            SqliteDialect.Provider)))
-        .ConfigureAppHost(appHost => {
-            using var db = appHost.Resolve<IDbConnectionFactory>().Open();                
-        });
+            SqliteDialect.Provider)));
 }
