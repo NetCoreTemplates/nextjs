@@ -5,10 +5,10 @@ wwwroot/
 *.user
 #sqlite
 .vs/
-*.db
-*.db
-*.db-shm
-*.db-wal
+*.sqlite
+*.sqlite
+*.sqlite-shm
+*.sqlite-wal
 
 # dependencies
 /node_modules

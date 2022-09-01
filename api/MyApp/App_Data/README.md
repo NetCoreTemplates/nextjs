@@ -1,1 +1,1 @@
-﻿Folder present for `app.db` file to save and for docker volume to be mounted.
+﻿Folder present for `db.sqlite` file to save and for docker volume to be mounted.
