@@ -49,9 +49,9 @@ jobs:
           fi
 
       - name: Setup node
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v3
         with:
-          node-version: 16
+          node-version: lts
 
       # Build UI which is copied to local server wwwroot directory to match content
       - name: Install and build npm
