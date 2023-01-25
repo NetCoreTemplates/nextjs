@@ -18,6 +18,7 @@ public class AppHost : AppHostBase, IHostingStartup
     public override void Configure(Container container)
     {
         SetConfig(new HostConfig {
+            UseSameSiteCookies = !HostingEnvironment.IsDevelopment()
         });
 
         Plugins.Add(new SpaFeature {

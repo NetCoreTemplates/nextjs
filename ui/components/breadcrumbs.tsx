@@ -13,11 +13,9 @@ export default function Breadcrumbs({ className, name, href, current } : Props) 
         current = true;
     }
     let crumb = href 
-        ? (<Link href={href}>
-            <a className="ml-1 sm:ml-4 text-2xl text-gray-500 hover:text-gray-700" aria-current={current ? 'page' : undefined}>
-                {name}
-            </a>
-        </Link>)
+        ? (<Link href={href} className="ml-1 sm:ml-4 text-2xl text-gray-500 hover:text-gray-700" aria-current={current ? 'page' : undefined}>
+            {name}
+           </Link>)
         : (<span className="ml-1 sm:ml-4 text-3xl text-gray-700" aria-current={current ? 'page' : undefined}>
             {name}</span>);
 
@@ -26,11 +24,9 @@ export default function Breadcrumbs({ className, name, href, current } : Props) 
       <ol role="list" className="flex items-center sm:space-x-4">
         <li>
           <div>
-            <Link href="/">
-              <a className="text-gray-600 hover:text-gray-700">
-                  <Icon icon="mdi:home" className="flex-shrink-0 h-8 w-8" aria-hidden="true" />
+            <Link href="/" className="text-gray-600 hover:text-gray-700">
+                <Icon icon="mdi:home" className="flex-shrink-0 h-8 w-8" aria-hidden="true" />
                 <span className="sr-only">Home</span>
-              </a>
             </Link>
           </div>
         </li>
