@@ -95,6 +95,8 @@ jobs:
 
       # Deploy UI to GitHub Pages
       - name: Deploy to GitHub Pages
+        env:
+          deploy_cdn: ${{ secrets.DEPLOY_CDN }}
         if: ${{ env.deploy_cdn != '' }}
         uses: peaceiris/actions-gh-pages@v3
         with:
