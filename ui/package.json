@@ -11,7 +11,8 @@
     "postinstall": "cd ../api/MyApp && dotnet run --AppTasks=migrate",
     "migrate": "cd ../api/MyApp && dotnet run MyApp.csproj --AppTasks=migrate",
     "revert:last": "cd ../api/MyApp && dotnet run --AppTasks=migrate.revert:last",
-    "revert:all": "cd ../api/MyApp && dotnet run --AppTasks=migrate.revert:all"
+    "revert:all": "cd ../api/MyApp && dotnet run --AppTasks=migrate.revert:all",
+    "rerun:last": "npm run revert:last && npm run migrate"
   },
   "dependencies": {
     "@mdx-js/loader": "^2.2.1",
