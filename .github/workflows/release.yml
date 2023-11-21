@@ -143,7 +143,6 @@ jobs:
           echo "IMAGE_REPO=${{ env.image_repository_name }}" >> .env
           echo "RELEASE_VERSION=${{ env.TAG_NAME }}" >> .env
 
-      # Copy only the docker-compose.yml to remote server home folder
       - name: copy files to target server via scp
         uses: appleboy/scp-action@v0.1.3
         with:
@@ -151,7 +150,8 @@ jobs:
           username: ${{ secrets.DEPLOY_USERNAME }}
           port: 22
           key: ${{ secrets.DEPLOY_KEY }}
-          source: "./docker-compose.yml,./docker-compose.prod.yml,./.env"
+          strip_components: 2
+          source: "./.deploy/docker-compose.yml,./.deploy/.env"
           target: "~/.deploy/${{ github.event.repository.name }}/"
 
       - name: Run remote db migrations
@@ -168,8 +168,8 @@ jobs:
           script: |
             echo $APPTOKEN | docker login ghcr.io -u $USERNAME --password-stdin
             cd ~/.deploy/${{ github.event.repository.name }}
-            docker compose -f ./docker-compose.yml -f ./docker-compose.prod.yml pull
-            docker compose -f ./docker-compose.yml -f ./docker-compose.prod.yml up app-migration
+            docker compose pull
+            docker compose up app-migration
 
       # Deploy Docker image with your application using `docker compose up` remotely
       - name: remote docker-compose up via ssh
@@ -186,5 +186,5 @@ jobs:
           script: |
             echo $APPTOKEN | docker login ghcr.io -u $USERNAME --password-stdin
             cd ~/.deploy/${{ github.event.repository.name }}
-            docker compose -f ./docker-compose.yml -f ./docker-compose.prod.yml pull
-            docker compose -f ./docker-compose.yml -f ./docker-compose.prod.yml up app -d
+            docker compose pull
+            docker compose up app -d
