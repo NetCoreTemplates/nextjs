@@ -52,7 +52,7 @@ public class ConfigureAuthRepository : IHostingStartup
 {
     public void Configure(IWebHostBuilder builder) => builder
         .ConfigureServices(services => services.AddSingleton<IAuthRepository>(c =>
-            new OrmLiteAuthRepository<AppUser, UserAuthDetails>(c.Resolve<IDbConnectionFactory>()) {
+            new OrmLiteAuthRepository<AppUser, UserAuthDetails>(c.GetRequiredService<IDbConnectionFactory>()) {
                 UseDistinctRoleTables = true
             }))
         .ConfigureAppHost(appHost => {
@@ -61,46 +61,6 @@ public class ConfigureAuthRepository : IHostingStartup
             CreateUser(authRepo, "admin@email.com", "Admin User", "p@55wOrd", roles: new[] { RoleNames.Admin });
             CreateUser(authRepo, "manager@email.com", "The Manager", "p@55wOrd", roles: new[] { "Employee", "Manager" });
             CreateUser(authRepo, "employee@email.com", "A Employee", "p@55wOrd", roles: new[] { "Employee" });
-
-            // Removing unused UserName in Admin Users UI 
-            appHost.Plugins.Add(new ServiceStack.Admin.AdminUsersFeature {
-                
-                // Show custom fields in Search Results
-                QueryUserAuthProperties = new() {
-                    nameof(AppUser.Id),
-                    nameof(AppUser.Email),
-                    nameof(AppUser.DisplayName),
-                    nameof(AppUser.Department),
-                    nameof(AppUser.CreatedDate),
-                    nameof(AppUser.LastLoginDate),
-                },
-
-                QueryMediaRules = new()
-                {
-                    MediaRules.ExtraSmall.Show<AppUser>(x => new { x.Id, x.Email, x.DisplayName }),
-                    MediaRules.Small.Show<AppUser>(x => x.Department),
-                },
-
-                // Add Custom Fields to Create/Edit User Forms
-                FormLayout = new() {
-                    Input.For<AppUser>(x => x.Email),
-                    Input.For<AppUser>(x => x.DisplayName),
-                    Input.For<AppUser>(x => x.Company),
-                    Input.For<AppUser>(x => x.Department, c => c.FieldsPerRow(2)),
-                    Input.For<AppUser>(x => x.PhoneNumber, c => {
-                        c.Type = Input.Types.Tel;
-                        c.FieldsPerRow(2);
-                    }),
-                    Input.For<AppUser>(x => x.Nickname, c => {
-                        c.Help = "Public alias (3-12 lower alpha numeric chars)";
-                        c.Pattern = "^[a-z][a-z0-9_.-]{3,12}$";
-                        //c.Required = true;
-                    }),
-                    Input.For<AppUser>(x => x.ProfileUrl, c => c.Type = Input.Types.Url),
-                    Input.For<AppUser>(x => x.IsArchived), Input.For<AppUser>(x => x.ArchivedDate),
-                }
-            });
-
         },
         afterConfigure: appHost => {
             appHost.AssertPlugin<AuthFeature>().AuthEvents.Add(new AppUserAuthEvents());

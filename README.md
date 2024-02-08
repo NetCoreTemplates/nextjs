@@ -1,9 +1,9 @@
-# .NET 6.0 Next.js + Tailwindcss Template
+# .NET 8.0 Next.js + Tailwindcss Template
 
-[![](https://raw.githubusercontent.com/ServiceStack/Assets/master/csharp-templates/nextjs.png)](https://nextjs.jamstacks.net)
-[![](https://raw.githubusercontent.com/ServiceStack/Assets/master/csharp-templates/start/nextjs.png)](https://nextjs.jamstacks.net)
+![](https://raw.githubusercontent.com/ServiceStack/Assets/master/csharp-templates/nextjs.png)
+![](https://raw.githubusercontent.com/ServiceStack/Assets/master/csharp-templates/start/nextjs.png)
 
-> Browse [source code](https://github.com/NetCoreTemplates/nextjs), view live demo [nextjs-api.jamstacks.net](https://nextjs.jamstacks.net) and install with [x new](https://docs.servicestack.net/dotnet-new):
+> Browse [source code](https://github.com/NetCoreTemplates/nextjs) and install with [x new](https://docs.servicestack.net/dotnet-new):
 
 This template should help get you started developing with Vue 3 and Typescript in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
 
@@ -29,10 +29,7 @@ $ cd api\ProjectName
 $ dotnet watch
 ```
 
-For more, see development workflow docs for 
-[JetBrains Rider](https://nextjs.jamstacks.net/posts/rider)
-and
-[VS Code / VS .NET](https://nextjs.jamstacks.net/posts/vs)
+For more, see development workflow docs for **JetBrains Rider** and **VS Code / VS .NET**
 
 #### Use npm dev server for UI Development
 

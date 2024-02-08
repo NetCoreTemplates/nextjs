@@ -11,19 +11,18 @@ public class ConfigureAutoQuery : IHostingStartup
         .ConfigureServices(services => {
             // Enable Audit History
             services.AddSingleton<ICrudEvents>(c =>
-                new OrmLiteCrudEvents(c.Resolve<IDbConnectionFactory>()));
-        })
-        .ConfigureAppHost(appHost => {
-
+                new OrmLiteCrudEvents(c.GetRequiredService<IDbConnectionFactory>()));
+            
             // For TodosService
-            appHost.Plugins.Add(new AutoQueryDataFeature());
+            services.AddPlugin(new AutoQueryDataFeature());
 
             // For Bookings https://github.com/NetCoreApps/BookingsCrud
-            appHost.Plugins.Add(new AutoQueryFeature {
+            services.AddPlugin(new AutoQueryFeature {
                 MaxLimit = 1000,
                 //IncludeTotal = true,
             });
-
+        })
+        .ConfigureAppHost(appHost => {
             appHost.Resolve<ICrudEvents>().InitSchema();
         });
 }
