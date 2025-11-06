@@ -1,16 +1,38 @@
-@tailwind base;
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+@plugin "@tailwindcss/forms";
 
-/* Write your own custom base styles here */
+@theme {
+  /* Custom colors */
+  --color-accent-1: #fafafa;
+  --color-accent-2: #eaeaea;
+  --color-accent-7: #333;
+  --color-success: #0070f3;
+  --color-cyan: #79ffe1;
 
-/* Start purging... */
-@tailwind components;
-/* Stop purging. */
+  /* Custom spacing */
+  --spacing-28: 7rem;
 
-/* Write you own custom component styles here */
+  /* Custom letter spacing */
+  --letter-spacing-tighter: -0.04em;
 
-/* Start purging... */
-@tailwind utilities;
-/* Stop purging. */
+  /* Custom line heights */
+  --line-height-tight: 1.2;
 
-/* Your own custom utilities */
+  /* Custom font sizes */
+  --font-size-5xl: 2.5rem;
+  --font-size-6xl: 2.75rem;
+  --font-size-7xl: 4.5rem;
+  --font-size-8xl: 6.25rem;
+
+  /* Custom box shadows */
+  --shadow-small: 0 5px 10px rgba(0, 0, 0, 0.12);
+  --shadow-medium: 0 8px 30px rgba(0, 0, 0, 0.12);
+}
+
+/* Custom base styles */
+
+/* Custom component styles */
+
+/* Custom utilities */
 

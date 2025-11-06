@@ -67,7 +67,7 @@ export function useClient() : ClientContext {
             setError({ fieldName, message, errorCode })
         } else {
             let copy = new ResponseStatus(error)
-            copy.errors = [...(copy.errors ?? []).filter(x => x.fieldName.toLowerCase() != fieldName.toLowerCase()),
+            copy.errors = [...(copy.errors ?? []).filter(x => x.fieldName?.toLowerCase() != fieldName.toLowerCase()),
                 new ResponseError({ fieldName, message, errorCode })]
         }
     }

@@ -31,6 +31,8 @@ const withMDX = nextMDX({
  **/
 export default withMDX({
     pageExtensions: ['tsx','mdx','md'],
+    output: 'export',
+    distDir: '../api/MyApp/wwwroot',
 
     async rewrites() {
         let rules = [];
