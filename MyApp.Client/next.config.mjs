@@ -21,6 +21,9 @@ const nextConfig = {
     // Enable static export (replaces next export command)
     output: isProd ? 'export' : undefined,
 
+    // Change output directory from 'out' to 'dist'
+    distDir: 'dist',
+
     env: {
         apiBaseUrl: API_URL
     },
