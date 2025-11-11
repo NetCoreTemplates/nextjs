@@ -1,8 +1,5 @@
 import createMDX from "@next/mdx"
 
-// TODO: replace with production URL of .NET App
-const DEPLOY_API = 'https://$DEPLOY_API' // e.g. 'https://nextjs-api.jamstacks.net'
-
 const target = process.env.ASPNETCORE_HTTPS_PORT ? `https://localhost:${process.env.ASPNETCORE_HTTPS_PORT}` :
     process.env.ASPNETCORE_URLS ? process.env.ASPNETCORE_URLS.split(';')[0] : 'https://localhost:5001';
 
@@ -10,7 +7,12 @@ const isProd = process.env.NODE_ENV === 'production'
 const buildLocal = process.env.MODE === 'local'
 const API_URL = isProd ? DEPLOY_API : (buildLocal ? '' : target)
 
-console.log('next.config.mjs', process.env.NODE_ENV, buildLocal, API_URL)
+// TODO: replace with production URL of .NET App, e.g. https://nextjs.web-templates.io
+const DEPLOY_API = process.env.KAMAL_DEPLOY_HOST 
+    ? `https://${process.env.KAMAL_DEPLOY_HOST}` 
+    : target
+
+console.log('next.config.mjs', process.env.NODE_ENV, buildLocal, API_URL, process.env.KAMAL_DEPLOY_HOST)
 
 /**
  * @type {import('next').NextConfig}

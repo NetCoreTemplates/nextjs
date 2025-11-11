@@ -85,35 +85,3 @@ excellent multi-terminal support to run `$ dotnet watch` and `$ npm run dev` fro
 
 ![](https://github.com/ServiceStack/docs/raw/master/docs/images/spa/vue-vite-rider-terminals.png)
 
-### Deploying to Production
-
-When you're ready to deploy your App you can create a production build with:
-
-```bash
-$ npm run publish
-```
-
-Which will generate production builds of your C# projects and npm projects with its static generated UI assets
-written to `/wwwroot` to be deployed together with your complete .NET App.
-
-Our recommendation for the best possible responsive UX is to deploy your App's `/wwwwroot` static assets to a CDN in
-order for the initial load of your App to be downloaded from nearby CDN edge caches.
-
-To do this configure the production url the UI should use for all its `/api` Ajax requests by modifying
-`DEPLOY_API` in your `next.config.ts`:
-
-```csharp
-const DEPLOY_API = 'https://$DEPLOY_API'
-```
-
-This template also includes the necessary GitHub Actions to deploy this Apps production static assets to GitHub Pages CDN,
-for more info, checkout [GitHub Actions Deployments](/posts/deploy).
-
-### Get Started
-
-Driven by the static typing benefits of TypeScript, React bundles full 
-[Type Definitions with their libraries](https://reactjs.org/docs/static-type-checking.html#type-definitions)
-that development IDEs like Rider take full advantage of that's used to power its type-safe & productive intelli-sense dev UX.
-
-If you're new to React a good place to start is
-[React Getting Started](https://reactjs.org/docs/getting-started.html).
