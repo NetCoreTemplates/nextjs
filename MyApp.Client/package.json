@@ -4,8 +4,8 @@
   "scripts": {
     "dev": "node server.js",
     "dtos": "cd lib && npx get-dtos ts",
-    "build": "next build && cp -r out/* ../MyApp/wwwroot/",
-    "build:local": "cross-env NODE_ENV=development MODE=local next build && cp -r out/* ../MyApp/wwwroot/",
+    "build": "next build",
+    "build:local": "cross-env NODE_ENV=development MODE=local next build",
     "publish": "npm run build && dotnet publish ../MyApp/MyApp.csproj -c Release",
     "start": "next start",
     "typecheck": "tsc",
