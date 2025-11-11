@@ -1,0 +1,35 @@
+name: Build
+
+on:
+  pull_request: {}
+  push:
+    branches:
+      - '**'        # matches every branch
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v5
+
+      - name: Setup dotnet
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: 8.0.x
+
+      - name: build
+        run: dotnet build
+        working-directory: .
+
+      - name: test
+        run: |
+          dotnet test
+          if [ $? -eq 0 ]; then
+            echo TESTS PASSED
+          else
+            echo TESTS FAILED
+            exit 1
+          fi
+        working-directory: ./MyApp.Tests
+

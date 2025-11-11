@@ -1,6 +1,5 @@
 {
   "type": "module",
-  "version": "0.0.1",
   "private": true,
   "scripts": {
     "dev": "node server.js",
@@ -12,9 +11,7 @@
     "typecheck": "tsc",
     "test": "vitest",
     "test:ui": "vitest --ui",
-    "test:run": "vitest run",
-    "bump": "npm version patch && git push origin main --follow-tags",
-    "release": "gh release create v$(node -p \"require('./package.json').version\") --title v$(node -p \"require('./package.json').version\") --generate-notes"
+    "test:run": "vitest run"
   },
   "dependencies": {
     "@mdx-js/loader": "^3.1.1",
