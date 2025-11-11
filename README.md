@@ -1,4 +1,4 @@
-# .NET 8.0 Next.js + Tailwindcss Template
+# .NET 8.0 Next.js + Tailwindcss ASP.NET Identity Auth Template
 
 ![](https://raw.githubusercontent.com/ServiceStack/Assets/master/csharp-templates/nextjs.png)
 ![](https://raw.githubusercontent.com/ServiceStack/Assets/master/csharp-templates/start/nextjs.png)
