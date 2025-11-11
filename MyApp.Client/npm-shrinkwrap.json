@@ -1,5 +1,6 @@
 {
   "name": "MyApp.Client",
+  "version": "0.0.1",
   "lockfileVersion": 2,
   "requires": true,
   "packages": {
@@ -24,7 +25,8 @@
         "remark-parse": "^11.0.0",
         "remark-rehype": "^11.1.2",
         "swr": "^2.3.6",
-        "unified": "^11.0.5"
+        "unified": "^11.0.5",
+        "unist-util-visit": "^5.0.0"
       },
       "devDependencies": {
         "@tailwindcss/forms": "^0.5.10",
@@ -41,8 +43,7 @@
         "tailwindcss": "^4.1.17",
         "typescript": "^5.9.3",
         "vitest": "^4.0.8"
-      },
-      "version": "0.0.1"
+      }
     },
     "node_modules/@acemir/cssom": {
       "version": "0.9.23",
@@ -11629,6 +11630,5 @@
       "resolved": "https://registry.npmjs.org/zwitch/-/zwitch-2.0.4.tgz",
       "integrity": "sha512-bXE4cR/kVZhKZX/RjPEflHaKVhUVl85noU3v6b8apfQEc1x4A+zBxjZ4lN8LqGd6WZ3dl98pY4o717VFmoPp+A=="
     }
-  },
-  "version": "0.0.1"
+  }
 }
