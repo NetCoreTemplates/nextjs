@@ -9,15 +9,6 @@ function Index() {
     const { currency } = useFormatters()
     const [coupon, setCoupon] = useState<any>(null)
 
-    useEffect(() => {
-        console.log('columnSlots type:', typeof columnSlots)
-        console.log('columnSlots keys:', Object.keys(columnSlots))
-        console.log('columnSlots:', columnSlots)
-        console.log('headerSlots type:', typeof headerSlots)
-        console.log('headerSlots keys:', Object.keys(headerSlots))
-        console.log('headerSlots:', headerSlots)
-    }, [])
-
     return (<Page title="Bookings CRUD (Custom Columns)" className="max-w-screen-lg">
 
         <div className="mb-4 flex justify-end">
