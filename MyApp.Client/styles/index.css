@@ -1,0 +1,267 @@
+@import "tailwindcss";
+@source "../node_modules/@servicestack/react/dist/servicestack-react.mjs";
+
+@variant dark (.dark &);
+
+/* Import Tailwind plugins */
+@plugin "@tailwindcss/typography";
+@plugin "@tailwindcss/forms";
+
+/* Custom theme configuration */
+@theme {
+  /* Custom colors */
+  --color-accent-1: #fafafa;
+  --color-accent-2: #eaeaea;
+  --color-accent-7: #333;
+  --color-success: #0070f3;
+  --color-cyan: #79ffe1;
+
+  /* Custom spacing */
+  --spacing-28: 7rem;
+
+  /* Custom letter spacing */
+  --letter-spacing-tighter: -0.04em;
+
+  /* Custom line height */
+  --line-height-tight: 1.2;
+
+  /* Custom font sizes */
+  --font-size-5xl: 2.5rem;
+  --font-size-6xl: 2.75rem;
+  --font-size-7xl: 4.5rem;
+  --font-size-8xl: 6.25rem;
+
+  /* Custom box shadows */
+  --shadow-small: 0 5px 10px rgb(0 0 0 / 0.12);
+  --shadow-medium: 0 8px 30px rgb(0 0 0 / 0.12);
+}
+
+@variant dark (.dark &);
+
+[type='button'],button[type='submit']{cursor:pointer}
+
+.svg-external {
+    color: #007bff;
+    background: url("data:image/svg+xml,%3Csvg width='1.25rem' height='1.25rem' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cg fill='none'%3E%3Cpath d='M10 6H6a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-4M14 4h6m0 0v6m0-6L10 14' stroke='%23007bff' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/g%3E%3C/svg%3E") no-repeat bottom right;
+    padding-right: 1.35rem;
+}
+.svg-external:hover {
+    text-decoration: underline;
+}
+
+/* ============================================
+   Dark Mode Prose Styles for Markdown Content
+   ============================================ */
+
+/* Base prose text color */
+.dark .prose {
+    color: #d1d5db; /* gray-300 */
+}
+
+/* Headings */
+.dark .prose h1 {
+    color: #f9fafb; /* gray-50 */
+}
+.dark .prose h2 {
+    color: #f3f4f6; /* gray-100 */
+}
+.dark .prose h3 {
+    color: #f3f4f6; /* gray-100 */
+}
+.dark .prose h4 {
+    color: #e5e7eb; /* gray-200 */
+}
+.dark .prose h5 {
+    color: #e5e7eb; /* gray-200 */
+}
+.dark .prose h6 {
+    color: #e5e7eb; /* gray-200 */
+}
+
+/* Links */
+.dark .prose a {
+    color: #60a5fa; /* blue-400 */
+    text-decoration-color: #3b82f6; /* blue-500 */
+}
+.dark .prose a:hover {
+    color: #93c5fd; /* blue-300 */
+}
+.dark .prose a code {
+    color: #60a5fa; /* blue-400 */
+}
+
+/* Strong/Bold text */
+.dark .prose strong {
+    color: #f3f4f6; /* gray-100 */
+    font-weight: 600;
+}
+
+/* Emphasis/Italic */
+.dark .prose em {
+    color: #e5e7eb; /* gray-200 */
+}
+
+/* Inline code */
+.dark .prose code {
+    color: #f3f4f6; /* gray-100 */
+    background-color: #374151; /* gray-700 */
+    padding: 0.2em 0.4em;
+    border-radius: 0.25rem;
+    font-size: 0.875em;
+}
+.dark .prose code::before,
+.dark .prose code::after {
+    content: none;
+}
+
+/* Code blocks */
+.dark .prose pre {
+    background-color: #1f2937; /* gray-800 */
+    color: #e5e7eb; /* gray-200 */
+    border: 1px solid #374151; /* gray-700 */
+    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.3);
+}
+.dark .prose pre code {
+    background-color: transparent;
+    color: inherit;
+    padding: 0;
+    font-size: inherit;
+    border-radius: 0;
+}
+
+/* Blockquotes */
+.dark .prose blockquote {
+    color: #d1d5db; /* gray-300 */
+    border-left-color: #4b5563; /* gray-600 */
+    background-color: #1f2937; /* gray-800 */
+    font-style: italic;
+}
+.dark .prose blockquote p:first-of-type::before,
+.dark .prose blockquote p:last-of-type::after {
+    color: #6b7280; /* gray-500 */
+}
+
+/* Horizontal rules */
+.dark .prose hr {
+    border-color: #4b5563; /* gray-600 */
+}
+
+/* Lists */
+.dark .prose ul > li::marker {
+    color: #9ca3af; /* gray-400 */
+}
+.dark .prose ol > li::marker {
+    color: #9ca3af; /* gray-400 */
+}
+.dark .prose ul ul,
+.dark .prose ul ol,
+.dark .prose ol ul,
+.dark .prose ol ol {
+    color: #d1d5db; /* gray-300 */
+}
+
+/* Tables */
+.dark .prose table {
+    border-color: #4b5563; /* gray-600 */
+}
+.dark .prose thead {
+    color: #f3f4f6; /* gray-100 */
+    border-bottom-color: #6b7280; /* gray-500 */
+    background-color: #374151; /* gray-700 */
+}
+.dark .prose thead th {
+    color: #f3f4f6; /* gray-100 */
+    font-weight: 600;
+}
+.dark .prose tbody tr {
+    border-bottom-color: #374151; /* gray-700 */
+}
+.dark .prose tbody tr:hover {
+    background-color: #1f2937; /* gray-800 */
+}
+.dark .prose tbody td {
+    color: #d1d5db; /* gray-300 */
+}
+.dark .prose tfoot {
+    border-top-color: #6b7280; /* gray-500 */
+}
+.dark .prose tfoot td {
+    color: #d1d5db; /* gray-300 */
+}
+
+/* Images */
+.dark .prose img {
+    opacity: 0.9;
+}
+.dark .prose img:hover {
+    opacity: 1;
+}
+
+/* Figure captions */
+.dark .prose figcaption {
+    color: #9ca3af; /* gray-400 */
+}
+
+/* Kbd (keyboard input) */
+.dark .prose kbd {
+    background-color: #374151; /* gray-700 */
+    color: #f3f4f6; /* gray-100 */
+    border-color: #4b5563; /* gray-600 */
+    box-shadow: 0 0 0 1px #4b5563;
+}
+
+/* Mark (highlighted text) */
+.dark .prose mark {
+    background-color: #fbbf24; /* amber-400 */
+    color: #111827; /* gray-900 */
+}
+
+/* Abbreviations */
+.dark .prose abbr {
+    color: #e5e7eb; /* gray-200 */
+    border-bottom-color: #6b7280; /* gray-500 */
+}
+
+/* Lead paragraph */
+.dark .prose .lead {
+    color: #d1d5db; /* gray-300 */
+}
+
+/* Video */
+.dark .prose video {
+    opacity: 0.95;
+}
+
+/* Paragraph text */
+.dark .prose p {
+    color: #d1d5db; /* gray-300 */
+}
+
+/* Details/Summary */
+.dark .prose details {
+    background-color: #1f2937; /* gray-800 */
+    border-color: #4b5563; /* gray-600 */
+}
+.dark .prose summary {
+    color: #f3f4f6; /* gray-100 */
+}
+
+/* Definition lists */
+.dark .prose dt {
+    color: #f3f4f6; /* gray-100 */
+}
+.dark .prose dd {
+    color: #d1d5db; /* gray-300 */
+}
+
+/* Preformatted text */
+.dark .prose samp {
+    color: #e5e7eb; /* gray-200 */
+    background-color: #374151; /* gray-700 */
+}
+
+/* Subscript and superscript */
+.dark .prose sub,
+.dark .prose sup {
+    color: #d1d5db; /* gray-300 */
+}

@@ -1,0 +1,13 @@
+
+> dev
+> node server.js
+
+Certificate path: /home/mythz/.aspnet/https/myapp.client.pem
+next.config.mjs development false https://localhost:5001
+> Ready on http://localhost:3000
+> Proxying /api requests to https://localhost:5001
+(node:2019297) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+ GET /features 200 in 1027ms (compile: 997ms, render: 30ms)
+(node:2019297) [DEP0060] DeprecationWarning: The `util._extend` API is deprecated. Please use Object.assign() instead.
+ GET /features 200 in 18ms (compile: 1783µs, render: 16ms)
