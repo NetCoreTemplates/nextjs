@@ -41,7 +41,8 @@
         "tailwindcss": "^4.1.17",
         "typescript": "^5.9.3",
         "vitest": "^4.0.8"
-      }
+      },
+      "version": "0.0.1"
     },
     "node_modules/@acemir/cssom": {
       "version": "0.9.23",
@@ -11628,5 +11629,6 @@
       "resolved": "https://registry.npmjs.org/zwitch/-/zwitch-2.0.4.tgz",
       "integrity": "sha512-bXE4cR/kVZhKZX/RjPEflHaKVhUVl85noU3v6b8apfQEc1x4A+zBxjZ4lN8LqGd6WZ3dl98pY4o717VFmoPp+A=="
     }
-  }
+  },
+  "version": "0.0.1"
 }
