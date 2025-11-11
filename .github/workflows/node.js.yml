@@ -13,6 +13,9 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./MyApp.Client
 
     strategy:
       matrix:
@@ -26,6 +29,7 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
+        cache-dependency-path: './MyApp.Client/npm-shrinkwrap.json'
     - run: npm ci
     - name: Install Playwright Browsers
       run: npx playwright install --with-deps chromium
