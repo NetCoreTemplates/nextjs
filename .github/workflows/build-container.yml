@@ -17,6 +17,7 @@ env:
   DOCKER_BUILDKIT: 1
   KAMAL_REGISTRY_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
   KAMAL_REGISTRY_USERNAME: ${{ github.actor }}
+  KAMAL_DEPLOY_HOST: ${{ secrets.KAMAL_DEPLOY_HOST }}
 
 jobs:
   build-container:
@@ -90,5 +91,6 @@ jobs:
       - name: Build and push Docker image
         env:
           SERVICESTACK_LICENSE: ${{ secrets.SERVICESTACK_LICENSE }}
+          KAMAL_DEPLOY_HOST: ${{ secrets.KAMAL_DEPLOY_HOST }}
         run: |
           dotnet publish --os linux --arch x64 -c Release -p:ContainerRepository=${{ env.image_repository_name }} -p:ContainerRegistry=ghcr.io -p:ContainerImageTags=latest -p:ContainerPort=80 -p:ContainerEnvironmentVariable="SERVICESTACK_LICENSE=${{ secrets.SERVICESTACK_LICENSE }}"
