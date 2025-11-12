@@ -82,7 +82,7 @@ where you can override any of [AI Chat's Vue Components](https://github.com/Serv
 and override them with your own by placing them in your
 [/wwwroot/chat](https://github.com/ServiceStack/ServiceStack/tree/main/ServiceStack/tests/AdhocNew/wwwroot/chat) folder:
 
-```files
+```txt
 /wwwroot
   /chat
     Brand.mjs
@@ -102,7 +102,7 @@ Where you'll be able to customize the appearance and behavior of AI Chat's UI to
 The built-in [ui.json](https://github.com/ServiceStack/ServiceStack/blob/main/ServiceStack/src/ServiceStack.AI.Chat/chat/ui.json)
 configuration can be overridden with your own to use your preferred system prompts and other defaults by adding them to your local folder:
 
-```files
+```txt
 /wwwroot
   /chat
     llms.json
@@ -564,7 +564,7 @@ The easiest way to use a custom `llms.json` is to add a local modified copy of
 [llms.json](https://github.com/ServiceStack/ServiceStack/blob/main/ServiceStack/src/ServiceStack.AI.Chat/chat/llms.json) 
 to your App's `/wwwroot/chat` folder:
 
-```files
+```txt
 /wwwroot
   /chat
     llms.json

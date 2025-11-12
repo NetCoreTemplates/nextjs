@@ -5,12 +5,14 @@ const target = process.env.ASPNETCORE_HTTPS_PORT ? `https://localhost:${process.
 
 const isProd = process.env.NODE_ENV === 'production'
 const buildLocal = process.env.MODE === 'local'
-const API_URL = isProd ? DEPLOY_API : (buildLocal ? '' : target)
 
-// TODO: replace with production URL of .NET App, e.g. https://nextjs.web-templates.io
+// Define DEPLOY_API first
 const DEPLOY_API = process.env.KAMAL_DEPLOY_HOST 
     ? `https://${process.env.KAMAL_DEPLOY_HOST}` 
     : target
+
+// Now use it for API_URL
+const API_URL = isProd ? DEPLOY_API : (buildLocal ? '' : target)
 
 console.log('next.config.mjs', process.env.NODE_ENV, buildLocal, API_URL, process.env.KAMAL_DEPLOY_HOST)
 
