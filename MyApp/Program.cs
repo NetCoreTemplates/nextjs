@@ -40,6 +40,27 @@ var app = builder.Build();
 app.UseDefaultFiles();
 app.UseStaticFiles();
 
+// Serve .html files without extension
+app.Use(async (context, next) =>
+{
+    var path = context.Request.Path.Value;
+    // Only process GET requests that don't have an extension and don't start with /api
+    if (context.Request.Method == "GET" && !string.IsNullOrEmpty(path) && !Path.HasExtension(path) 
+        && !path.StartsWith("/api", StringComparison.OrdinalIgnoreCase))
+    {
+        var htmlPath = path + ".html";
+        var fileProvider = app.Environment.WebRootFileProvider;
+        var fileInfo = fileProvider.GetFileInfo(htmlPath.TrimStart('/'));
+
+        if (fileInfo.Exists && !fileInfo.IsDirectory)
+        {
+            context.Request.Path = htmlPath;
+        }
+    }
+
+    await next();
+});
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
