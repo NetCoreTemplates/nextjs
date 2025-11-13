@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 using MyApp.Data;
 using MyApp.ServiceInterface;
 
@@ -41,23 +40,22 @@ app.UseDefaultFiles();
 app.UseStaticFiles();
 
 // Serve .html files without extension
-app.Use(async (context, next) =>
-{
-    var path = context.Request.Path.Value;
+app.Use(async (context, next) => {
     // Only process GET requests that don't have an extension and don't start with /api
-    if (context.Request.Method == "GET" && !string.IsNullOrEmpty(path) && !Path.HasExtension(path) 
+    var path = context.Request.Path.Value;
+    if (context.Request.Method == "GET" && !string.IsNullOrEmpty(path) && !Path.HasExtension(path)
         && !path.StartsWith("/api", StringComparison.OrdinalIgnoreCase))
     {
-        var htmlPath = path + ".html";
         var fileProvider = app.Environment.WebRootFileProvider;
-        var fileInfo = fileProvider.GetFileInfo(htmlPath.TrimStart('/'));
-
+        var fileInfo = fileProvider.GetFileInfo(path + ".html");
         if (fileInfo.Exists && !fileInfo.IsDirectory)
-        {
-            context.Request.Path = htmlPath;
+        {            
+            context.Response.ContentType = "text/html";
+            using var stream = fileInfo.CreateReadStream();
+            await stream.CopyToAsync(context.Response.Body); // Serve the HTML file directly
+            return; // Don't call next(), we've handled the request
         }
     }
-
     await next();
 });
 
@@ -90,13 +88,13 @@ else
 
 app.UseHttpsRedirection();
 
-app.MapFallbackToFile("/index.html");
-
 app.UseAuthorization();
 
 app.UseServiceStack(new AppHost(), options =>
 {
     options.MapEndpoints();
 });
+
+app.MapFallbackToFile("/index.html");
 
 app.Run();
