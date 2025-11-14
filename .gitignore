@@ -49,3 +49,4 @@ yarn-error.log*
 obj/
 bin/
 MyApp/mise.toml
+mise.toml
