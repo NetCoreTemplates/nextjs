@@ -11,7 +11,8 @@
     "typecheck": "tsc",
     "test": "vitest",
     "test:ui": "vitest --ui",
-    "test:run": "vitest run"
+    "test:run": "vitest run",
+    "postinstall": "node ./postinstall.mjs"
   },
   "dependencies": {
     "@mdx-js/loader": "^3.1.1",
