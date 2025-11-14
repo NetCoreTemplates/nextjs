@@ -1,4 +1,4 @@
-import { createServer } from 'http'
+import { createServer } from 'https'
 import { parse } from 'url'
 import next from 'next'
 import { createProxyMiddleware } from 'http-proxy-middleware'
@@ -77,7 +77,12 @@ const apiProxy = createProxyMiddleware({
 })
 
 app.prepare().then(() => {
-    createServer(async (req, res) => {
+    const serverOptions = dev ? {
+        key: fs.readFileSync(keyFilePath),
+        cert: fs.readFileSync(certFilePath),
+    } : {};
+
+    createServer(serverOptions, async (req, res) => {
         try {
             const parsedUrl = parse(req.url, true)
             const { pathname } = parsedUrl
@@ -100,7 +105,7 @@ app.prepare().then(() => {
         process.exit(1)
     })
     .listen(port, () => {
-        console.log(`> Ready on http://${hostname}:${port}`)
+        console.log(`> Ready on https://${hostname}:${port}`)
         console.log(`> Proxying /api requests to ${target}`)
     })
 })

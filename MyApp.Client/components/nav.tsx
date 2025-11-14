@@ -31,7 +31,6 @@ export default function () {
         ].filter(x => !!x))
     } else {
         items.push({ type:'Button', href:"/signin", name:"Sign In" })
-        items.push({ type:'PrimaryButton', href:"/signup", name:"Register" })
     }
 
     return (<header className="border-b border-gray-200 dark:border-gray-700 pr-3 bg-white dark:bg-gray-800">
