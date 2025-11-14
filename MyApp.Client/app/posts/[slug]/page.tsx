@@ -12,13 +12,14 @@ import type { Metadata } from 'next'
 import PostType from "@/types/post"
 
 type Props = {
-  params: {
+  params: Promise<{
     slug: string
-  }
+  }>
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const post = getPostBySlug(params.slug, ['title', 'ogImage']) as unknown as PostType
+  const { slug } = await params
+  const post = getPostBySlug(slug, ['title', 'ogImage']) as unknown as PostType
   const title = `${post.title} | Next.js Example with ${CMS_NAME}`
 
   return {
@@ -38,7 +39,8 @@ export async function generateStaticParams() {
 }
 
 export default async function Post({ params }: Props) {
-  const post = getPostBySlug(params.slug, [
+  const { slug } = await params
+  const post = getPostBySlug(slug, [
     'title',
     'date',
     'slug',

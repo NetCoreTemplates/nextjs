@@ -20,6 +20,9 @@ console.log('next.config.mjs', process.env.NODE_ENV, buildLocal, API_URL, proces
  * @type {import('next').NextConfig}
  **/
 const nextConfig = {
+    // Configure pageExtensions to include MDX files
+    pageExtensions: ['js', 'jsx', 'md', 'mdx', 'ts', 'tsx'],
+
     // Enable static export (replaces next export command)
     output: isProd ? 'export' : undefined,
 
