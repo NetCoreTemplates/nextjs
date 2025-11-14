@@ -1,3 +1,5 @@
+'use client'
+
 import { useState, type ReactNode, KeyboardEvent, MouseEvent, useEffect } from "react"
 import { classNames, ResponseStatus } from "@servicestack/client"
 import { TextInput } from "@servicestack/react"
@@ -7,7 +9,7 @@ import { CreateTodo, DeleteTodo, DeleteTodos, QueryTodos, Todo, UpdateTodo } fro
 
 export type Filter = "all" | "finished" | "unfinished"
 
-const TodosMvc = () => {
+export default function TodosMvc() {
 
     const [newTodo, setNewTodo] = useState('')
 
@@ -139,8 +141,8 @@ type FilterTabProps = {
 }
 
 function FilterTab({active, className, onClick, children}: FilterTabProps) {
-    return (<span className={classNames(`cursor-pointer border-gray-200 text-sm font-medium px-4 py-2 hover:bg-gray-100 
-      focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:border-gray-600 
+    return (<span className={classNames(`cursor-pointer border-gray-200 text-sm font-medium px-4 py-2 hover:bg-gray-100
+      focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:border-gray-600
       dark:text-white dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-blue-500 dark:focus:text-white`,
         active ? 'text-blue-700 dark:bg-blue-600' : 'text-gray-900 hover:text-blue-700 dark:bg-gray-700', className)}
                   onClick={e => {
@@ -148,5 +150,3 @@ function FilterTab({active, className, onClick, children}: FilterTabProps) {
                       onClick(e)
                   }}>{children}</span>)
 }
-
-export default TodosMvc

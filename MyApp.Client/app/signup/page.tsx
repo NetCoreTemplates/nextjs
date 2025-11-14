@@ -1,13 +1,15 @@
+'use client'
+
 import { SyntheticEvent, useEffect, useState } from "react"
 import { useClient, FormLoading, ErrorSummary, TextInput, PrimaryButton, SecondaryButton, ApiStateContext } from "@servicestack/react"
 import { serializeToObject, leftPart, rightPart, toPascalCase } from "@servicestack/client"
-import Router, { useRouter } from "next/router"
+import {useRouter, useSearchParams} from "next/navigation"
 import Page from "@/components/layout-page"
 import { getRedirect } from "@/lib/gateway"
 import { Register, RegisterResponse } from "@/lib/dtos"
 import { appAuth, Redirecting } from "@/lib/auth"
 
-export default () => {
+export default function SignUp() {
 
     const client = useClient()
     const [displayName, setDisplayName] = useState<string>()
@@ -15,6 +17,7 @@ export default () => {
     const [password, setPassword] = useState<string>()
     const [confirmPassword, setConfirmPassword] = useState<string>()
     const router = useRouter()
+    const searchParams = useSearchParams()
     const { user, revalidate } = appAuth()
 
     const setUser = (email: string) => {
@@ -27,7 +30,10 @@ export default () => {
     }
 
     useEffect(() => {
-        if (user) Router.replace(getRedirect(router.query) || "/")
+        if (user) {
+            const redirect = getRedirect(Object.fromEntries(searchParams.entries())) || "/"
+            router.replace(redirect)
+        }
     }, [user])
     if (user) return <Redirecting/>
 
@@ -47,7 +53,7 @@ export default () => {
             if (redirectUrl) {
                 location.href = redirectUrl
             } else {
-                Router.push("/signin")
+                router.push("/signin")
             }
         }
     }

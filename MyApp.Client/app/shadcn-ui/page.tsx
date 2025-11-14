@@ -1,10 +1,10 @@
-import Layout from "../components/layout"
-import { Button } from "../components/ui/button"
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "../components/ui/card"
-import { Badge } from "../components/ui/badge"
-import { Alert, AlertDescription, AlertTitle } from "../components/ui/alert"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "../components/ui/tabs"
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "../components/ui/accordion"
+import Layout from "@/components/layout"
+import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
+import { Badge } from "@/components/ui/badge"
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
 import { Terminal, Rocket, Package, ExternalLink, Info, Download, Code2 } from "lucide-react"
 
 const ShadcnUiDemo = () => {
@@ -216,7 +216,7 @@ const ShadcnUiDemo = () => {
                                             <h4 className="font-semibold text-sm text-slate-900 dark:text-slate-100">Basic Example:</h4>
                                             <div className="bg-slate-100 dark:bg-slate-900 p-4 rounded-lg border border-slate-200 dark:border-slate-700">
                                                 <code className="text-sm text-slate-900 dark:text-slate-200 font-mono">
-                                                    <div>import &#123; Button &#125; from "../components/ui/button"</div>
+                                                    <div>import &#123; Button &#125; from "@/components/ui/button"</div>
                                                     <div className="mt-2">export default function Page() &#123;</div>
                                                     <div className="ml-4">return &lt;Button&gt;Click me&lt;/Button&gt;</div>
                                                     <div>&#125;</div>
@@ -314,4 +314,3 @@ const ShadcnUiDemo = () => {
 }
 
 export default ShadcnUiDemo
-

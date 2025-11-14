@@ -1,5 +1,7 @@
+'use client'
+
 import React, { useEffect } from "react"
-import Router, { useRouter } from "next/router"
+import { useRouter, usePathname } from "next/navigation"
 import { useAuth, Loading } from "@servicestack/react"
 import { client, Routes } from "./gateway"
 import { Authenticate } from "@/lib/dtos"
@@ -17,6 +19,7 @@ export function ValidateAuth<TOriginalProps extends {}>(Component:React.FC<TOrig
     let { role, permission, redirectTo } = validateProps ?? {}
     const compWithProps: React.FC<TOriginalProps> = (props) => {
         const router = useRouter()
+        const pathname = usePathname()
         const authProps = useAuth()
         const { user, isAuthenticated, hasRole } = authProps
         useEffect(() => {
@@ -26,7 +29,7 @@ export function ValidateAuth<TOriginalProps extends {}>(Component:React.FC<TOrig
             }
         }, [user])
 
-        redirectTo ??= router.pathname
+        redirectTo ??= pathname
 
         const shouldRedirect = () => !isAuthenticated
             ? Routes.signin(redirectTo)
@@ -47,6 +50,7 @@ export function ValidateAuth<TOriginalProps extends {}>(Component:React.FC<TOrig
 }
 
 export function appAuth() {
+    const router = useRouter()
     const authState = useAuth()
     async function revalidate() {
         try {
@@ -60,7 +64,7 @@ export function appAuth() {
         await client.post(new Authenticate({ provider: 'logout' }))
         authState.signOut()
         if (redirectTo) {
-            Router.push(redirectTo)
+            router.push(redirectTo)
         }
     }
     return { ...authState, revalidate, signOut }

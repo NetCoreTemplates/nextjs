@@ -1,3 +1,5 @@
+'use client'
+
 import { FC, MouseEvent, useState, ReactNode, useRef } from "react"
 import { Terminal, Copy, Check } from "lucide-react"
 import { cn } from "../lib/utils"

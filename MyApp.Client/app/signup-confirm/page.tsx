@@ -1,9 +1,11 @@
-import Page from "@/components/layout-page"
-import { useRouter } from "next/router"
+'use client'
 
-export default () => {
-    const router = useRouter()
-    const confirmLink = router.query.confirmLink as string | undefined
+import Page from "@/components/layout-page"
+import { useSearchParams } from "next/navigation"
+
+export default function SignUpConfirm() {
+    const searchParams = useSearchParams()
+    const confirmLink = searchParams.get('confirmLink')
 
     return (<Page title="Signup confirmation">
         <div className="mt-8 mb-20">

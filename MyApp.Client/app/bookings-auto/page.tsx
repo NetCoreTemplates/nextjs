@@ -1,12 +1,12 @@
+'use client'
+
 import Link from "next/link"
 import { AutoQueryGrid } from "@servicestack/react"
 import Page from "@/components/layout-page"
 import { ValidateAuth } from "@/lib/auth"
 import SrcPage from "@/components/src-page"
 
-function Index() {
-
-
+function BookingsAuto() {
     return (<Page title="Bookings CRUD (Auto Columns)">
 
         <div className="mb-4 flex justify-end">
@@ -26,5 +26,4 @@ function Index() {
     </Page>)
 }
 
-export default ValidateAuth(Index, {role: 'Employee'})
-
+export default ValidateAuth(BookingsAuto, {role: 'Employee'})
