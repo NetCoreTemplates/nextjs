@@ -29,7 +29,7 @@ export default ({ template }: Props) => {
                className="mb-8 sm:text-lg rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border-gray-300 dark:bg-gray-800" />
 
         <section className="w-full flex justify-center text-center">
-            <div className="mb-2">
+            <div className="mb-8">
                 <div className="flex justify-center text-center">
                     <a className="archive-url hover:no-underline netcoretemplates_empty" href={zipUrl(`NetCoreTemplates/${template}`)}>
                         <div className="bg-white dark:bg-gray-800 px-4 py-4 mr-4 mb-4 rounded-lg shadow-lg text-center items-center justify-center hover:shadow-2xl dark:border-2 dark:border-pink-600 dark:hover:border-blue-600"
