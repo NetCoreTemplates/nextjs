@@ -1,4 +1,3 @@
-import Alert from "./alert"
 import Nav from "./nav"
 import Footer from "./footer"
 import Meta from "./meta"
