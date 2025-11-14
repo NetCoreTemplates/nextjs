@@ -23,17 +23,12 @@ export default function () {
     ]
 
     const { user, hasRole, signOut } = appAuth()
+    const navClass = (path:string) => [
+        "p-4 flex items-center justify-start mw-full hover:text-sky-500 dark:hover:text-sky-400",
+        router.asPath === path || router.asPath.startsWith(path + '/') ? "text-link-dark dark:text-link-dark" : "",
+    ].join(" ")
+
     const router = useRouter()
-    if (user) {
-        items.push(...[
-            hasRole('Admin') 
-                ? { href:"/admin", name:"Admin", show:"role:Admin" }
-                : { href:"/profile", name:"Profile" },
-            { type:'Button', onClick: () => signOut('/'), name:"Sign Out" },
-        ].filter(x => !!x))
-    } else {
-        items.push({ type:'Button', href:"/signin", name:"Sign In" })
-    }
 
     return (<header className="border-b border-gray-200 dark:border-gray-700 pr-3 bg-white dark:bg-gray-800">
         <div className="flex flex-wrap items-center">
@@ -56,6 +51,40 @@ export default function () {
                                    </Link>)}
                             </li>)
                     })}
+                        {user
+                            ? (<>
+                                {hasRole('Admin')
+                                    ? <li className="relative flex flex-wrap just-fu-start m-0">
+                                        <Link href="/admin" className={navClass('/admin')}>Admin</Link>
+                                    </li> : null}
+                                <li>
+                                    <div className="mx-3 relative">
+                                        <div>
+                                            <Link href="/profile"
+                                                  className="max-w-xs rounded-full flex items-center text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 lg:p-2 lg:rounded-md lg:hover:bg-gray-50 dark:lg:hover:bg-gray-900 dark:ring-offset-black"
+                                                  id="user-menu-button" aria-expanded="false" aria-haspopup="true">
+                                                <img className="h-8 w-8 rounded-full" src={user.profileUrl} alt=""/>
+                                                <span
+                                                    className="hidden ml-3 text-gray-700 dark:text-gray-300 text-sm font-medium lg:block">
+                                                <span className="sr-only">Open user menu for </span>
+                                                    {user.userName}
+                                                </span>
+                                            </Link>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li className="mr-3 relative flex flex-wrap just-fu-start m-0">
+                                    <SecondaryButton onClick={() => signOut()}>
+                                        Sign Out
+                                    </SecondaryButton>
+                                </li>
+                            </>)
+                            : (<li className="relative flex flex-wrap just-fu-start m-0">
+                                <SecondaryButton className="m-2">
+                                    <Link href="/signin">Sign In</Link>
+                                </SecondaryButton>
+                            </li>)
+                        }
                         <li className="relative flex flex-wrap just-fu-start m-0">
                             <DarkModeToggle />
                         </li>

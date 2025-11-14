@@ -33,7 +33,7 @@ For more, see development workflow docs for **JetBrains Rider** and **VS Code / 
 
 #### Use npm dev server for UI Development
 
-- http://localhost:3000
+- https://localhost:3000
 
 #### `npm run build:local` to view in .NET App
 
@@ -74,7 +74,7 @@ npx create-next-app --example blog-starter-typescript blog-starter-typescript-ap
 yarn create next-app --example blog-starter-typescript blog-starter-typescript-app
 ```
 
-Your blog should be up and running on [http://localhost:3000](http://localhost:3000)! If it doesn't work, post on [GitHub discussions](https://github.com/vercel/next.js/discussions).
+Your blog should be up and running on [https://localhost:3000](https://localhost:3000)! If it doesn't work, post on [GitHub discussions](https://github.com/vercel/next.js/discussions).
 
 Deploy it to the cloud with [Vercel](https://vercel.com/new?utm_source=github&utm_medium=readme&utm_campaign=next-example) ([Documentation](https://nextjs.org/docs/deployment)).
 

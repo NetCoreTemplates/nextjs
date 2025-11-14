@@ -12,7 +12,7 @@ public class AppHost() : AppHostBase("MyApp"), IHostingStartup
             // Configure ASP.NET Core IOC Dependencies
             services.AddSingleton(new AppConfig {
                 AppBaseUrl = context.HostingEnvironment.IsDevelopment()
-                    ? "http://localhost" +
+                    ? "https://localhost" +
                       ":3000" +
                       ""
                     : null,
