@@ -15,6 +15,7 @@ type NavItem = {
 export default function () {
 
     const items:NavItem[] = [
+        { href: '/shadcn-ui', name: 'shadcn/ui'},
         { href: '/posts', name: 'Blog'},
         { href: '/todomvc', name: 'Todos'},
         { href: '/bookings-auto', name: 'Bookings'},
@@ -25,8 +26,9 @@ export default function () {
     const router = useRouter()
     if (user) {
         items.push(...[
-            { href:"/profile", name:"Profile" },
-            hasRole('Admin') ? { href:"/admin", name:"Admin", show:"role:Admin" } : null,
+            hasRole('Admin') 
+                ? { href:"/admin", name:"Admin", show:"role:Admin" }
+                : { href:"/profile", name:"Profile" },
             { type:'Button', onClick: () => signOut('/'), name:"Sign Out" },
         ].filter(x => !!x))
     } else {
