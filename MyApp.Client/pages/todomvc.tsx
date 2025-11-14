@@ -64,8 +64,8 @@ const TodosMvc = () => {
         })()
     }, [])
 
-    return (<Page title="Todos Application" className="max-w-xl">
-        <div>
+    return (<Page title="Todos Application">
+        <div className="max-w-xl">
             <div className="mb-3">
                 <TextInput status={error} id="Text" placeholder="What needs to be done?" label=""
                            value={newTodo} onChange={setNewTodo}

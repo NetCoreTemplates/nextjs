@@ -5,7 +5,7 @@ export default () => {
     const router = useRouter()
     const confirmLink = router.query.confirmLink as string | undefined
 
-    return (<Page title="Signup confirmation" className="max-w-lg">
+    return (<Page title="Signup confirmation">
         <div className="mt-8 mb-20">
             {!confirmLink ? null :
                 <p className="my-4">

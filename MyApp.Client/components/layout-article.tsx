@@ -3,7 +3,6 @@ import Head from "next/head"
 import Nav from "./nav"
 import Footer from "./footer"
 import Meta from "./meta"
-import Breadcrumbs from "./breadcrumbs"
 
 type Props = {
   title: string,
@@ -19,10 +18,10 @@ const Page: FC<Props> = ({ title, children }) => {
       </Head>
       <Nav />
         <div className="min-h-screen">
-            <main className="flex justify-center">
-                <div className="mx-auto px-5">
-                    <Breadcrumbs className="my-8" name={title} />
-                    <article className="prose lg:prose-xl mb-32">
+            <main>
+                <div className="max-w-7xl mx-auto px-5">
+                    <h1 className="text-4xl font-bold my-8 text-gray-900 dark:text-gray-100">{title}</h1>
+                    <article className="prose lg:prose-xl max-w-4xl mb-32">
                         {children}
                     </article>
                 </div>

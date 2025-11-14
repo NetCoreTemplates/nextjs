@@ -52,9 +52,9 @@ export default () => {
         }
     }
 
-    return (<Page title="Sign Up" className="max-w-xl">
+    return (<Page title="Sign Up">
         <ApiStateContext.Provider value={client}>
-            <section className="mt-4 sm:shadow overflow-hidden sm:rounded-md">
+            <section className="mt-4 max-w-xl sm:shadow overflow-hidden sm:rounded-md">
                 <form onSubmit={onSubmit} className="max-w-prose">
                     <div className="shadow overflow-hidden sm:rounded-md">
                         <ErrorSummary except="displayName,userName,password,confirmPassword"/>

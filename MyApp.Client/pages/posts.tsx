@@ -1,6 +1,5 @@
 import React from "react"
 import Layout from "../components/layout"
-import Breadcrumbs from "../components/breadcrumbs"
 import { getAllPosts } from "../lib/api"
 import Post from "../types/post"
 
@@ -9,12 +8,12 @@ type Props = {
 }
 const Posts = ({ allPosts }: Props) => {
     return (<Layout>
-        <main className="flex justify-center">
-            <div className="mx-auto px-5">
-                <Breadcrumbs className="my-8" name="Markdown Posts" />
+        <main>
+            <div className="max-w-7xl mx-auto px-5">
+                <h1 className="text-4xl font-bold my-8 text-gray-900 dark:text-gray-100">Markdown Posts</h1>
                 <h3 className="text-lg mb-8">
                     List of Markdown Posts in <span
-                    className="bg-blue-50 text-blue-500 py-1 px-2 rounded">/pages</span>
+                    className="bg-blue-50 text-blue-500 dark:bg-blue-900 dark:text-blue-200 py-1 px-2 rounded">/pages</span>
                 </h3>
                 {allPosts.map((post) => (
                     <div className="mb-8" key={post.slug}>

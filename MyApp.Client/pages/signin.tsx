@@ -36,9 +36,9 @@ export default () => {
             await revalidate()
     }
 
-    return (<Page title="Use a local account to log in." className="max-w-xl">
+    return (<Page title="Use a local account to log in.">
         <ApiStateContext.Provider value={client}>
-            <section className="mt-4 sm:shadow overflow-hidden sm:rounded-md">
+            <section className="mt-4 max-w-xl sm:shadow overflow-hidden sm:rounded-md">
                 <form onSubmit={onSubmit}>
                     <div className="shadow overflow-hidden sm:rounded-md">
                         <ErrorSummary except="userName,password,rememberMe"/>

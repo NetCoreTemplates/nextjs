@@ -7,7 +7,7 @@ import SrcPage from "@/components/src-page"
 function Index() {
 
 
-    return (<Page title="Bookings CRUD (Auto Columns)" className="max-w-screen-lg">
+    return (<Page title="Bookings CRUD (Auto Columns)">
 
         <div className="mb-4 flex justify-end">
             <Link href="/bookings-custom" className="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300">

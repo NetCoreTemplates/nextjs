@@ -41,8 +41,8 @@ const Index = ({ allPosts }: Props) => {
                 </div>
             </div>
 
-            <div className="mb-40 mx-auto max-w-7xl">
-                <p className="mt-4 mb-10 mx-auto max-w-4xl text-xl text-gray-600 dark:text-gray-400">
+            <div className="mb-40">
+                <p className="mt-4 mb-10 text-xl text-gray-600 dark:text-gray-400">
                     Manage your ServiceStack App and explore, discover, query and call APIs instantly with
                     built-in Auto UIs dynamically generated from the rich metadata of your App's typed C# APIs &amp; DTOs
                 </p>

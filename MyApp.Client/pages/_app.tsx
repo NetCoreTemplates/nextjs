@@ -1,7 +1,7 @@
 import { AppProps } from "next/app"
 import "../styles/index.css"
 import "../styles/main.css"
-import "prismjs/themes/prism-tomorrow.css"
+import "../styles/prism-dark-blue.css"
 
 import Link from 'next/link'
 import { setLinkComponent, Loading, ClientContext } from '@servicestack/react'
