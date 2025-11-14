@@ -78,6 +78,9 @@ if (app.Environment.IsDevelopment())
             ctx.Response.StatusCode = 404;
         }
     });
+    // Redirect root requests to the Client App in development
+    app.MapGet("/", async (HttpContext ctx) => 
+        ctx.Response.Redirect(ctx.RequestServices.GetRequiredService<AppConfig>().AppBaseUrl!));
 }
 else
 {

@@ -12,9 +12,7 @@ public class AppHost() : AppHostBase("MyApp"), IHostingStartup
             // Configure ASP.NET Core IOC Dependencies
             services.AddSingleton(new AppConfig {
                 AppBaseUrl = context.HostingEnvironment.IsDevelopment()
-                    ? "https://localhost" +
-                      ":3000" +
-                      ""
+                    ? "https://localhost:3000"
                     : null,
                 ApiBaseUrl = context.HostingEnvironment.IsDevelopment()
                     ? "https://localhost:5001"  
@@ -26,7 +24,6 @@ public class AppHost() : AppHostBase("MyApp"), IHostingStartup
     public override void Configure()
     {
         TypeScriptGenerator.InsertTsNoCheck = true;
-
         SetConfig(new HostConfig {
         });
     }
