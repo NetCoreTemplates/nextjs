@@ -2,12 +2,13 @@
 
 import Page from "@/components/layout-page"
 import { useSearchParams } from "next/navigation"
+import { Suspense } from "react"
 
-export default function SignUpConfirm() {
+function SignUpConfirmContent() {
     const searchParams = useSearchParams()
     const confirmLink = searchParams.get('confirmLink')
 
-    return (<Page title="Signup confirmation">
+    return (
         <div className="mt-8 mb-20">
             {!confirmLink ? null :
                 <p className="my-4">
@@ -18,5 +19,15 @@ export default function SignUpConfirm() {
                 </p>}
             <p className="my-4">Please check your email to confirm your account.</p>
         </div>
-    </Page>)
+    )
+}
+
+export default function SignUpConfirm() {
+    return (
+        <Page title="Signup confirmation">
+            <Suspense fallback={<div className="mt-8 mb-20">Loading...</div>}>
+                <SignUpConfirmContent />
+            </Suspense>
+        </Page>
+    )
 }
