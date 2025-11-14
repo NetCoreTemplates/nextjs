@@ -6,6 +6,7 @@ import { TextInput } from "@servicestack/react"
 import Page from "@/components/layout-page"
 import { client } from "@/lib/gateway"
 import { CreateTodo, DeleteTodo, DeleteTodos, QueryTodos, Todo, UpdateTodo } from "@/lib/dtos"
+import SrcPage from "@/components/src-page"
 
 export type Filter = "all" | "finished" | "unfinished"
 
@@ -129,6 +130,11 @@ export default function TodosMvc() {
                     </span>
                 </div>
             </div>
+
+            <div className="mt-4 text-center text-gray-400 flex justify-center -ml-6">
+                <SrcPage path="bookings-custom/page.tsx" />
+            </div>
+
         </div>
     </Page>)
 }

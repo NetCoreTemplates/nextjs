@@ -80,7 +80,7 @@ function BookingsCustom() {
             )}
 
             <div className="mt-4 text-center text-gray-400 flex justify-center -ml-6">
-                <SrcPage path="bookings-custom.tsx" />
+                <SrcPage path="bookings-custom/page.tsx" />
             </div>
         </div>
 

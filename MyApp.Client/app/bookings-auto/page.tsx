@@ -19,7 +19,7 @@ function BookingsAuto() {
             <AutoQueryGrid type="Booking"/>
 
             <div className="mt-4 text-center text-gray-400 flex justify-center -ml-6">
-                <SrcPage path="bookings-auto.tsx" />
+                <SrcPage path="bookings-auto/page.tsx" />
             </div>
         </div>
 
