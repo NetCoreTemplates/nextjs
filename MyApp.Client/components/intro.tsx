@@ -1,6 +1,8 @@
+'use client'
+
 import { useState } from "react"
 import { TextInput } from "@servicestack/react"
-import { swrClient } from "@/lib/gateway"
+import { swrClient } from "@/lib/gateway.client"
 import { Hello } from "@/lib/dtos"
 import { CMS_NAME } from "@/lib/constants"
 

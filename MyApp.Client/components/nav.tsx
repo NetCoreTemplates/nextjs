@@ -1,5 +1,7 @@
+'use client'
+
 import Link from "next/link"
-import { useRouter } from "next/router"
+import { usePathname } from "next/navigation"
 import { useAuth, PrimaryButton, SecondaryButton, DarkModeToggle } from "@servicestack/react"
 import { appAuth } from "@/lib/auth"
 
@@ -12,7 +14,8 @@ type NavItem = {
     onClick?:() => void
 }
 
-export default function () {
+export default function Nav() {
+    const pathname = usePathname()
 
     const items:NavItem[] = [
         { href: '/shadcn-ui', name: 'shadcn/ui'},
@@ -25,10 +28,8 @@ export default function () {
     const { user, hasRole, signOut } = appAuth()
     const navClass = (path:string) => [
         "p-4 flex items-center justify-start mw-full hover:text-sky-500 dark:hover:text-sky-400",
-        router.asPath === path || router.asPath.startsWith(path + '/') ? "text-link-dark dark:text-link-dark" : "",
+        pathname === path || pathname.startsWith(path + '/') ? "text-link-dark dark:text-link-dark" : "",
     ].join(" ")
-
-    const router = useRouter()
 
     return (<header className="border-b border-gray-200 dark:border-gray-700 pr-3 bg-white dark:bg-gray-800">
         <div className="flex flex-wrap items-center">
@@ -41,7 +42,7 @@ export default function () {
                 <nav className="relative flex flex-grow">
                     <ul className="flex flex-wrap items-center justify-end w-full m-0">
                     {items.map(x => {
-                        const isActive = router.asPath === x.href || router.asPath.startsWith(x.href + '/')
+                        const isActive = pathname === x.href || pathname.startsWith(x.href + '/')
                         return (<li key={x.name} className="relative flex flex-wrap just-fu-start m-0">{x.type === 'Button'
                             ? <SecondaryButton className="m-2" href={x.href} onClick={x.onClick}>{x.name}</SecondaryButton>
                             : x.type == 'PrimaryButton'

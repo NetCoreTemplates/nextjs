@@ -1,3 +1,5 @@
+'use client'
+
 import { SecondaryButton } from "@servicestack/react"
 import Page from "@/components/layout-page"
 import { ValidateAuth, appAuth } from "@/lib/auth"

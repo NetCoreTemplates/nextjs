@@ -1,6 +1,8 @@
+'use client'
+
 import {serializeToObject} from "@servicestack/client"
 import {SyntheticEvent, useEffect, useState} from "react"
-import Router, {useRouter} from "next/router"
+import {useRouter, useSearchParams} from "next/navigation"
 import Link from "next/link"
 
 import Page from "@/components/layout-page"
@@ -9,7 +11,7 @@ import {Authenticate} from "@/lib/dtos"
 import {appAuth, Redirecting} from "@/lib/auth"
 import {getRedirect} from "@/lib/gateway"
 
-export default () => {
+export default function SignIn() {
 
     const client = useClient()
     const [username, setUsername] = useState<string | number>()
@@ -20,10 +22,14 @@ export default () => {
         setPassword('p@55wOrd')
     }
     const router = useRouter()
+    const searchParams = useSearchParams()
 
     const {user, revalidate} = appAuth()
     useEffect(() => {
-        if (user) Router.replace(getRedirect(router.query) || "/")
+        if (user) {
+            const redirect = getRedirect(Object.fromEntries(searchParams.entries())) || "/"
+            router.replace(redirect)
+        }
     }, [user]);
     if (user) return <Redirecting/>
 

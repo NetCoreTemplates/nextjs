@@ -20,8 +20,6 @@ console.log('next.config.mjs', process.env.NODE_ENV, buildLocal, API_URL, proces
  * @type {import('next').NextConfig}
  **/
 const nextConfig = {
-    pageExtensions: ['tsx','mdx','md'],
-
     // Enable static export (replaces next export command)
     output: isProd ? 'export' : undefined,
 

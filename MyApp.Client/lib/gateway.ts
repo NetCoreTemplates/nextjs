@@ -1,6 +1,4 @@
-import { useMetadata, authContext } from "@servicestack/react"
-import { appendQueryString, nameOf, IReturn, JsonServiceClient, combinePaths } from "@servicestack/client"
-import useSWR from "swr"
+import { JsonServiceClient, combinePaths } from "@servicestack/client"
 import { Authenticate } from "@/lib/dtos"
 
 export const Routes = {
@@ -8,18 +6,26 @@ export const Routes = {
     forbidden: () => '/forbidden',
 }
 
-export const BaseUrl = process.env.apiBaseUrl || ''
+export const BaseUrl = typeof window === 'undefined'
+    ? (process.env.apiBaseUrl || '')
+    : (process.env.apiBaseUrl || '')
 
 export function apiUrl(path: string) {
-    return combinePaths(process.env.apiBaseUrl || '', path)
+    const base = typeof window === 'undefined' ? process.env.apiBaseUrl : process.env.apiBaseUrl
+    return combinePaths(base || '', path)
 }
 
 export const client = new JsonServiceClient()
-export const metadata = useMetadata(client)
 
 // Load Metadata & Auth State on Startup
+// This needs to be called on client side only
 export async function init() {
+    if (typeof window === 'undefined') return
+
+    const { useMetadata, authContext } = await import("@servicestack/react")
+    const metadata = useMetadata(client)
     const authCtx = authContext()
+
     return await Promise.all([
         metadata.loadMetadata(),
         client.post(new Authenticate())
@@ -39,21 +45,3 @@ export function getRedirect(searchParams: URLSearchParams | Record<string, strin
         ? redirect[0]
         : redirect
 }
-
-// Typed Stale While Revalidate client
-class SwrClient {
-    client: JsonServiceClient
-
-    constructor(client: JsonServiceClient) {
-        this.client = client
-    }
-
-    get<T>(fn: () => IReturn<T> | string) {
-        return useSWR(() => {
-            let request = fn()
-            return appendQueryString(`SwrClient:${nameOf(request)}`, request)
-        }, _ => this.client.get(fn()))
-    }
-}
-
-export const swrClient = new SwrClient(client)

@@ -1,3 +1,5 @@
+'use client'
+
 import { ChangeEvent, useMemo, useState } from "react"
 import ShellCommand from "./shell-command"
 

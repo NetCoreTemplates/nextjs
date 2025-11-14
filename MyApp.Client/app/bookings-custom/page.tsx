@@ -1,11 +1,13 @@
-import { useState, useEffect } from "react"
+'use client'
+
+import { useState } from "react"
 import Link from "next/link"
 import { useFormatters, AutoQueryGrid, TextLink, PreviewFormat, AutoEditForm, Icon } from "@servicestack/react"
 import Page from "@/components/layout-page"
 import { ValidateAuth } from "@/lib/auth"
 import SrcPage from "@/components/src-page"
 
-function Index() {
+function BookingsCustom() {
     const { currency } = useFormatters()
     const [coupon, setCoupon] = useState<any>(null)
 
@@ -76,7 +78,7 @@ function Index() {
                     onSave={() => setCoupon(null)}
                 />
             )}
-            
+
             <div className="mt-4 text-center text-gray-400 flex justify-center -ml-6">
                 <SrcPage path="bookings-custom.tsx" />
             </div>
@@ -85,5 +87,4 @@ function Index() {
     </Page>)
 }
 
-export default ValidateAuth(Index, {role: 'Employee'})
-
+export default ValidateAuth(BookingsCustom, {role: 'Employee'})
