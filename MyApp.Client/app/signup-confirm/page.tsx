@@ -1,9 +1,10 @@
 'use client'
 
+import { Suspense } from "react"
 import Page from "@/components/layout-page"
 import { useSearchParams } from "next/navigation"
 
-export default function SignUpConfirm() {
+function SignUpConfirmContent() {
     const searchParams = useSearchParams()
     const confirmLink = searchParams.get('confirmLink')
 
@@ -19,4 +20,12 @@ export default function SignUpConfirm() {
             <p className="my-4">Please check your email to confirm your account.</p>
         </div>
     </Page>)
+}
+
+export default function SignUpConfirm() {
+    return (
+        <Suspense fallback={<div>Loading...</div>}>
+            <SignUpConfirmContent />
+        </Suspense>
+    )
 }

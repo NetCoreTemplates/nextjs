@@ -1,7 +1,7 @@
 'use client'
 
 import {serializeToObject} from "@servicestack/client"
-import {SyntheticEvent, useEffect, useState} from "react"
+import {SyntheticEvent, useEffect, useState, Suspense} from "react"
 import {useRouter, useSearchParams} from "next/navigation"
 import Link from "next/link"
 
@@ -11,8 +11,7 @@ import {Authenticate} from "@/lib/dtos"
 import {appAuth, Redirecting} from "@/lib/auth"
 import {getRedirect} from "@/lib/gateway"
 
-export default function SignIn() {
-
+function SignInForm() {
     const client = useClient()
     const [username, setUsername] = useState<string | number>()
     const [password, setPassword] = useState<string | number>()
@@ -90,4 +89,12 @@ export default function SignIn() {
             </div>
         </div>
     </Page>)
+}
+
+export default function SignIn() {
+    return (
+        <Suspense fallback={<div>Loading...</div>}>
+            <SignInForm />
+        </Suspense>
+    )
 }

@@ -1,6 +1,6 @@
 'use client'
 
-import { SyntheticEvent, useEffect, useState } from "react"
+import { SyntheticEvent, useEffect, useState, Suspense } from "react"
 import { useClient, FormLoading, ErrorSummary, TextInput, PrimaryButton, SecondaryButton, ApiStateContext } from "@servicestack/react"
 import { serializeToObject, leftPart, rightPart, toPascalCase } from "@servicestack/client"
 import {useRouter, useSearchParams} from "next/navigation"
@@ -9,8 +9,7 @@ import { getRedirect } from "@/lib/gateway"
 import { Register, RegisterResponse } from "@/lib/dtos"
 import { appAuth, Redirecting } from "@/lib/auth"
 
-export default function SignUp() {
-
+function SignUpForm() {
     const client = useClient()
     const [displayName, setDisplayName] = useState<string>()
     const [username, setUsername] = useState<string>()
@@ -99,4 +98,12 @@ export default function SignUp() {
             </div>
         </div>
     </Page>)
+}
+
+export default function SignUp() {
+    return (
+        <Suspense fallback={<div>Loading...</div>}>
+            <SignUpForm />
+        </Suspense>
+    )
 }
