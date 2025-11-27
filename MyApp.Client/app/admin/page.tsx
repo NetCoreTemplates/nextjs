@@ -1,6 +1,6 @@
 'use client'
 
-import { SecondaryButton } from "@servicestack/react"
+import { PrimaryButton, SecondaryButton, TextLink } from "@servicestack/react"
 import Page from "@/components/layout-page"
 import { ValidateAuth, appAuth } from "@/lib/auth"
 
@@ -17,7 +17,13 @@ function Admin () {
                 {(user!.roles || []).map((role:string) =>
                     <span key={role} className="ml-3 inline-flex items-center px-3 py-0.5 rounded-full text-xs font-medium leading-5 bg-indigo-100 text-indigo-800">{role}</span>)}
             </div>
-            <SecondaryButton className="mt-8" onClick={signOut}>Sign Out</SecondaryButton>
+            <SecondaryButton className="mt-8" onClick={() => signOut()}>Sign Out</SecondaryButton>
+            <PrimaryButton className="mt-8" href="/Identity/Account/Manage">
+                Identity Auth Account            
+            </PrimaryButton>
+            <TextLink className="mt-8" href="/">
+                🏠 Home
+            </TextLink>
         </div>
     </Page>)
 }

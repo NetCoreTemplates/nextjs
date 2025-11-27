@@ -1,5 +1,5 @@
 /* Options:
-Date: 2025-11-14 21:32:50
+Date: 2025-11-27 11:24:30
 Version: 8.101
 Tip: To override a DTO option, remove "//" prefix before updating
 BaseUrl: https://localhost:5001
@@ -241,17 +241,6 @@ export enum RoomType
     Suite = 'Suite',
 }
 
-/** @description Discount Coupons */
-export class Coupon
-{
-    public id?: string;
-    public description?: string;
-    public discount?: number;
-    public expiryDate?: string;
-
-    public constructor(init?: Partial<Coupon>) { (Object as any).assign(this, init); }
-}
-
 export class User
 {
     public id?: string;
@@ -274,10 +263,6 @@ export class Booking extends AuditBase
     public bookingStartDate?: string;
     public bookingEndDate?: string;
     public cost?: number;
-    // @References("typeof(MyApp.ServiceModel.Coupon)")
-    public couponId?: string;
-
-    public discount?: Coupon;
     public notes?: string;
     public cancelled?: boolean;
     public employee?: User;
@@ -293,14 +278,6 @@ export class Forecast implements IGet
     public temperatureF?: number;
 
     public constructor(init?: Partial<Forecast>) { (Object as any).assign(this, init); }
-}
-
-export class PageStats
-{
-    public label?: string;
-    public total?: number;
-
-    public constructor(init?: Partial<PageStats>) { (Object as any).assign(this, init); }
 }
 
 // @DataContract
@@ -640,13 +617,6 @@ export class HelloResponse
     public constructor(init?: Partial<HelloResponse>) { (Object as any).assign(this, init); }
 }
 
-export class AdminDataResponse
-{
-    public pageStats?: PageStats[] = [];
-
-    public constructor(init?: Partial<AdminDataResponse>) { (Object as any).assign(this, init); }
-}
-
 // @DataContract
 export class RegisterResponse implements IHasSessionId, IHasBearerToken
 {
@@ -826,15 +796,6 @@ export class GetWeatherForecast implements IReturn<Forecast[]>, IGet
     public getTypeName() { return 'GetWeatherForecast'; }
     public getMethod() { return 'GET'; }
     public createResponse() { return new Array<Forecast>(); }
-}
-
-export class AdminData implements IReturn<AdminDataResponse>, IGet
-{
-
-    public constructor(init?: Partial<AdminData>) { (Object as any).assign(this, init); }
-    public getTypeName() { return 'AdminData'; }
-    public getMethod() { return 'GET'; }
-    public createResponse() { return new AdminDataResponse(); }
 }
 
 /** @description Sign Up */
@@ -1113,29 +1074,16 @@ export class Authenticate implements IReturn<AuthenticateResponse>, IPost
     public createResponse() { return new AuthenticateResponse(); }
 }
 
-/** @description Find Bookings */
-// @Route("/bookings", "GET")
-// @Route("/bookings/{Id}", "GET")
+// @ValidateRequest(Validator="HasRole(`Employee`)")
 export class QueryBookings extends QueryDb<Booking> implements IReturn<QueryResponse<Booking>>
 {
     public id?: number;
+    public ids?: number[];
 
     public constructor(init?: Partial<QueryBookings>) { super(init); (Object as any).assign(this, init); }
     public getTypeName() { return 'QueryBookings'; }
     public getMethod() { return 'GET'; }
     public createResponse() { return new QueryResponse<Booking>(); }
-}
-
-/** @description Find Coupons */
-// @Route("/coupons", "GET")
-export class QueryCoupons extends QueryDb<Coupon> implements IReturn<QueryResponse<Coupon>>
-{
-    public id?: string;
-
-    public constructor(init?: Partial<QueryCoupons>) { super(init); (Object as any).assign(this, init); }
-    public getTypeName() { return 'QueryCoupons'; }
-    public getMethod() { return 'GET'; }
-    public createResponse() { return new QueryResponse<Coupon>(); }
 }
 
 // @ValidateRequest(Validator="IsAdmin")
@@ -1149,12 +1097,9 @@ export class QueryUsers extends QueryDb<User> implements IReturn<QueryResponse<U
     public createResponse() { return new QueryResponse<User>(); }
 }
 
-/** @description Create a new Booking */
-// @Route("/bookings", "POST")
 // @ValidateRequest(Validator="HasRole(`Employee`)")
 export class CreateBooking implements IReturn<IdResponse>, ICreateDb<Booking>
 {
-    /** @description Name this Booking is for */
     // @Validate(Validator="NotEmpty")
     public name?: string;
 
@@ -1162,15 +1107,13 @@ export class CreateBooking implements IReturn<IdResponse>, ICreateDb<Booking>
     // @Validate(Validator="GreaterThan(0)")
     public roomNumber?: number;
 
+    public bookingStartDate?: string;
+    public bookingEndDate?: string;
     // @Validate(Validator="GreaterThan(0)")
     public cost?: number;
 
-    // @Required()
-    public bookingStartDate?: string;
-
-    public bookingEndDate?: string;
     public notes?: string;
-    public couponId?: string;
+    public cancelled?: boolean;
 
     public constructor(init?: Partial<CreateBooking>) { (Object as any).assign(this, init); }
     public getTypeName() { return 'CreateBooking'; }
@@ -1178,8 +1121,6 @@ export class CreateBooking implements IReturn<IdResponse>, ICreateDb<Booking>
     public createResponse() { return new IdResponse(); }
 }
 
-/** @description Update an existing Booking */
-// @Route("/booking/{Id}", "PATCH")
 // @ValidateRequest(Validator="HasRole(`Employee`)")
 export class UpdateBooking implements IReturn<IdResponse>, IPatchDb<Booking>
 {
@@ -1189,13 +1130,12 @@ export class UpdateBooking implements IReturn<IdResponse>, IPatchDb<Booking>
     // @Validate(Validator="GreaterThan(0)")
     public roomNumber?: number;
 
+    public bookingStartDate?: string;
+    public bookingEndDate?: string;
     // @Validate(Validator="GreaterThan(0)")
     public cost?: number;
 
-    public bookingStartDate?: string;
-    public bookingEndDate?: string;
     public notes?: string;
-    public couponId?: string;
     public cancelled?: boolean;
 
     public constructor(init?: Partial<UpdateBooking>) { (Object as any).assign(this, init); }
@@ -1204,71 +1144,15 @@ export class UpdateBooking implements IReturn<IdResponse>, IPatchDb<Booking>
     public createResponse() { return new IdResponse(); }
 }
 
-/** @description Delete a Booking */
-// @Route("/booking/{Id}", "DELETE")
 // @ValidateRequest(Validator="HasRole(`Manager`)")
+// @ValidateRequest(Validator="HasRole(`Employee`)")
 export class DeleteBooking implements IReturnVoid, IDeleteDb<Booking>
 {
     public id?: number;
+    public ids?: number[];
 
     public constructor(init?: Partial<DeleteBooking>) { (Object as any).assign(this, init); }
     public getTypeName() { return 'DeleteBooking'; }
-    public getMethod() { return 'DELETE'; }
-    public createResponse() {}
-}
-
-// @Route("/coupons", "POST")
-// @ValidateRequest(Validator="HasRole(`Employee`)")
-export class CreateCoupon implements IReturn<IdResponse>, ICreateDb<Coupon>
-{
-    // @Validate(Validator="NotEmpty")
-    public id?: string;
-
-    // @Validate(Validator="NotEmpty")
-    public description?: string;
-
-    // @Validate(Validator="GreaterThan(0)")
-    public discount?: number;
-
-    // @Validate(Validator="NotNull")
-    public expiryDate?: string;
-
-    public constructor(init?: Partial<CreateCoupon>) { (Object as any).assign(this, init); }
-    public getTypeName() { return 'CreateCoupon'; }
-    public getMethod() { return 'POST'; }
-    public createResponse() { return new IdResponse(); }
-}
-
-// @Route("/coupons/{Id}", "PATCH")
-// @ValidateRequest(Validator="HasRole(`Employee`)")
-export class UpdateCoupon implements IReturn<IdResponse>, IPatchDb<Coupon>
-{
-    public id?: string;
-    // @Validate(Validator="NotEmpty")
-    public description?: string;
-
-    // @Validate(Validator="NotNull")
-    // @Validate(Validator="GreaterThan(0)")
-    public discount?: number;
-
-    // @Validate(Validator="NotNull")
-    public expiryDate?: string;
-
-    public constructor(init?: Partial<UpdateCoupon>) { (Object as any).assign(this, init); }
-    public getTypeName() { return 'UpdateCoupon'; }
-    public getMethod() { return 'PATCH'; }
-    public createResponse() { return new IdResponse(); }
-}
-
-/** @description Delete a Coupon */
-// @Route("/coupons/{Id}", "DELETE")
-// @ValidateRequest(Validator="HasRole(`Manager`)")
-export class DeleteCoupon implements IReturnVoid, IDeleteDb<Coupon>
-{
-    public id?: string;
-
-    public constructor(init?: Partial<DeleteCoupon>) { (Object as any).assign(this, init); }
-    public getTypeName() { return 'DeleteCoupon'; }
     public getMethod() { return 'DELETE'; }
     public createResponse() {}
 }

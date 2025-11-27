@@ -8,22 +8,21 @@ namespace MyApp;
 public class AppHost() : AppHostBase("MyApp"), IHostingStartup
 {
     public void Configure(IWebHostBuilder builder) => builder
-        .ConfigureServices((context, services) => {
+        .ConfigureServices((Action<WebHostBuilderContext, IServiceCollection>)((context, services) => {
             // Configure ASP.NET Core IOC Dependencies
-            services.AddSingleton(new AppConfig {
-                AppBaseUrl = context.HostingEnvironment.IsDevelopment()
-                    ? "https://localhost:3000"
-                    : null,
-                ApiBaseUrl = context.HostingEnvironment.IsDevelopment()
-                    ? "https://localhost:5001"  
-                    : null,
-            });
-        });
+            services.AddSingleton(context.Configuration.GetSection(nameof(AppConfig))?.Get<AppConfig>()
+                ?? new AppConfig {
+                        BaseUrl = context.HostingEnvironment.IsDevelopment()
+                            ? "https://localhost:5001"  
+                            : Environment.GetEnvironmentVariable("KAMAL_DEPLOY_HOST"),
+                    });
+            }));
 
     // Configure your AppHost with the necessary configuration and dependencies your App needs
     public override void Configure()
     {
         TypeScriptGenerator.InsertTsNoCheck = true;
+        
         SetConfig(new HostConfig {
         });
     }

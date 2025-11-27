@@ -1,85 +1,281 @@
-# .NET 8.0 Next.js + Tailwindcss ASP.NET Identity Auth Template
+# .NET 10 Full-featured Next.js Static Export Identity Auth Template
 
-![](https://raw.githubusercontent.com/ServiceStack/Assets/master/csharp-templates/nextjs.png)
-![](https://raw.githubusercontent.com/ServiceStack/Assets/master/csharp-templates/start/nextjs.png)
+![](https://github.com/ServiceStack/docs.servicestack.net/blob/main/MyApp/wwwroot/img/pages/react/next-static.webp)
 
-> Browse [source code](https://github.com/NetCoreTemplates/nextjs) and install with [x new](https://docs.servicestack.net/dotnet-new):
+> Browse [source code](https://github.com/NetCoreTemplates/next-static)
 
-This template should help get you started developing with Vue 3 and Typescript in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+A modern full-stack .NET 10.0 + Next.js 16 project template that combines the power of ServiceStack with Next.js static site generation and React 19. It provides a production-ready foundation for building scalable web applications with integrated authentication, database management, and background job processing.
+
+## Quick Start
 
 ```bash
-$ dotnet tool install -g x
-
-$ x new nextjs ProjectName
+npx create-net next-static MyProject
 ```
 
 ## Getting Started
 
-Build Client UI & Run Dev Server
+Run Server .NET Project (automatically starts both .NET and Next.js dev servers):
 
 ```bash
-$ cd ui && npm run build:local
-$ npm run dev
+cd MyProject
+dotnet watch
 ```
 
-Run Server .NET Project (New Terminal)
+## Architecture
+
+### Hybrid Development Approach
+
+**Development Mode:**
+
+![](https://raw.githubusercontent.com/ServiceStack/docs.servicestack.net/refs/heads/main/MyApp/wwwroot/img/pages/react/info/next-static-dev.svg)
+
+- ASP.NET Core proxies requests to Next.js dev server (running on port 3000)
+- Hot Module Replacement (HMR) support for instant UI updates
+- WebSocket proxying for Next.js HMR functionality
+
+**Production Mode:**
+
+![](https://raw.githubusercontent.com/ServiceStack/docs.servicestack.net/refs/heads/main/MyApp/wwwroot/img/pages/react/info/next-static-prod.svg)
+
+- Next.js app is statically exported to `/dist`
+- Static files served directly from ASP.NET Core's `/wwwroot`
+- No separate Node.js server required in production
+
+### Project Structure
+
+```
+MyApp/                       # Main ASP.NET Core host
+├── Configure.*.cs           # Modular startup configuration
+├── Program.cs               # Application entry point
+└── wwwroot/                 # Static files (production)
+
+MyApp.Client/                # Next.js frontend application
+├── app/                     # Next.js App Router pages
+├── components/              # React components
+├── lib/                     # Utilities and helpers
+├── public/                  # Static assets
+├── dist/                    # Build output (production)
+└── styles/                  # Tailwind CSS styles
+
+MyApp.ServiceInterface/      # Service implementations
+├── MyServices.cs            # Example services
+└── Data/                    # EF Core DbContext
+
+MyApp.ServiceModel/          # DTOs and service contracts
+├── Bookings.cs              # AutoQuery CRUD example
+└── Hello.cs                 # Example service contract
+
+MyApp.Tests/                 # Integration and unit tests
+
+config/                      # Deployment configuration
+└── deploy.yml               # Kamal deployment settings
+
+.github/                     # GitHub Actions workflows
+└── workflows/
+    ├── build.yml            # CI build and test
+    ├── build-container.yml  # Container image build
+    └── release.yml          # Production deployment with Kamal
+```
+
+## Features
+
+### 🔐 Identity Authentication
+
+Full ASP.NET Core Identity integration with ServiceStack's Auth features:
+
+- **Credentials Authentication** - Email/password sign-in with secure cookie sessions
+- **User Registration** - With email confirmation support
+- **Role-based Authorization** - Admin, Manager, Employee roles with `[ValidateHasRole]`
+- **Admin Users UI** - Built-in user management at `/admin-ui/users`
+- **API Keys** - Generate and manage API keys for programmatic access
+
+### 📊 AutoQuery CRUD
+
+Declarative APIs with automatic query and CRUD functionality:
+
+- **AutoQuery** - Queryable APIs with filtering, sorting, and pagination
+- **AutoQueryData** - In-memory queryable data sources
+- **Audit History** - Automatic tracking of data changes
+- **Bookings Example** - Complete CRUD example with role-based permissions
+
+### 🎨 React 19 + shadcn/ui Components
+
+Modern UI built with:
+
+- **React 19** with Server Components support
+- **shadcn/ui** - Beautiful, accessible component library
+- **Tailwind CSS 4** - Utility-first styling with dark mode support
+- **@servicestack/react** - Pre-built form components and AutoQueryGrid
+- **SWR** - React Hooks for data fetching with caching
+
+### 🤖 AI Chat Integration
+
+Built-in AI chat capabilities:
+
+- **ChatFeature** - Multi-provider AI chat API
+- **Configurable Providers** - ServiceStack, OpenAI, Anthropic, Google, Groq, and more
+- **Chat History** - Persistent storage with `DbChatStore`
+- **Admin Analytics** - Chat usage insights at `/admin-ui/chat`
+
+### ⚙️ Background Jobs
+
+Durable job processing with ServiceStack's Background Jobs:
+
+- **Command Pattern** - Type-safe job definitions
+- **Email Queue** - SMTP email sending via background jobs
+- **Recurring Jobs** - Scheduled task execution
+- **Job Dashboard** - Monitor jobs at `/admin-ui/jobs`
+
+### 📝 MDX Blog
+
+Integrated markdown blog with:
+
+- **MDX Support** - Markdown with React components
+- **Syntax Highlighting** - Prism.js code blocks
+- **Static Generation** - Pre-rendered at build time
+- **Frontmatter** - YAML metadata for posts
+
+### 🗄️ Database
+
+SQLite with dual ORM support:
+
+- **OrmLite** - ServiceStack's fast micro-ORM for services
+- **Entity Framework Core** - For Identity and complex queries
+- **Code-First Migrations** - EF Core migrations in `/Migrations`
+- **Database Admin UI** - Browse data at `/admin-ui/database`
+
+### 📡 Request Logging
+
+Comprehensive API logging:
+
+- **SqliteRequestLogger** - Persistent request logging to SQLite
+- **Request Body Tracking** - Full request payload capture
+- **Error Tracking** - Automatic error logging
+- **Admin Dashboard** - View logs at `/admin-ui/logging`
+
+### 🏥 Health Checks
+
+Production-ready health monitoring:
+
+- **Health Endpoint** - `/up` for load balancer checks
+- **Custom Health Checks** - Extensible health check framework
+
+### 🔄 TypeScript DTOs
+
+Automatic TypeScript type generation:
+
+- **Type-Safe API Calls** - Generated from C# DTOs
+- **Sync Command** - `npm run dtos` to update types
+- **ServiceStack Client** - Full-featured TypeScript client
+
+## Example Pages
+
+| Page | Description |
+|------|-------------|
+| `/` | Home page with getting started guide |
+| `/todomvc` | TodoMVC example with ServiceStack APIs |
+| `/bookings-auto` | AutoQueryGrid with automatic columns |
+| `/bookings-custom` | Custom booking form with validation |
+| `/admin` | Protected admin page (requires Admin role) |
+| `/profile` | User profile management |
+| `/posts` | MDX blog listing |
+| `/shadcn-ui` | shadcn/ui component showcase |
+
+## Admin UIs
+
+Access built-in admin dashboards at:
+
+- `/admin-ui` - Admin dashboard home
+- `/admin-ui/users` - User management
+- `/admin-ui/database` - Database browser
+- `/admin-ui/logging` - Request logs
+- `/admin-ui/jobs` - Background jobs
+- `/admin-ui/apikeys` - API key management
+- `/admin-ui/chat` - AI chat analytics
+
+## Deployment
+
+### Docker + Kamal
+
+Production deployment configured with Kamal (config in `/config/deploy.yml`):
 
 ```bash
-$ cd api\ProjectName
-$ dotnet watch
+kamal setup
+kamal deploy
 ```
 
-For more, see development workflow docs for **JetBrains Rider** and **VS Code / VS .NET**
+Features:
+- **Docker containerization** with optimized .NET images
+- **SSL auto-certification** via Let's Encrypt
+- **GitHub Container Registry** integration
+- **Volume persistence** for SQLite database
 
-#### Use npm dev server for UI Development
+### Manual Deployment
 
-- https://localhost:3000
-
-#### `npm run build:local` to view in .NET App
-
-- https://localhost:5001
-
-
-## About Next.js
-
-### A statically generated blog example using Next.js, Markdown, and TypeScript
-
-This is the existing [blog-starter](https://github.com/vercel/next.js/tree/canary/examples/blog-starter) plus TypeScript.
-
-This example showcases Next.js's [Static Generation](https://nextjs.org/docs/basic-features/pages) feature using Markdown files as the data source.
-
-The blog posts are stored in `/_posts` as Markdown files with front matter support. Adding a new Markdown file in there will create a new blog post.
-
-To create the blog posts we use [`remark`](https://github.com/remarkjs/remark) and [`remark-html`](https://github.com/remarkjs/remark-html) to convert the Markdown files into an HTML string, and then send it down as a prop to the page. The metadata of every post is handled by [`gray-matter`](https://github.com/jonschlinkert/gray-matter) and also sent in props to the page.
-
-## Preview
-
-Preview the example live on [StackBlitz](http://stackblitz.com/):
-
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/vercel/next.js/tree/canary/examples/blog-starter-typescript)
-
-## Deploy your own
-
-Deploy the example using [Vercel](https://vercel.com?utm_source=github&utm_medium=readme&utm_campaign=next-example):
-
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/git/external?repository-url=https://github.com/vercel/next.js/tree/canary/examples/blog-starter-typescript&project-name=blog-starter-typescript&repository-name=blog-starter-typescript)
-
-## How to use
-
-Execute [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app) with [npm](https://docs.npmjs.com/cli/init) or [Yarn](https://yarnpkg.com/lang/en/docs/cli/create/) to bootstrap the example:
+Build and publish:
 
 ```bash
-npx create-next-app --example blog-starter-typescript blog-starter-typescript-app
-# or
-yarn create next-app --example blog-starter-typescript blog-starter-typescript-app
+cd MyApp.Client
+npm run publish
 ```
 
-Your blog should be up and running on [https://localhost:3000](https://localhost:3000)! If it doesn't work, post on [GitHub discussions](https://github.com/vercel/next.js/discussions).
+This builds the Next.js app and publishes the .NET project with static files.
 
-Deploy it to the cloud with [Vercel](https://vercel.com/new?utm_source=github&utm_medium=readme&utm_campaign=next-example) ([Documentation](https://nextjs.org/docs/deployment)).
+## Testing
 
-# Notes
+### .NET Tests
 
-This blog-starter-typescript uses [Tailwind CSS](https://tailwindcss.com). To control the generated stylesheet's filesize, this example uses Tailwind CSS' v2.0 [`purge` option](https://tailwindcss.com/docs/controlling-file-size/#removing-unused-css) to remove unused CSS.
+```bash
+cd MyApp.Tests
+dotnet test
+```
 
-[Tailwind CSS v2.0 no longer supports Node.js 8 or 10](https://tailwindcss.com/docs/upgrading-to-v2#upgrade-to-node-js-12-13-or-higher). To build your CSS you'll need to ensure you are running Node.js 12.13.0 or higher in both your local and CI environments.
+### Frontend Tests
+
+```bash
+cd MyApp.Client
+npm test           # Watch mode
+npm run test:run   # Single run
+npm run test:ui    # Vitest UI
+```
+
+## Configuration
+
+### Environment Variables
+
+Configure in `appsettings.json` or environment:
+
+```json
+{
+  "ConnectionStrings": {
+    "DefaultConnection": "DataSource=App_Data/app.db;Cache=Shared"
+  },
+  "SmtpConfig": {
+    "Host": "smtp.example.com",
+    "Port": 587,
+    "FromEmail": "noreply@example.com",
+    "FromName": "MyApp"
+  },
+  "AppConfig": {
+    "BaseUrl": "https://myapp.example.com"
+  }
+}
+```
+
+### SMTP Email
+
+Enable email sending by uncommenting in `Program.cs`:
+
+```csharp
+services.AddSingleton<IEmailSender<ApplicationUser>, EmailSender>();
+```
+
+## Learn More
+
+- [ServiceStack Documentation](https://docs.servicestack.net)
+- [Next.js Documentation](https://nextjs.org/docs)
+- [ServiceStack React Components](https://docs.servicestack.net/react)
+- [AutoQuery CRUD](https://docs.servicestack.net/autoquery-crud)
+- [Background Jobs](https://docs.servicestack.net/background-jobs)
+- [AI Chat API](https://docs.servicestack.net/ai-chat-api)
+

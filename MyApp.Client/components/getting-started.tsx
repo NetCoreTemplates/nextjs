@@ -8,7 +8,7 @@ type Props = {
 }
 
 export default ({ template }: Props) => {
-    let defaultValue = 'ProjectName'
+    let defaultValue = 'MyProject'
     let [project, setProject] = useState(defaultValue)
 
     const handleChange = (e: ChangeEvent<HTMLInputElement>) => setProject(e.target.value);
@@ -51,8 +51,7 @@ export default ({ template }: Props) => {
             </div>
         </section>
 
-        <ShellCommand className="mb-2">dotnet tool install -g x</ShellCommand>
-        <ShellCommand className="mb-2">x new {template} {project}</ShellCommand>
+        <ShellCommand className="mb-2">npx create-net {template} {project}</ShellCommand>
 
         <h4 className="py-6 text-center text-xl">Run .NET Project</h4>
         <ShellCommand className="mb-2">dotnet watch</ShellCommand>

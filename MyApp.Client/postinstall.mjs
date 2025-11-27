@@ -5,6 +5,7 @@
 import { execSync } from 'child_process'
 import { join, dirname } from 'path'
 import { fileURLToPath } from 'url'
+import { readdirSync, existsSync } from 'fs'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
@@ -20,6 +21,16 @@ function isDotnetInstalled() {
 
 function runMigration() {
   const myAppPath = join(__dirname, '..', 'MyApp')
+  const appDataPath = join(myAppPath, 'App_Data')
+
+  // Only run migration if App_Data doesn't exist or has no files (other than .gitkeep)
+  if (existsSync(appDataPath)) {
+    const files = readdirSync(appDataPath).filter(file => file !== '.gitkeep')
+    if (files.length > 0) {
+      console.log('Skipping migration: App_Data already contains files')
+      return
+    }
+  }
 
   try {
     console.log('Running database migration...')

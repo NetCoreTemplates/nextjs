@@ -14,8 +14,6 @@ const DEPLOY_API = process.env.KAMAL_DEPLOY_HOST
 // Now use it for API_URL
 const API_URL = isProd ? DEPLOY_API : (buildLocal ? '' : target)
 
-console.log('next.config.mjs', process.env.NODE_ENV, buildLocal, API_URL, process.env.KAMAL_DEPLOY_HOST)
-
 /**
  * @type {import('next').NextConfig}
  **/

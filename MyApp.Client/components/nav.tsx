@@ -81,8 +81,8 @@ export default function Nav() {
                                 </li>
                             </>)
                             : (<li className="relative flex flex-wrap just-fu-start m-0">
-                                <SecondaryButton className="m-2">
-                                    <Link href="/signin">Sign In</Link>
+                                <SecondaryButton href="/signin" className="m-2">
+                                    Sign In
                                 </SecondaryButton>
                             </li>)
                         }
