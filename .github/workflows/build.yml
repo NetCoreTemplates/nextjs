@@ -1,116 +1,51 @@
-name: Release
-permissions:
-  packages: write
-  contents: write
-on:
-  workflow_run:
-    workflows: ["Build Container"]
-    types:
-      - completed
-    branches:
-      - main
-      - master
-  workflow_dispatch:
+name: Build
 
-env:
-  DOCKER_BUILDKIT: 1
-  SERVICESTACK_LICENSE: ${{ secrets.SERVICESTACK_LICENSE }}
-  KAMAL_DEPLOY_IP: ${{ secrets.KAMAL_DEPLOY_IP }}
-  KAMAL_DEPLOY_HOST: ${{ secrets.KAMAL_DEPLOY_HOST }}
-  KAMAL_REGISTRY_USERNAME: ${{ github.actor }}
-  KAMAL_REGISTRY_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
+on:
+  pull_request: {}
+  push:
+    branches:
+      - '**'        # matches every branch
 
 jobs:
-  release:
+  build:
     runs-on: ubuntu-latest
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     steps:
-      - name: Checkout code
+      - name: checkout
         uses: actions/checkout@v5
 
-      - name: Set up environment variables
+      - name: Setup dotnet
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: 10.0.x
+
+      - name: Restore NuGet packages (use repo NuGet.config)
+        run: dotnet restore MyApp.slnx --configfile ./NuGet.Config
+
+      # If your feed requires authentication, enable and configure the step below.
+      # This example uses a Personal Access Token stored in secrets.NUGET_API_KEY.
+      # Alternatively, you can use the NuGet Authenticate action from Azure Pipelines.
+      # - name: Authenticate private NuGet feed
+      #   env:
+      #     NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
+      #   run: |
+      #     dotnet nuget add source "https://YOUR_FEED_URL/index.json" \
+      #       --name "PrivateFeed" \
+      #       --username "YOUR_USERNAME" \
+      #       --password "$NUGET_API_KEY" \
+      #       --store-password-in-clear-text
+
+      - name: build
+        run: dotnet build --no-restore
+        working-directory: .
+
+      - name: test
         run: |
-          echo "image_repository_name=$(echo ${{ github.repository }} | tr '[:upper:]' '[:lower:]')" >> $GITHUB_ENV
-          echo "repository_name=$(echo ${{ github.repository }} | cut -d '/' -f 2)" >> $GITHUB_ENV
-          echo "repository_name_lower=$(echo ${{ github.repository }} | cut -d '/' -f 2 | tr '[:upper:]' '[:lower:]')" >> $GITHUB_ENV
-          echo "org_name=$(echo ${{ github.repository }} | cut -d '/' -f 1)" >> $GITHUB_ENV
-          if find . -maxdepth 2 -type f -name "Configure.Db.Migrations.cs" | grep -q .; then
-            echo "HAS_MIGRATIONS=true" >> $GITHUB_ENV
+          dotnet test
+          if [ $? -eq 0 ]; then
+            echo TESTS PASSED
           else
-            echo "HAS_MIGRATIONS=false" >> $GITHUB_ENV
+            echo TESTS FAILED
+            exit 1
           fi
+        working-directory: ./MyApp.Tests
 
-      - name: Login to GitHub Container Registry
-        uses: docker/login-action@v3
-        with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Set up SSH key
-        uses: webfactory/ssh-agent@v0.9.0
-        with:
-          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
-
-      - name: Setup Ruby
-        uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: 3.3.0
-          bundler-cache: true
-
-      - name: Install Kamal
-        run: gem install kamal -v 2.3.0
-
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
-        with:
-          driver-opts: image=moby/buildkit:master
-
-      - name: Kamal bootstrap
-        run: |
-          kamal server bootstrap
-
-      - name: Ensure directories exist with correct permissions
-        run: |
-          echo "Creating directories with correct permissions"
-          kamal server exec "mkdir -p /opt/docker/${{ env.repository_name }}/App_Data /opt/docker/${{ env.repository_name }}/initdb.d"
-
-          echo "Setting app file permissions"
-          kamal server exec "chown -R 1654:1654 /opt/docker/${{ env.repository_name }}/App_Data /opt/docker/${{ env.repository_name }}/initdb.d"
-
-      - name: Check if first run and execute kamal app boot if necessary
-        run: |
-          FIRST_RUN_FILE="~/first-run/${{ env.repository_name }}"
-          if ! kamal server exec -q "test -f $FIRST_RUN_FILE"; then
-            kamal server exec -q "mkdir -p ~/first-run && touch $FIRST_RUN_FILE" || true
-
-            if [ -n "${{env.INIT_DB_SQL}}" ]; then
-              echo "Initializing DB with INIT_DB_SQL secret..."
-              # Save the SQL content to a temporary file
-              echo "${{ env.INIT_DB_SQL }}" > init-db.sql
-              cat init-db.sql | kamal server exec -i "cat > /opt/docker/${{ env.repository_name }}/initdb.d/${{ env.repository_name }}.sql" && rm init-db.sql || true
-            fi
-            # Start all kamal accessories
-            kamal accessory boot all || true
-
-            # Deploy latest version
-            kamal deploy -q -P --version latest || true
-          else
-            echo "Not first run, skipping kamal app boot"
-          fi
-
-      - name: Verify file permissions before deploy
-        run: |
-          kamal server exec --no-interactive "chown -R 1654:1654 /opt/docker/${{ env.repository_name }}/App_Data /opt/docker/${{ env.repository_name }}/initdb.d"
-
-      - name: Deploy with Kamal
-        run: |
-          kamal lock release -v
-          kamal server exec --no-interactive 'echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin'
-          kamal server exec --no-interactive 'docker pull ghcr.io/${{ env.image_repository_name }}:latest'
-          kamal deploy -P --version latest
-
-      - name: Migration
-        if: env.HAS_MIGRATIONS == 'true'
-        run: |
-          kamal app exec --no-reuse --no-interactive --version=latest "--AppTasks=migrate"
