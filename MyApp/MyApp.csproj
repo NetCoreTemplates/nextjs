@@ -7,6 +7,7 @@
     <InvariantGlobalization>true</InvariantGlobalization>
     <RootNamespace>MyApp</RootNamespace>
     <PublishProfile>DefaultContainer</PublishProfile>
+    <InterceptorsNamespaces>$(InterceptorsNamespaces);Microsoft.AspNetCore.OpenApi.Generated</InterceptorsNamespaces>
   </PropertyGroup>
 
   <ItemGroup>
@@ -23,8 +24,10 @@
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="10.*" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="10.*" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="10.*" />
+    <PackageReference Include="Scalar.AspNetCore" Version="2.11.0" />
     <PackageReference Include="ServiceStack" Version="8.*" />
     <PackageReference Include="ServiceStack.Mvc" Version="8.*" />
+    <PackageReference Include="ServiceStack.OpenApi.Microsoft" Version="8.10.1" />
     <PackageReference Include="ServiceStack.Server" Version="8.*" />
     <PackageReference Include="ServiceStack.Extensions" Version="8.*" />
     <PackageReference Include="ServiceStack.Ormlite.Sqlite.Data" Version="8.*" />

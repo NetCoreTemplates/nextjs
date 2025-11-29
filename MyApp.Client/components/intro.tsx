@@ -3,6 +3,7 @@
 import { useState } from "react"
 import { TextInput } from "@servicestack/react"
 import { GettingStarted, AutoUis } from "react-net-templates"
+import FeatureLinks from "./feature-links"
 import { swrClient } from "@/lib/gateway.client"
 import { Hello } from "@/lib/dtos"
 import { CMS_NAME } from "@/lib/constants"
@@ -47,6 +48,7 @@ const Intro = () => {
       </div>
       <AutoUis className="mt-60" />
     </div>
+    <FeatureLinks />
   </>)
 }
 

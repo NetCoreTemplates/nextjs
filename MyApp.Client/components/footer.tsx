@@ -1,9 +1,13 @@
 import Container from "./container"
+import FeatureLinks from "./feature-links"
 
 const Footer = () => {
   return (
     <footer className="bg-accent-1 dark:bg-gray-800 border-t border-accent-2 dark:border-gray-700">
-      <Container>
+             
+    <FeatureLinks />
+
+     <Container>
         <div className="py-28 flex flex-col lg:flex-row items-center">
           <h3 className="text-4xl lg:text-6xl font-bold tracking-tighter leading-tight text-center lg:text-left mb-10 lg:mb-0 lg:pr-4 lg:w-1/2 text-gray-900 dark:text-gray-100">
             A ServiceStack Project
