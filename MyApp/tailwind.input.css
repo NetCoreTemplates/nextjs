@@ -1,5 +1,5 @@
 @import "tailwindcss";
-@source "../MyApp.Client/public/lib/servicestack-vue.mjs";
+@source "../MyApp.Client/public/";
 
 /* Custom theme configuration */
 @theme {
