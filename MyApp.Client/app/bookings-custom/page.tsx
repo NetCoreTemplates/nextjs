@@ -9,7 +9,6 @@ import SrcPage from "@/components/src-page"
 
 function BookingsCustom() {
     const { currency } = useFormatters()
-    const [coupon, setCoupon] = useState<any>(null)
 
     return (<Page title="Bookings CRUD (Custom Columns)">
 
@@ -22,6 +21,7 @@ function BookingsCustom() {
         <div className="mt-4 flex flex-col ">
             <AutoQueryGrid
                 type="Booking"
+                hide={['copyApiUrl','downloadCsv']}
                 selectedColumns={['id', 'name', 'cost', 'bookingStartDate', 'bookingEndDate', 'roomNumber', 'createdBy', 'discount']}
                 visibleFrom={{
                     name: 'xl',
@@ -39,21 +39,6 @@ function BookingsCustom() {
                     ),
                     createdBy: ({ createdBy }: any) => (
                         <span dangerouslySetInnerHTML={{ __html: createdBy }} />
-                    ),
-                    discount: ({ discount }: any) => (
-                        discount ? (
-                            <TextLink
-                                className="flex items-end"
-                                onClick={(e: React.MouseEvent) => {
-                                    e.stopPropagation()
-                                    setCoupon(discount)
-                                }}
-                                title={discount.id}
-                            >
-                                <Icon className="w-5 h-5 mr-1" type="Coupon" />
-                                <PreviewFormat value={discount.description} />
-                            </TextLink>
-                        ) : null
                     )
                 }}
                 headerSlots={{
@@ -69,15 +54,6 @@ function BookingsCustom() {
                     'createdBy-header': () => <>Employee</>
                 }}
             />
-
-            {coupon && (
-                <AutoEditForm
-                    type="UpdateCoupon"
-                    value={coupon}
-                    onDone={() => setCoupon(null)}
-                    onSave={() => setCoupon(null)}
-                />
-            )}
 
             <div className="mt-4 text-center text-gray-400 flex justify-center -ml-6">
                 <SrcPage path="bookings-custom/page.tsx" />
