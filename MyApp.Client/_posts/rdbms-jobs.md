@@ -39,7 +39,7 @@ Best of all, it can be added to an existing .NET 8+ project with a single comman
 If you're using [ServiceStack ASP.NET Identity Auth](https://servicestack.net/start) templates, simply run:
 
 ```bash
-x mix db-identity
+npx add-in db-identity
 ```
 
 This replaces both `Configure.BackgroundJobs.cs` and `Configure.RequestLogs.cs` with RDBMS-compatible versions
@@ -50,7 +50,7 @@ that use `DatabaseJobsFeature` for background jobs and `DbRequestLogger` for API
 For all other ServiceStack applications, use:
 
 ```bash
-x mix db-jobs
+npx add-in db-jobs
 ```
 
 This replaces `Configure.BackgroundJobs.cs` to use the new `DatabaseJobsFeature`:

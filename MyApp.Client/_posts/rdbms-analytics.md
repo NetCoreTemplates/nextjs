@@ -43,13 +43,13 @@ IdentityAuth templates, to switch it over to use a RDBMS we recommend installing
 also replace SQLite BackgroundJobs with the RDBMS `DatabaseJobFeature`:
 
 ```bash
-x mix db-identity
+npx add-in db-identity
 ```
 
 Or if you just want to replace SQLite Request Logs with a RDBMS use: 
 
 ```bash
-x mix db-requestlogs
+npx add-in db-requestlogs
 ```
 
 Or you can copy the [Modular Startup](https://docs.servicestack.net/modular-startup) script below: 

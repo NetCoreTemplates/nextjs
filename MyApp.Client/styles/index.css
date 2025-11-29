@@ -1,5 +1,6 @@
 @import "tailwindcss";
 @source "../node_modules/@servicestack/react/dist/servicestack-react.mjs";
+@source "../node_modules/react-net-templates/dist/index.js";
 
 @variant dark (.dark &);
 

@@ -6,10 +6,7 @@ import Layout from "@/components/layout"
 import { getAllPosts } from "@/lib/api"
 import { CMS_NAME } from "@/lib/constants"
 import Post from "@/types/post"
-import GettingStarted from "@/components/getting-started"
-import BuiltInUis from "@/components/builtin-uis"
 import type { Metadata } from 'next'
-import AutoUis from "@/components/auto-uis"
 
 export const metadata: Metadata = {
   title: `Next.js Example with ${CMS_NAME}`,
@@ -32,13 +29,6 @@ export default function Index() {
     <Layout>
       <Container>
         <Intro />
-          <div className="mb-32 flex justify-center">
-              <GettingStarted template="nextjs" />
-          </div>
-
-
-          <AutoUis className="mt-60" />
-
 
         {heroPost && (
           <HeroPost

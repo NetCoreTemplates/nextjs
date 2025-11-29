@@ -2,6 +2,7 @@
 
 import { useState } from "react"
 import { TextInput } from "@servicestack/react"
+import { GettingStarted, AutoUis } from "react-net-templates"
 import { swrClient } from "@/lib/gateway.client"
 import { Hello } from "@/lib/dtos"
 import { CMS_NAME } from "@/lib/constants"
@@ -15,7 +16,7 @@ const HelloApi = ({ name }:any) => {
 const Intro = () => {
 
   const [inputValue, setInputValue] = useState<string>("Next.js");
-    return (
+    return (<>
     <section className="flex-col md:flex-row flex items-center md:justify-between mt-16 mb-16 md:mb-12">
       <h1 className="text-6xl md:text-8xl font-bold tracking-tighter leading-tight md:pr-8 text-gray-900 dark:text-gray-100">
         Next.js
@@ -40,7 +41,13 @@ const Intro = () => {
         </div>
       </div>
     </section>
-  )
+    <div>
+      <div className="mb-32 flex justify-center">
+        <GettingStarted template="nextjs" />
+      </div>
+      <AutoUis className="mt-60" />
+    </div>
+  </>)
 }
 
 export default Intro

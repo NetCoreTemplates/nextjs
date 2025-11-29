@@ -4,6 +4,7 @@
   "requires": true,
   "packages": {
     "": {
+      "hasInstallScript": true,
       "dependencies": {
         "@mdx-js/loader": "^3.1.1",
         "@mdx-js/react": "^3.1.1",
@@ -23,6 +24,7 @@
         "prismjs": "^1.30.0",
         "react": "^19.2.0",
         "react-dom": "^19.2.0",
+        "react-net-templates": "^0.0.1",
         "rehype-highlight": "^7.0.2",
         "rehype-prism-plus": "^2.0.1",
         "rehype-stringify": "^10.0.1",
@@ -6372,6 +6374,20 @@
       "dev": true,
       "license": "MIT",
       "peer": true
+    },
+    "node_modules/react-net-templates": {
+      "version": "0.0.1",
+      "resolved": "https://registry.npmjs.org/react-net-templates/-/react-net-templates-0.0.1.tgz",
+      "integrity": "sha512-eb6Vnz63D5El78SqwrQrgjsmsxfChtRSFIFsYci6Ymu8jrzG9NA5bATHoIknEqApZR5RYe6tyAKYeJWlAdMrtw==",
+      "license": "BSD-3-Clause",
+      "dependencies": {
+        "clsx": "^2.1.1",
+        "tailwind-merge": "^3.4.0"
+      },
+      "peerDependencies": {
+        "react": "^18.0.0 || ^19.0.0",
+        "react-dom": "^18.0.0 || ^19.0.0"
+      }
     },
     "node_modules/react-refresh": {
       "version": "0.18.0",

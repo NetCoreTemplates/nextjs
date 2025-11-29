@@ -21,7 +21,7 @@ access to AI from within your own organization.
 AI Chat can be added to any .NET 8+ project by installing the **ServiceStack.AI.Chat** NuGet package and configuration with:
 
 ```bash
-x mix chat
+npx add-in chat
 ```
 
 Which drops this simple [Modular Startup](https://docs.servicestack.net/modular-startup) that adds the `ChatFeature`
@@ -364,7 +364,7 @@ since most of ServiceStack's functionality is designed around Request DTOs — w
 AI Chat can be added to any .NET 8+ project by installing the **ServiceStack.AI.Chat** NuGet package and configuration with:
 
 ```bash
-x mix chat
+npx add-in chat
 ```
 
 Which drops this simple [Modular Startup](https://docs.servicestack.net/modular-startup) that adds the `ChatFeature`
