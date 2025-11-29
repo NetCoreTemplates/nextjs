@@ -402,4 +402,3 @@ npx okai rm Transaction.d.ts
 - [AutoQuery CRUD](https://docs.servicestack.net/autoquery-crud)
 - [Background Jobs](https://docs.servicestack.net/background-jobs)
 - [AI Chat API](https://docs.servicestack.net/ai-chat-api)
-
