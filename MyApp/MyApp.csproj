@@ -25,14 +25,14 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="10.*" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="10.*" />
     <PackageReference Include="Scalar.AspNetCore" Version="2.11.0" />
-    <PackageReference Include="ServiceStack" Version="8.*" />
-    <PackageReference Include="ServiceStack.Mvc" Version="8.*" />
-    <PackageReference Include="ServiceStack.OpenApi.Microsoft" Version="8.10.1" />
-    <PackageReference Include="ServiceStack.Server" Version="8.*" />
-    <PackageReference Include="ServiceStack.Extensions" Version="8.*" />
-    <PackageReference Include="ServiceStack.Ormlite.Sqlite.Data" Version="8.*" />
-    <PackageReference Include="ServiceStack.Jobs" Version="8.*" />
-    <PackageReference Include="ServiceStack.AI.Chat" Version="8.*" />
+    <PackageReference Include="ServiceStack" Version="10.*" />
+    <PackageReference Include="ServiceStack.Mvc" Version="10.*" />
+    <PackageReference Include="ServiceStack.OpenApi.Microsoft" Version="10.*" />
+    <PackageReference Include="ServiceStack.Server" Version="10.*" />
+    <PackageReference Include="ServiceStack.Extensions" Version="10.*" />
+    <PackageReference Include="ServiceStack.Ormlite.Sqlite.Data" Version="10.*" />
+    <PackageReference Include="ServiceStack.Jobs" Version="10.*" />
+    <PackageReference Include="ServiceStack.AI.Chat" Version="10.*" />
   </ItemGroup>
 
   <ItemGroup>

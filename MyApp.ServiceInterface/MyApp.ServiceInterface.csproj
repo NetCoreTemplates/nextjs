@@ -9,9 +9,9 @@
     <ItemGroup>
         <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="10.*" />
         <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="10.*" />
-        <PackageReference Include="ServiceStack" Version="8.*" />
-        <PackageReference Include="ServiceStack.Ormlite" Version="8.*" />
-        <PackageReference Include="ServiceStack.Extensions" Version="8.*" />
+        <PackageReference Include="ServiceStack" Version="10.*" />
+        <PackageReference Include="ServiceStack.Ormlite" Version="10.*" />
+        <PackageReference Include="ServiceStack.Extensions" Version="10.*" />
     </ItemGroup>
 
     <ItemGroup>

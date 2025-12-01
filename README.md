@@ -12,6 +12,10 @@ A modern full-stack .NET 10.0 + Next.js 16 project template that combines the po
 npx create-net nextjs MyProject
 ```
 
+## Jumpstart with Copilot
+
+Instantly [scaffold a new App with this template](https://github.com/new?template_name=nextjs&template_owner=NetCoreTemplates) using GitHub Copilot, just describe the features you want and watch Copilot build it!
+
 ## Getting Started
 
 Run Server .NET Project (automatically starts both .NET and Next.js dev servers):
