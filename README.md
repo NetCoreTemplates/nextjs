@@ -16,6 +16,10 @@ npx create-net nextjs MyProject
 
 Instantly [scaffold a new App with this template](https://github.com/new?template_name=nextjs&template_owner=NetCoreTemplates) using GitHub Copilot, just describe the features you want and watch Copilot build it!
 
+## [react-templates.net](https://react-templates.net)
+
+[![](https://github.com/ServiceStack/servicestack.net/blob/main/MyApp/wwwroot/img/posts/vibecode-react-templates/bg.webp?raw=true)](https://react-templates.net)
+
 ## Getting Started
 
 Run Server .NET Project (automatically starts both .NET and Next.js dev servers):
