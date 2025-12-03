@@ -7,8 +7,8 @@ const isProd = process.env.NODE_ENV === 'production'
 const buildLocal = process.env.MODE === 'local'
 
 // Define DEPLOY_API first
-const DEPLOY_API = process.env.KAMAL_DEPLOY_HOST 
-    ? `https://${process.env.KAMAL_DEPLOY_HOST}` 
+const DEPLOY_API = process.env.KAMAL_DEPLOY_HOST
+    ? `https://${process.env.KAMAL_DEPLOY_HOST}`
     : target
 
 // Now use it for API_URL
@@ -29,6 +29,23 @@ const nextConfig = {
 
     env: {
         apiBaseUrl: API_URL
+    },
+
+    // Proxy API requests to backend during development
+    async rewrites() {
+        // Only proxy in development mode
+        if (isProd) return []
+
+        return [
+            {
+                source: '/api/:path*',
+                destination: `${target}/api/:path*`,
+            },
+            {
+                source: '/metadata/:path*',
+                destination: `${target}/metadata/:path*`,
+            },
+        ]
     },
 }
 

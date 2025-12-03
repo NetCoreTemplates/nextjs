@@ -1,10 +1,10 @@
 import { appendQueryString, nameOf, IReturn, JsonServiceClient } from "@servicestack/client"
 import useSWR from "swr"
 import { Authenticate } from "@/lib/dtos"
-import { useMetadata } from "@servicestack/react"
 
 const serverRoutePaths = [
     '/Identity',
+    '/metadata',
     '/api',
     '/ui',
     '/chat',
@@ -13,7 +13,7 @@ const serverRoutePaths = [
     '/scalar',
 ]
 
-export function isServerRoute(path:string) {
+export function isServerRoute(path: string) {
     return serverRoutePaths.some(x => path.startsWith(x))
 }
 
@@ -23,7 +23,6 @@ export const Routes = {
 }
 
 export const client = new JsonServiceClient()
-export const metadata = useMetadata(client)
 
 // Load Metadata & Auth State on Startup
 // This needs to be called on client side only
@@ -40,8 +39,8 @@ export async function init() {
             .then(r => {
                 authCtx.signIn(r)
             }).catch(() => {
-            authCtx.signOut()
-        })
+                authCtx.signOut()
+            })
     ])
 }
 
