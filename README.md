@@ -238,9 +238,11 @@ Access built-in admin dashboards at:
 
 ## Learn More
 
+- [react-templates.net](https://react-templates.net)
+- [ServiceStack React Components](https://react.servicestack.net)
 - [ServiceStack Documentation](https://docs.servicestack.net)
 - [Next.js Documentation](https://nextjs.org/docs)
-- [ServiceStack React Components](https://docs.servicestack.net/react)
-- [AutoQuery CRUD](https://docs.servicestack.net/autoquery-crud)
+- [React Documentation](https://react.dev)
+- [AutoQuery CRUD](https://react-templates.net/docs/autoquery/crud)
 - [Background Jobs](https://docs.servicestack.net/background-jobs)
 - [AI Chat API](https://docs.servicestack.net/ai-chat-api)
