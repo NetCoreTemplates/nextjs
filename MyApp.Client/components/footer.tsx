@@ -14,7 +14,7 @@ const Footer = () => {
           </h3>
           <div className="flex flex-col lg:flex-row justify-center items-center lg:pl-4 lg:w-1/2">
             <a
-              href="https://docs.servicestack.net"
+              href="https://react-templates.net/docs"
               className="mx-3 bg-black dark:bg-gray-700 hover:bg-white dark:hover:bg-gray-600 hover:text-black dark:hover:text-white border border-black dark:border-gray-600 text-white font-bold py-3 px-12 lg:px-8 duration-200 transition-colors mb-6 lg:mb-0"
             >
               Read Documentation
