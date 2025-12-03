@@ -18,7 +18,7 @@ Instantly [scaffold a new App with this template](https://github.com/new?templat
 
 ## [react-templates.net](https://react-templates.net)
 
-[![](https://github.com/ServiceStack/docs.servicestack.net/blob/main/MyApp/wwwroot/img/pages/react/react-templates.webp?raw=true)](https://react-templates.net)
+[![](https://github.com/ServiceStack/servicestack.net/blob/main/MyApp/wwwroot/img/posts/vibecode-react-templates/bg.webp?raw=true)](https://react-templates.net)
 
 ## Getting Started
 
