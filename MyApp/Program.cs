@@ -76,6 +76,7 @@ if (app.Environment.IsDevelopment())
     app.MapNextHmr(nodeProxy);
 
     // Start the Next.js dev server if the Next.js lockfile does not exist
+    "../MyApp.Client/dist".AssertDir();
     app.RunNodeProcess(nodeProxy,
         lockFile: "../MyApp.Client/dist/lock",
         workingDirectory: "../MyApp.Client");
