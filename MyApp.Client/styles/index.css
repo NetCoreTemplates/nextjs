@@ -117,7 +117,7 @@
   }
 }
 
-[type='button'],button[type='submit']{cursor:pointer}
+[type='button'],button[type='submit'],button[href]{cursor:pointer}
 
 .svg-external {
     color: #007bff;
