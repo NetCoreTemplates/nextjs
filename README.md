@@ -489,3 +489,4 @@ The AI will understand your App's ServiceStack conventions, React setup, and pro
 - [AutoQuery CRUD](https://react-templates.net/docs/autoquery/crud)
 - [Background Jobs](https://docs.servicestack.net/background-jobs)
 - [AI Chat API](https://docs.servicestack.net/ai-chat-api)
+
