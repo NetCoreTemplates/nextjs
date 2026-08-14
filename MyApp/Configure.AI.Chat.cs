@@ -17,12 +17,18 @@ public class ConfigureAiChat : IHostingStartup
                 // Require authentication to access /chat
                 RequireAuth = true,
                 // RequiredRole = "Admin",
+#if DEBUG
                 Tools =
                 {
-                    // README: Give AI Models access to Filesystem or Code Execution tools
-                    // EnableCodeExecution = true,
-                    // EnableFilesystemTools = true,
+                    // WARNING: Expands what AI Models can do by letting them execute
+                    // code on the server and read/write files in allowed directories.
+                    // Only enable for trusted users on trusted environments.
+                    EnableCodeExecution = true,
+                    EnableFilesystemTools = true,
                 },
+                // Share your best Projects, Threads or AI Media with everyone
+                // Publish = { Enabled = true },
+#endif
                 
                 // Expose APIs with these tags to API & MCP Tools
                 // ApiTools = {
