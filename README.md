@@ -61,9 +61,11 @@ MyApp.Client/                # Next.js frontend application
 ├── app/                     # Next.js App Router pages
 ├── components/              # React components
 ├── lib/                     # Utilities and helpers
+│   └── dtos.ts              # TypeScript DTOs, auto-generated on .NET App startup
 ├── public/                  # Static assets
 ├── dist/                    # Build output (production)
-└── styles/                  # Tailwind CSS styles
+├── styles/                  # Tailwind CSS styles
+└── vite.config.ts           # Vite+ config (lint, fmt, test)
 
 MyApp.ServiceInterface/      # Service implementations
 ├── MyServices.cs            # Example services
@@ -177,7 +179,8 @@ Production-ready health monitoring:
 Automatic TypeScript type generation:
 
 - **Type-Safe API Calls** - Generated from C# DTOs
-- **Sync Command** - `npm run dtos` to update types
+- **Regenerated on Startup** - `MyApp.Client/lib/dtos.ts` is regenerated every time the .NET App starts by the `dtos` StartupTask in [Configure.StartupTasks.GenerateDtos.cs](MyApp/Configure.StartupTasks.GenerateDtos.cs), so after modifying C# service models just restart the .NET App
+- **Manual Sync** - typically never needed, but `npm run dtos` regenerates them against a running .NET App
 - **ServiceStack Client** - Full-featured TypeScript client
 
 ### 📖 OpenAPI & Scalar
@@ -196,6 +199,28 @@ Comprehensive test coverage:
 - **React Testing Library** - Component testing utilities
 - **jsdom** - Browser environment simulation
 - **Integration Tests** - .NET integration tests in `MyApp.Tests`
+
+### 🧰 Vite+ Toolchain
+
+The frontend uses [Vite+](https://viteplus.dev) for Vitest, Oxlint and Oxfmt via the `vp` CLI, configured in
+[vite.config.ts](MyApp.Client/vite.config.ts). Next.js still runs the dev server and production build.
+
+- **TypeScript 7** - Type checked by Oxlint (TypeScript Go), no separate `tsc` step
+- **Oxlint** - Type-aware linting with React hooks and Next.js rules
+- **Oxfmt** - Code formatting
+
+```bash
+cd MyApp.Client
+npm run check       # Format + lint + type check
+npm run fmt         # Format files
+npm run test        # Run tests in watch mode
+npm run test:ui     # Run tests with UI
+npm run test:run    # Run tests once
+```
+
+The `vp` CLI is installed locally, so the npm scripts work without a global install.
+Install the optional global CLI (`curl -fsSL https://vite.plus | bash`) to run `vp` commands directly.
+Open `MyApp.code-workspace` in VS Code so the Oxc extension can lint and format on save.
 
 ### 🐳 Docker Deployment
 
@@ -248,6 +273,7 @@ Access built-in admin dashboards at:
 
 - **MyApp/appsettings.json** - Application configuration
 - **MyApp.Client/next.config.mjs** - Next.js configuration
+- **MyApp.Client/vite.config.ts** - Vite+ lint, format and test configuration
 - **MyApp.Client/styles/index.css** - Tailwind CSS configuration
 - **config/deploy.yml** - Kamal deployment settings
 

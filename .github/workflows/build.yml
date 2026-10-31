@@ -49,3 +49,27 @@ jobs:
           fi
         working-directory: ./MyApp.Tests
 
+  client:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v7
+
+      - name: Setup Vite+ and install npm dependencies
+        uses: voidzero-dev/setup-vp@v1.22.0
+        with:
+          node-version: '24'
+          working-directory: ./MyApp.Client
+          cache: true
+
+      - name: check (format, lint, type check)
+        run: vp check
+        working-directory: ./MyApp.Client
+
+      - name: test
+        run: vp test run
+        working-directory: ./MyApp.Client
+
+      - name: build
+        run: npm run build
+        working-directory: ./MyApp.Client
