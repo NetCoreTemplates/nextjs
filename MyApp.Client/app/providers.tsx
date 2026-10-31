@@ -4,6 +4,7 @@ import { useEffect } from 'react'
 import Link from 'next/link'
 import { setLinkComponent, ClientContext } from '@servicestack/react'
 import { client, init } from '@/lib/gateway'
+import { TooltipProvider } from '@/components/ui/tooltip'
 
 // Adapter component to convert react-router 'to' prop to Next.js 'href' prop
 const NextLink = ({ to, ...props }: any) => <Link href={to || props.href} {...props} />
@@ -15,5 +16,9 @@ export default function Providers({ children }: { children: React.ReactNode }) {
         ;(async () => init())()
     }, [])
 
-    return <ClientContext.Provider value={client}>{children}</ClientContext.Provider>
+    return (
+        <TooltipProvider>
+            <ClientContext.Provider value={client}>{children}</ClientContext.Provider>
+        </TooltipProvider>
+    )
 }
