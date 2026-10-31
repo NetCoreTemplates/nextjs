@@ -65,16 +65,13 @@ jobs:
             echo "client_exists=false" >> $GITHUB_OUTPUT
           fi
 
-      - name: Setup Node.js
+      - name: Setup Vite+ and install npm dependencies
         if: steps.check_client.outputs.client_exists == 'true'
-        uses: actions/setup-node@v7
+        uses: voidzero-dev/setup-vp@v1.22.0
         with:
-          node-version: 24
-
-      - name: Install npm dependencies
-        if: steps.check_client.outputs.client_exists == 'true'
-        working-directory: ./MyApp.Client
-        run: npm install
+          node-version: '24'
+          working-directory: ./MyApp.Client
+          cache: true
 
       - name: Build client
         if: steps.check_client.outputs.client_exists == 'true'
