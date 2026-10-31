@@ -1,18 +1,19 @@
-import createMDX from "@next/mdx"
+import createMDX from '@next/mdx'
 
-const target = process.env.ASPNETCORE_HTTPS_PORT ? `https://localhost:${process.env.ASPNETCORE_HTTPS_PORT}` :
-    process.env.ASPNETCORE_URLS ? process.env.ASPNETCORE_URLS.split(';')[0] : 'https://localhost:5001';
+const target = process.env.ASPNETCORE_HTTPS_PORT
+    ? `https://localhost:${process.env.ASPNETCORE_HTTPS_PORT}`
+    : process.env.ASPNETCORE_URLS
+      ? process.env.ASPNETCORE_URLS.split(';')[0]
+      : 'https://localhost:5001'
 
 const isProd = process.env.NODE_ENV === 'production'
 const buildLocal = process.env.MODE === 'local'
 
 // Define DEPLOY_API first
-const DEPLOY_API = process.env.KAMAL_DEPLOY_HOST
-    ? `https://${process.env.KAMAL_DEPLOY_HOST}`
-    : target
+const DEPLOY_API = process.env.KAMAL_DEPLOY_HOST ? `https://${process.env.KAMAL_DEPLOY_HOST}` : target
 
 // Now use it for API_URL
-const API_URL = isProd ? DEPLOY_API : (buildLocal ? '' : target)
+const API_URL = isProd ? DEPLOY_API : buildLocal ? '' : target
 
 /**
  * @type {import('next').NextConfig}
@@ -28,7 +29,7 @@ const nextConfig = {
     distDir: 'dist',
 
     env: {
-        apiBaseUrl: API_URL
+        apiBaseUrl: API_URL,
     },
 
     // Proxy API requests to backend during development
@@ -53,9 +54,7 @@ const withMDX = createMDX({
     // Use string-based plugin names for Turbopack compatibility
     options: {
         remarkPlugins: ['remark-gfm'],
-        rehypePlugins: [
-            'rehype-prism-plus',
-        ],
+        rehypePlugins: ['rehype-prism-plus'],
     },
 })
 

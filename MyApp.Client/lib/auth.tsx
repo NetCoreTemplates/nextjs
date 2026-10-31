@@ -1,21 +1,21 @@
 'use client'
 
-import React, { useEffect } from "react"
-import { useRouter, usePathname } from "next/navigation"
-import { useAuth, Loading } from "@servicestack/react"
-import { client, Routes } from "./gateway"
-import { Authenticate } from "@/lib/dtos"
+import React, { useEffect } from 'react'
+import { useRouter, usePathname } from 'next/navigation'
+import { useAuth, Loading } from '@servicestack/react'
+import { client, Routes } from './gateway'
+import { Authenticate } from '@/lib/dtos'
 
 export const Redirecting = () => {
-  return <Loading className="py-2 pl-4">redirecting ...</Loading>
+    return <Loading className="py-2 pl-4">redirecting ...</Loading>
 }
 
 type ValidateAuthProps = {
-  role?: string
-  permission?: string
-  redirectTo?: string
+    role?: string
+    permission?: string
+    redirectTo?: string
 }
-export function ValidateAuth<TOriginalProps extends object>(Component:React.FC<TOriginalProps>, validateProps? :ValidateAuthProps) {
+export function ValidateAuth<TOriginalProps extends object>(Component: React.FC<TOriginalProps>, validateProps?: ValidateAuthProps) {
     let { role, permission, redirectTo } = validateProps ?? {}
     const ValidatedComponent: React.FC<TOriginalProps> = (props) => {
         const router = useRouter()
@@ -24,13 +24,14 @@ export function ValidateAuth<TOriginalProps extends object>(Component:React.FC<T
         const { user, isAuthenticated, hasRole } = authProps
         redirectTo ??= pathname
 
-        const shouldRedirect = () => !isAuthenticated
-            ? Routes.signin(redirectTo)
-            : role && !hasRole(role)
-                ? Routes.forbidden()
-                : permission && !hasRole(permission)
+        const shouldRedirect = () =>
+            !isAuthenticated
+                ? Routes.signin(redirectTo)
+                : role && !hasRole(role)
+                  ? Routes.forbidden()
+                  : permission && !hasRole(permission)
                     ? Routes.forbidden()
-                    : null;
+                    : null
 
         useEffect(() => {
             const goTo = shouldRedirect()
@@ -63,7 +64,7 @@ export function appAuth() {
             authState.signOut()
         }
     }
-    async function signOut(redirectTo?:string) {
+    async function signOut(redirectTo?: string) {
         await client.post(new Authenticate({ provider: 'logout' }))
         authState.signOut()
         if (redirectTo) {

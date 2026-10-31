@@ -1,24 +1,15 @@
-import { appendQueryString, nameOf, IReturn, JsonServiceClient } from "@servicestack/client"
-import useSWR from "swr"
-import { Authenticate } from "@/lib/dtos"
+import { appendQueryString, nameOf, IReturn, JsonServiceClient } from '@servicestack/client'
+import useSWR from 'swr'
+import { Authenticate } from '@/lib/dtos'
 
-const serverRoutePaths = [
-    '/Identity',
-    '/metadata',
-    '/api',
-    '/ui',
-    '/chat',
-    '/admin-ui',
-    '/swagger',
-    '/scalar',
-]
+const serverRoutePaths = ['/Identity', '/metadata', '/api', '/ui', '/chat', '/admin-ui', '/swagger', '/scalar']
 
 export function isServerRoute(path: string) {
-    return serverRoutePaths.some(x => path.startsWith(x))
+    return serverRoutePaths.some((x) => path.startsWith(x))
 }
 
 export const Routes = {
-    signin: (redirectTo?: string) => redirectTo ? `/signin?redirect=${redirectTo}` : `/signin`,
+    signin: (redirectTo?: string) => (redirectTo ? `/signin?redirect=${redirectTo}` : `/signin`),
     forbidden: () => '/forbidden',
 }
 
@@ -29,29 +20,27 @@ export const client = new JsonServiceClient()
 export async function init() {
     if (typeof window === 'undefined') return
 
-    const { useMetadata, authContext } = await import("@servicestack/react")
+    const { useMetadata, authContext } = await import('@servicestack/react')
     // oxlint-disable-next-line react/rules-of-hooks -- useMetadata is a factory, not a React hook
     const metadata = useMetadata(client)
     const authCtx = authContext()
 
     return await Promise.all([
         metadata.loadMetadata(),
-        client.post(new Authenticate())
-            .then(r => {
+        client
+            .post(new Authenticate())
+            .then((r) => {
                 authCtx.signIn(r)
-            }).catch(() => {
-                authCtx.signOut()
             })
+            .catch(() => {
+                authCtx.signOut()
+            }),
     ])
 }
 
 export function getRedirect(searchParams: URLSearchParams | Record<string, string | string[] | undefined>) {
-    const redirect = searchParams instanceof URLSearchParams
-        ? searchParams.get('redirect')
-        : searchParams['redirect']
-    return redirect && Array.isArray(redirect)
-        ? redirect[0]
-        : redirect
+    const redirect = searchParams instanceof URLSearchParams ? searchParams.get('redirect') : searchParams['redirect']
+    return redirect && Array.isArray(redirect) ? redirect[0] : redirect
 }
 
 // Typed Stale While Revalidate client
@@ -65,10 +54,13 @@ class SwrClient {
     // Only call get() from a React component, it wraps the useSWR hook
     get<T>(fn: () => IReturn<T> | string) {
         // oxlint-disable-next-line react/rules-of-hooks -- class method wrapper around useSWR
-        return useSWR(() => {
-            let request = fn()
-            return appendQueryString(`SwrClient:${nameOf(request)}`, request)
-        }, () => this.client.get(fn()))
+        return useSWR(
+            () => {
+                let request = fn()
+                return appendQueryString(`SwrClient:${nameOf(request)}`, request)
+            },
+            () => this.client.get(fn()),
+        )
     }
 }
 
