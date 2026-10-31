@@ -8,7 +8,7 @@ import { swrClient } from "@/lib/gateway.client"
 import { Hello } from "@/lib/dtos"
 import { CMS_NAME } from "@/lib/constants"
 
-const HelloApi = ({ name }:any) => {
+export const HelloApi = ({ name }:any) => {
   const { data, error } = swrClient.get(() => new Hello({ name }))
   if (error) return <div className="ml-2 text-red-500 dark:text-red-400">{error.message}</div>
   return <div className="ml-3 mt-2 text-gray-900 dark:text-gray-100">{data ? data.result : 'loading...'}</div>

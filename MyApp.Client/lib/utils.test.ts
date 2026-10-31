@@ -1,4 +1,4 @@
-import { describe, it, expect } from 'vitest'
+import { describe, it, expect } from 'vite-plus/test'
 import { formatCurrency, formatDate, dateInputFormat } from './utils'
 
 describe('utils', () => {
@@ -11,6 +11,13 @@ describe('utils', () => {
     it('should return empty string for falsy values', () => {
       expect(formatCurrency(undefined)).toBe('')
       expect(formatCurrency(0)).toBe('')
+    })
+  })
+
+  describe('formatDate', () => {
+    it('should return empty string for falsy values', () => {
+      expect(formatDate(undefined)).toBe('')
+      expect(formatDate('')).toBe('')
     })
   })
 

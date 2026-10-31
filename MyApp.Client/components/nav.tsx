@@ -2,7 +2,7 @@
 
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { useAuth, PrimaryButton, SecondaryButton, DarkModeToggle } from "@servicestack/react"
+import { PrimaryButton, SecondaryButton, DarkModeToggle } from "@servicestack/react"
 import { appAuth } from "@/lib/auth"
 
 type NavItem = {
