@@ -4,8 +4,6 @@
 @model LoginModel
 @{
     ViewData["Title"] = "Sign In";
-    ViewData["LoginPath"] = "/Account/Login";
-    ViewData["ReturnUrl"] = "/Account/Login";
 }
 
 @inject SignInManager<ApplicationUser> SignInManager
@@ -22,9 +20,6 @@
                 <div class="px-4 bg-white dark:bg-black sm:p-6">
                     <div asp-validation-summary="All" class="text-danger font-semibold text-center"></div>
                     <div class="flex flex-col gap-y-4">
-                        <div>
-                            <input type="hidden" name="redirect" value="@(Html.GetQueryString("ReturnUrl") ?? ViewData["ReturnUrl"])" />
-                        </div>
                         <div>
                             <div>
                                 <label for="UserName" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Email</label>

@@ -13,6 +13,7 @@ public class ConfigureAuth : IHostingStartup
                 options.SessionFactory = () => new CustomUserSession();
                 options.CredentialsAuth();
                 options.AdminUsersFeature();
+                options.LoginPath = "/Identity/Account/Login";                
             })));
         });
 }
