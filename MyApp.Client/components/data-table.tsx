@@ -1,6 +1,6 @@
-import { ColumnDef, flexRender, getCoreRowModel, useReactTable } from '@tanstack/react-table'
+import { columnVisibilityFeature, flexRender, rowSelectionFeature, tableFeatures, useTable } from '@tanstack/react-table'
 
-import type { TableOptions } from '@tanstack/react-table'
+import type { ColumnDef as TanStackColumnDef, RowData, TableOptions } from '@tanstack/react-table'
 
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 
@@ -8,15 +8,19 @@ import { cn } from '@/lib/utils'
 
 import { toPascalCase, splitTitleCase } from '@servicestack/client'
 
-// getCoreRowModel is provided by DataTable
-type DataTableProps<TData, TValue> = Omit<TableOptions<TData>, 'getCoreRowModel'> & {
+// TanStack Table v9 features used by DataTable (the core row model is built-in)
+export const features = tableFeatures({ columnVisibilityFeature, rowSelectionFeature })
+type Features = typeof features
+
+export type ColumnDef<TData extends RowData, TValue = unknown> = TanStackColumnDef<Features, TData, TValue>
+
+// features is provided by DataTable
+type DataTableProps<TData extends RowData, TValue> = Omit<TableOptions<Features, TData>, 'features'> & {
     columns: ColumnDef<TData, TValue>[]
     stripedRows?: boolean
 }
 
-export { getCoreRowModel }
-
-export function columnDefs<T>(names: string[], configure?: (name: { [name: string]: ColumnDef<T> }) => void): ColumnDef<T>[] {
+export function columnDefs<T extends RowData>(names: string[], configure?: (name: { [name: string]: ColumnDef<T> }) => void): ColumnDef<T>[] {
     const to = names.map((name) => ({
         accessorKey: name,
         header: splitTitleCase(toPascalCase(name)).join(' '),
@@ -34,14 +38,14 @@ export function columnDefs<T>(names: string[], configure?: (name: { [name: strin
     return to
 }
 
-export function DataTable<TData, TValue>(props: DataTableProps<TData, TValue>) {
+export function DataTable<TData extends RowData, TValue>(props: DataTableProps<TData, TValue>) {
     const { enableRowSelection } = props
     const stripedRows = props.stripedRows ?? true
 
     // oxlint-disable-next-line react/incompatible-library -- TanStack Table isn't React Compiler compatible
-    const table = useReactTable({
+    const table = useTable({
         ...props,
-        getCoreRowModel: getCoreRowModel(),
+        features,
     })
 
     return (

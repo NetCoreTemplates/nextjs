@@ -4,7 +4,6 @@ import { useEffect, useState, type FormEvent } from 'react'
 import Link from 'next/link'
 import { useClient } from '@servicestack/react'
 import { ApiResult } from '@servicestack/client'
-import type { ColumnDef } from '@tanstack/react-table'
 import {
     CircleAlertIcon,
     CloudOffIcon,
@@ -25,7 +24,7 @@ import {
 
 import Layout from '@/components/layout'
 import SrcPage from '@/components/src-page'
-import DataTable from '@/components/data-table'
+import DataTable, { type ColumnDef } from '@/components/data-table'
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { Badge } from '@/components/ui/badge'
